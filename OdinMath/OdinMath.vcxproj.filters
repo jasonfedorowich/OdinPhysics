@@ -30,6 +30,15 @@
     <ClInclude Include="DXMatrix4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Integration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMatrix4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OVector4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXVector4.cpp">
@@ -38,5 +47,16 @@
     <ClCompile Include="DXMatrix4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OMatrix4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OVector4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RungeKutta.inl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
