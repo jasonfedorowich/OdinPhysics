@@ -8,7 +8,7 @@ namespace OdinMath {
 		struct Derivative {
 
 			void* userData;
-			Derivative() : Derivative(userData) {}
+			Derivative() : Derivative(nullptr) {}
 			Derivative(void* userData) { this->userData = userData; }
 
 

@@ -21,13 +21,26 @@ struct DD : public ODE<float>::Derivative{
 
 };
 
+struct ERF : public SingleIntegral<float>::Function {
+
+
+
+
+	// Inherited via Function
+	virtual void evaluate(float t, float& xOut) override
+	{
+		xOut = t * exp(-1 * t);
+	}
+
+};
+
 namespace Tests
 {
-	TEST_CLASS(RK4Tests)
+	TEST_CLASS(MathTests)
 	{
 	public:
 
-		TEST_METHOD(testSolveEquation)
+		TEST_METHOD(testSolveEquationRK4)
 			{
 				RK4<float> rk4;
 				DD dd;
@@ -41,9 +54,19 @@ namespace Tests
 
 			}
 
-		TEST_METHOD(testIntegration) {
-
-
+		TEST_METHOD(testIntegrationTrap) {
+			TrapezoidIntegral<float> ti;
+			ERF ff;
+			float result;
+			ti.evaluate(0, 5, 65, ff, result);
+			Assert::AreEqual(round(0.9593f), round(result));
+		}
+		TEST_METHOD(testIntegrationGLQ) {
+			GLQ<float> ti;
+			ERF ff;
+			float result;
+			ti.evaluate(0, 5, 5, ff, result);
+			Assert::AreEqual(round(0.9593f), round(result));
 		}
 	};
 }

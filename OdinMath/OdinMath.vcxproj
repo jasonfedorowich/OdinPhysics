@@ -142,7 +142,9 @@
   <ItemGroup>
     <ClInclude Include="DXMatrix4.h" />
     <ClInclude Include="DXVector4.h" />
-    <ClInclude Include="Integration.h" />
+    <ClInclude Include="GaussianQuadratre.h" />
+    <ClInclude Include="LegendrePolynomials.h" />
+    <ClInclude Include="SingleIntegral.h" />
     <ClInclude Include="ODE.h" />
     <ClInclude Include="OdinMath.h" />
     <ClInclude Include="OMatrix4.h" />
@@ -150,6 +152,7 @@
     <ClInclude Include="RungeKutta.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="TrapezoidIntegration.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXMatrix4.cpp" />
@@ -161,6 +164,7 @@
     <None Include="RungeKutta.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>
+    <None Include="TrapezoidIntegration.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
