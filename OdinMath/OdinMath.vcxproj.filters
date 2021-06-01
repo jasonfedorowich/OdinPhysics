@@ -48,6 +48,12 @@
     <ClInclude Include="LegendrePolynomials.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DXVector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXVector4.cpp">

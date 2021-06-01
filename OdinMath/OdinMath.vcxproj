@@ -141,6 +141,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DXMatrix4.h" />
+    <ClInclude Include="DXVector2.h" />
+    <ClInclude Include="DXVector3.h" />
     <ClInclude Include="DXVector4.h" />
     <ClInclude Include="GaussianQuadratre.h" />
     <ClInclude Include="LegendrePolynomials.h" />
