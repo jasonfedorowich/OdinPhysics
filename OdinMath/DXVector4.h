@@ -6,7 +6,6 @@
 namespace OdinMath {
 
 
-
 	using namespace DirectX;
 	using namespace DirectX::PackedVector;
 
@@ -21,7 +20,9 @@ namespace OdinMath {
 		DXVector4(int x, int y, int z, int w = 0) : DXVector4((float)x, (float)y, (float)z, (float) w) {}
 		DXVector4(XMVECTOR& xmvector) { XMStoreFloat4(this, xmvector); }
 		DXVector4(XMFLOAT4& xmfloat4) { x = xmfloat4.x; y = xmfloat4.y; z = xmfloat4.z; w = xmfloat4.w; }
-		
+		virtual ~DXVector4() {};
+		void store(XMVECTOR& vector) { XMStoreFloat4(this, vector); }
+
 		void set(float x, float y, float z, float w = 0.0f) { this->x = x; this->y = y; this->z = z; this->w = w; }
 		void set(const DXVector4& v) { *this = v; }
 		float getX() { return x; }
@@ -58,11 +59,18 @@ namespace OdinMath {
 		DXVector4& operator=(const DXVector4& v);
 		float& operator[](int index);
 		const float& operator[](int index) const;
-
+		DXVector4& operator=(XMVECTOR& xmvector) { store(xmvector); return *this; }
+		void operator*=(float val);
+		DXVector4 operator*(float val);
+		friend void operator*=(float val, DXVector4& vector);
+		friend DXVector4 operator*(float val, DXVector4& vector);
 
 		
 
+		XMVECTOR getXMVector() { return XMLoadFloat4(this); }
+
 		bool empty() { return x == 0 && y == 0 && z == 0; }
+
 	};
 
 

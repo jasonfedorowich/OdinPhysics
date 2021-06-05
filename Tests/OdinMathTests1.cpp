@@ -134,6 +134,14 @@ public:
 		Assert::AreEqual((int)l, (int)exp);
 	}
 
+	TEST_METHOD(testVectorMatrixMult) {
+		DXMatrix4 mat;
+		Vector4 v1(1.0f, 2.0, 1.0);
+		v1 *= mat;
+
+
+	}
+
 
 	};
 }
