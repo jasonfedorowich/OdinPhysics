@@ -54,6 +54,9 @@
     <ClInclude Include="DXVector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MassProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXVector4.cpp">
@@ -74,6 +77,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="TrapezoidIntegration.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="MassProperties.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

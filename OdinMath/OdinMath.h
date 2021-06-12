@@ -9,5 +9,6 @@
 namespace OdinMath {
 #if 1
 	using Vector4 = DXVector4;
+	using Matrix4 = DXMatrix4;
 #endif
 }

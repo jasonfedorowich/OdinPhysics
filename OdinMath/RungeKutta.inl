@@ -5,18 +5,18 @@ template<typename real>
 inline void RK4<real>::solveEquation(real t0, real t1, real y0, real dt,  typename ODE<real>::Derivative& derivative, std::vector<real>& yOut, std::vector<real>& tOut)
 {
 	auto rk4 = [&](real tt, real yy, real dt) {
-		real first;
-		derivative.differentiateEq(tt, yy, first);
-		real k1 = dt * first;
-		real second;
-		derivative.differentiateEq(tt + (real)0.5 * dt, yy + (real)0.5 * k1, second);
-		real k2 = dt * second;
-		real third;
-		derivative.differentiateEq(tt + (real)0.5 * dt, yy + (real)0.5 * k2, third);
-		real k3 = dt * third;
-		real fourth;
-		derivative.differentiateEq(tt + dt, yy + k3, fourth);
-		real k4 = dt * fourth;
+		real k1;
+		derivative.differentiateEq(tt, yy, k1);
+		k1 *= dt;
+		real k2;
+		derivative.differentiateEq(tt + (real)0.5 * dt, yy + (real)0.5 * k1, k2);
+		k2 *= dt;
+		real k3;
+		derivative.differentiateEq(tt + (real)0.5 * dt, yy + (real)0.5 * k2, k3);
+		k3 *= dt;
+		real k4;
+		derivative.differentiateEq(tt + dt, yy + k3, k4);
+		k4 *= dt;
 		return (k1 + (real)2.0 * k2 + (real)2.0 * k3 + k4) / (real)6.0;
 
 	};
@@ -44,5 +44,47 @@ inline void RK4<real>::solveEquation(real t0, real t1, real y0, real dt,  typena
 template<typename real>
 inline void RK4<real>::solveEquations(real t0, real dt, std::vector<real>& yIn, typename ODE<real>::Derivative& derivative, std::vector<real>& yOut, real& tOut)
 {
-	//todo
+	real halfDt = dt * (real)(0.5);
+	int n = yIn.size();
+	std::vector<real> k1;
+	derivative.differentiateEqs(t0, yIn, k1);
+
+	std::vector<real> yIn2(n);
+	for (int i = 0; i < n; i++) {
+		k1[i] *= dt;
+		yIn2[i] = yIn[i] + (real)0.5 * k1[i];
+	}
+
+	std::vector<real> k2;
+	derivative.differentiateEqs(t0 + halfDt, yIn2, k2);
+
+	std::vector<real> yIn3(n);
+	for (int i = 0; i < n; i++) {
+		k2[i] *= dt;
+		yIn3[i] = yIn[i] + (real)0.5 * k2[i];
+	}
+
+	std::vector<real> k3;
+	derivative.differentiateEqs(t0 + halfDt, yIn3, k3);
+
+	std::vector<real> yIn4(n);
+	for (int i = 0; i < n; i++) {
+		k3[i] *= dt;
+		yIn4[i] = yIn[i] + k3[i];
+	}
+
+	std::vector<real> k4;
+	derivative.differentiateEqs(t0 + dt, yIn4, k4);
+
+	for (int i = 0; i < n; i++) {
+		k4[i] *= dt;
+		
+	}
+
+	for (int i = 0; i < n; i++) {
+		yOut.push_back(yIn[i] + (k1[i] + (real)2.0 * k2[i] + (real)2.0 * k3[i] + k4[i]) / (real)6.0);
+
+	}
+
+
 }

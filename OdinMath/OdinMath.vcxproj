@@ -146,6 +146,7 @@
     <ClInclude Include="DXVector4.h" />
     <ClInclude Include="GaussianQuadratre.h" />
     <ClInclude Include="LegendrePolynomials.h" />
+    <ClInclude Include="MassProperties.h" />
     <ClInclude Include="SingleIntegral.h" />
     <ClInclude Include="ODE.h" />
     <ClInclude Include="OdinMath.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="OVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MassProperties.inl" />
     <None Include="RungeKutta.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>
