@@ -46,7 +46,7 @@ inline void RK4<real>::solveEquations(real t0, real dt, std::vector<real>& yIn, 
 {
 	real halfDt = dt * (real)(0.5);
 	int n = yIn.size();
-	std::vector<real> k1;
+	std::vector<real> k1(n);
 	derivative.differentiateEqs(t0, yIn, k1);
 
 	std::vector<real> yIn2(n);
@@ -55,7 +55,7 @@ inline void RK4<real>::solveEquations(real t0, real dt, std::vector<real>& yIn, 
 		yIn2[i] = yIn[i] + (real)0.5 * k1[i];
 	}
 
-	std::vector<real> k2;
+	std::vector<real> k2(n);
 	derivative.differentiateEqs(t0 + halfDt, yIn2, k2);
 
 	std::vector<real> yIn3(n);
@@ -64,7 +64,7 @@ inline void RK4<real>::solveEquations(real t0, real dt, std::vector<real>& yIn, 
 		yIn3[i] = yIn[i] + (real)0.5 * k2[i];
 	}
 
-	std::vector<real> k3;
+	std::vector<real> k3(n);
 	derivative.differentiateEqs(t0 + halfDt, yIn3, k3);
 
 	std::vector<real> yIn4(n);
@@ -73,16 +73,19 @@ inline void RK4<real>::solveEquations(real t0, real dt, std::vector<real>& yIn, 
 		yIn4[i] = yIn[i] + k3[i];
 	}
 
-	std::vector<real> k4;
+	std::vector<real> k4(n);
 	derivative.differentiateEqs(t0 + dt, yIn4, k4);
 
 	for (int i = 0; i < n; i++) {
 		k4[i] *= dt;
 		
 	}
+	tOut = t0 + dt;
+	if (yOut.size() > n)
+		yOut = std::vector<real>(n);
 
 	for (int i = 0; i < n; i++) {
-		yOut.push_back(yIn[i] + (k1[i] + (real)2.0 * k2[i] + (real)2.0 * k3[i] + k4[i]) / (real)6.0);
+		yOut[i] = yIn[i] + (k1[i] + (real)2.0 * k2[i] + (real)2.0 * k3[i] + k4[i]) / (real)6.0;
 
 	}
 
