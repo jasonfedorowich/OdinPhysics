@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include <iostream>
+#include <corecrt_math_defines.h>
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace OdinMath;
 
@@ -32,6 +37,18 @@ struct ERF : public SingleIntegral<float>::Function {
 		xOut = t * exp(-1 * t);
 	}
 
+};
+
+struct TimeF : public SingleIntegral<double>::Function {
+	double phiNaught;
+	TimeF() {
+		this->phiNaught = M_PI / 6.0;
+	}
+	virtual void evaluate(double t, double& xOut) override 
+	{
+		double temp = sqrt(cos(t) - cos(phiNaught));
+		xOut = 1.0f / temp;
+	}
 };
 
 namespace Tests
@@ -67,6 +84,15 @@ namespace Tests
 			float result;
 			ti.evaluate(0, 5, 5, ff, result);
 			Assert::AreEqual(round(0.9593f), round(result));
+		}
+
+		TEST_METHOD(solveIntegral2) {
+			TrapezoidIntegral<double> ti;
+			TimeF tf;
+			double result;
+			double b = M_PI / 6.0;
+			ti.evaluate(0.0, b, 65, tf, result);
+
 		}
 
 

@@ -147,6 +147,7 @@
     <ClInclude Include="GaussianQuadratre.h" />
     <ClInclude Include="LegendrePolynomials.h" />
     <ClInclude Include="MassProperties.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="SingleIntegral.h" />
     <ClInclude Include="ODE.h" />
     <ClInclude Include="OdinMath.h" />
@@ -156,6 +157,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="TrapezoidIntegration.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXMatrix4.cpp" />

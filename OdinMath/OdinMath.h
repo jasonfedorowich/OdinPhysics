@@ -6,6 +6,8 @@
 #include "DXVector4.h"
 #include "DXMatrix4.h"
 
+#include "Matrix.h"
+
 namespace OdinMath {
 #if 1
 	using Vector4 = DXVector4;

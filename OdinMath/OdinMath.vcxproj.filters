@@ -13,49 +13,61 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\LinearAlgebra">
+      <UniqueIdentifier>{67b4efa0-8ed2-4136-aa11-701f0fb39f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Calculus">
+      <UniqueIdentifier>{d2839dec-3b76-4f6c-9da5-48f430c8cb30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdinMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ODE.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RungeKutta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DXVector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DXMatrix4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SingleIntegral.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OMatrix4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OVector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GaussianQuadratre.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TrapezoidIntegration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LegendrePolynomials.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DXVector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DXVector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MassProperties.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMatrix4.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector2.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector3.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector4.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="GaussianQuadratre.h">
+      <Filter>Header Files\Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="ODE.h">
+      <Filter>Header Files\Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="OMatrix4.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="OVector4.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="RungeKutta.h">
+      <Filter>Header Files\Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleIntegral.h">
+      <Filter>Header Files\Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapezoidIntegration.h">
+      <Filter>Header Files\Calculus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
