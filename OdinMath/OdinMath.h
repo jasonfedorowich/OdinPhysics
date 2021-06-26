@@ -1,12 +1,15 @@
 #pragma once
 #include <assert.h>
+#include <stdexcept>
+
 #include "RungeKutta.h"
 #include "GaussianQuadratre.h"
 #include "TrapezoidIntegration.h"
 #include "DXVector4.h"
 #include "DXMatrix4.h"
-
+#include "Vect.h"
 #include "Matrix.h"
+#include "AdjugateMatrix.h"
 
 namespace OdinMath {
 #if 1

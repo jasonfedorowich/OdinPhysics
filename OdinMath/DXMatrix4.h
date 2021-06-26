@@ -87,7 +87,7 @@ namespace OdinMath {
 
 
 
-	inline void operator*=(OdinMath::DXVector4& vector, OdinMath::DXMatrix4& matrix)
+	inline void operator*=(DXVector4& vector, DXMatrix4& matrix)
 	{
 		XMVECTOR xmvector = vector.getXMVector();
 		XMMATRIX xmmatrix = matrix.getXMMatrix();
@@ -96,7 +96,7 @@ namespace OdinMath {
 		vector = xmvector;
 	}
 
-	inline OdinMath::DXVector4 operator*(OdinMath::DXVector4 vector ,OdinMath::DXMatrix4& matrix)
+	inline DXVector4 operator*(DXVector4 vector , DXMatrix4& matrix)
 	{
 		XMVECTOR xmvector = vector.getXMVector();
 		XMMATRIX xmmatrix = matrix.getXMMatrix();

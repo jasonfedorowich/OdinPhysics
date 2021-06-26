@@ -34,9 +34,69 @@ namespace Tests
 			m4.test();
 			m4.test123(m4);
 
-			m4.strassenMult(m5);
-
+		//	m4.strassenMult(m5);
+			Matrix<4, float> mm = strassenMulti(m4, m5);
 			/*strassenMult<float, 4>(m4, m5);*/
+
+		}
+
+		TEST_METHOD(inverseTest) {
+
+			Matrix<3, float> m4({ 
+						{ 5, 7, 9 },
+						 { 4, 3, 8 },
+						 { 7, 5, 6 }
+				});
+
+	
+			Matrix<3, float> inverse;
+			gaussJordan(m4, inverse);
+			
+			Assert::AreEqual(inverse(0, 0), -0.209523812f);
+		}
+
+		TEST_METHOD(determinantTest) {
+			Matrix<4, float> m4({
+						{ 1, 1, 1, -1 },
+						 { 1, 1, -1, 1 },
+						 { 1, -1, 1, 1 },
+							{-1, 1, 1, 1}
+				});
+
+			float det = determinant(m4);
+			Assert::AreEqual(det, -16.f);
+
+		}
+
+		TEST_METHOD(test3x3Inverse) {
+
+			Matrix<3, float> m4({
+						{ 1, 2, 3 },
+						 { 0, 1, 4 },
+						 { 5, 6, 0 }		
+				});
+			Matrix<3, float> inv;
+			float det;
+			adjugateInverse(m4, inv, det);
+			Assert::AreEqual(inv(0, 0), -24.f);
+
+
+		}
+
+		TEST_METHOD(test4x4Inverse) {
+
+			Matrix<4, float> m4({
+						{ 1, 1, 1, -1 },
+						 { 1, 1, -1, 1 },
+						 { 1, -1, 1, 1 },
+							{-1, 1, 1, 1}
+				});
+			Matrix<4, float> inv;
+			float det;
+			adjugateInverse(m4, inv, det);
+
+			Assert::AreEqual(inv(0, 0), 0.25f);
+			
 
 		}
 

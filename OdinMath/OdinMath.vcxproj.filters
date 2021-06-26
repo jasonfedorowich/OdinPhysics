@@ -45,7 +45,7 @@
     <ClInclude Include="Matrix.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
+    <ClInclude Include="Vect.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
     <ClInclude Include="GaussianQuadratre.h">
@@ -68,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="TrapezoidIntegration.h">
       <Filter>Header Files\Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="AdjugateMatrix.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +95,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="MassProperties.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Matrix.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
