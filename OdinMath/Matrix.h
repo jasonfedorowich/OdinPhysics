@@ -55,7 +55,20 @@ namespace OdinMath {
 
 
 	};
+	template<int SIZE, typename real>
+	inline Vector<SIZE, real> operator*(Matrix<SIZE, real>& M, Vector<SIZE, real>& V) {
+		Vector<SIZE, real> R;
+		for (int i = 0; i < SIZE; i++) {
 
+			for (int j = 0; j < SIZE; j++) {
+
+				R(i) = M(i, j) * V(j);
+			}
+		}
+
+		return R;
+
+	}
 	template<int SIZE, typename real>
 	inline Matrix<SIZE, real> operator*(real c, Matrix<SIZE, real>& M) {
 		Matrix<SIZE, real> R;
@@ -185,6 +198,18 @@ namespace OdinMath {
 		}
 
 		return C;
+	}
+
+	template<int SIZE, typename real>
+	inline void Matrix<SIZE, real>::transpose()
+	{
+		for (int i = 0; i < SIZE; i++) {
+
+			for (int j = i; j < SIZE; j++) {
+
+				std::swap((*this)(i, j), (*this)(j, i));
+			}
+		}
 	}
 
 	template<int SIZE, typename real>

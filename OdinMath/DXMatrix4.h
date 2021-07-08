@@ -102,7 +102,7 @@ namespace OdinMath {
 		XMMATRIX xmmatrix = matrix.getXMMatrix();
 
 		xmvector = XMVector4Transform(xmvector, xmmatrix);
-		return OdinMath::DXVector4(xmvector);
+		return DXVector4(xmvector);
 	}
 
 }

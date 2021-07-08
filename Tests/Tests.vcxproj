@@ -158,7 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MathCommon_tests.cpp" />
     <ClCompile Include="MatrixAndVectorTests1.cpp" />
+    <ClCompile Include="OdinCollision_AABB_tests.cpp" />
     <ClCompile Include="OdinMathTests1.cpp" />
     <ClCompile Include="OdinMathTestsMassProperties.cpp" />
     <ClCompile Include="pch.cpp">

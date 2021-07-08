@@ -9,4 +9,5 @@
 
 // add headers that you want to pre-compile here
 #include "../OdinMath/OdinMath.h"
+#include "../OdinCollision/OdinCollision.h"
 #endif //PCH_H

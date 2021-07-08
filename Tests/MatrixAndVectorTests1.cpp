@@ -99,6 +99,21 @@ namespace Tests
 			
 
 		}
+		TEST_METHOD(testTranspose) {
+			Matrix<4, int> m4({
+						{ 7, 12, 1, 14 },
+						 { 2, 13, 8, 11 },
+						 { 16, 3, 10, 5 },
+							{9, 6, 14, 4}
+				});
+
+			m4.transpose();
+
+			Assert::AreEqual(m4(1, 0), 12);
+
+		}
+
+		
 
 
 	};

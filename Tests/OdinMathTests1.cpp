@@ -167,6 +167,13 @@ public:
 
 
 	}
+	TEST_METHOD(testMathConsts) {
+		float rm = Math<float>::REAL_MAX;
+		Assert::AreEqual(rm, FLT_MAX);
+
+	}
+
+	
 
 
 	};

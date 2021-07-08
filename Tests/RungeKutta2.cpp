@@ -34,6 +34,52 @@ struct Grav : public ODE<float>::Derivative {
 };
 
 
+struct QFunc : public ODE<float>::Derivative {
+
+
+
+
+	// Inherited via Derivative
+	virtual void differentiateEq(float t, float y, float& dydt) override
+	{
+		return;
+	}
+
+	virtual void differentiateEqs(float t, std::vector<float>& y, std::vector<float>& dydt) override
+	{
+
+		dydt[0] = y[1];
+		float qSq = y[0] * y[0];
+		float qPSq = y[1] * y[1];
+		float numer = -3.f * 1.f * qSq - 2.f * y[0] * (2.f + 9.f * qSq) * qPSq;
+		float denom = 1.f + qSq * (4.f + 9.0f * qSq);
+		
+
+		dydt[1] = numer / denom;
+		
+	}
+
+};
+
+
+struct BallHill : public ODE<float>::Derivative {
+	// Inherited via Derivative
+	virtual void differentiateEq(float t, float y, float& dydt) override
+	{
+	}
+	virtual void differentiateEqs(float t, std::vector<float>& y, std::vector<float>& dydt) override
+	{
+		dydt[0] = y[1];
+		float numer = -2.f * y[0] * (2.f * y[1] * y[1] - 1);
+		float denom = 1 + 4.f * y[0] * y[0];
+
+		
+		dydt[1] = numer / denom;
+
+	}
+};
+
+
 namespace Tests
 {
 	TEST_CLASS(MathTests2)
@@ -65,6 +111,56 @@ namespace Tests
 				
 
 				rk4.solveEquations(time, 0.001, st, gr, st, time);
+			}
+
+
+		}
+
+		TEST_METHOD(testRK43) {
+
+			float time = 0.0f;
+			int n = 100;
+
+
+			std::vector<float> st{ 1.f, 0.f };
+			RK4<float> rk4;
+			QFunc gr;
+
+			for (int i = 0; i < n; i++) {
+				stringstream _ss;
+				_ss << "q: " << st[0] << "\n";
+				_ss << "q': " << st[1] << "\n";
+				_ss << "time: " << time << "\n";
+				
+				Logger::WriteMessage(_ss.str().c_str());
+
+
+				rk4.solveEquations(time, 0.1, st, gr, st, time);
+			}
+
+
+		}
+
+		TEST_METHOD(testRK44) {
+
+			float time = 0.0f;
+			int n = 100;
+
+
+			std::vector<float> st{ 0.0f, 1.f };
+			RK4<float> rk4;
+			BallHill gr;
+
+			for (int i = 0; i < n; i++) {
+				stringstream _ss;
+				_ss << "q: " << st[0] << "\n";
+				_ss << "q': " << st[1] << "\n";
+				_ss << "time: " << time << "\n";
+
+				Logger::WriteMessage(_ss.str().c_str());
+
+
+				rk4.solveEquations(time, 0.1, st, gr, st, time);
 			}
 
 

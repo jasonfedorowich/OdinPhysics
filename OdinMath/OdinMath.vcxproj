@@ -147,8 +147,11 @@
     <ClInclude Include="GaussianQuadratre.h" />
     <ClInclude Include="LegendrePolynomials.h" />
     <ClInclude Include="MassProperties.h" />
+    <ClInclude Include="MathCommon.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="AdjugateMatrix.h" />
+    <ClInclude Include="OMatrix3.h" />
+    <ClInclude Include="OVector3.h" />
     <ClInclude Include="SingleIntegral.h" />
     <ClInclude Include="ODE.h" />
     <ClInclude Include="OdinMath.h" />

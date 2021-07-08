@@ -13,25 +13,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{08cc794b-8ad8-4982-aaaf-26a6f9400bbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{aa534743-a80b-408c-86ad-26bee05c2537}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OdinMathTests1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OdinMathTestsMassProperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RungeKutta2.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MathCommon_tests.cpp">
+      <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="MatrixAndVectorTests1.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="OdinMathTests1.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="OdinMathTestsMassProperties.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="RungeKutta2.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="OdinCollision_AABB_tests.cpp">
+      <Filter>Source Files\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

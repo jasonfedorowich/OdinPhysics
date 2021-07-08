@@ -13,5 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\FineCollisionTests">
+      <UniqueIdentifier>{ea058b0b-963f-4a4b-8370-f54a52e58eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BroadCollisionTests">
+      <UniqueIdentifier>{9ecfaf82-1265-405a-b74f-0aa4386ececa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CollisionPrimitive">
+      <UniqueIdentifier>{9b8a0e37-cf76-4d67-a5bc-fbdc8d37ce7f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OdinCollision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="OBB.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Poly2.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Poly3.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="SeperatingAxis.h">
+      <Filter>Header Files\FineCollisionTests</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AABB.inl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

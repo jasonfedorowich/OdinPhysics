@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Calculus">
       <UniqueIdentifier>{d2839dec-3b76-4f6c-9da5-48f430c8cb30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\LinearAlgebra">
+      <UniqueIdentifier>{e41fa717-0528-4d5e-8f15-362ea1fe1528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Calculus">
+      <UniqueIdentifier>{a62d24fd-a5d7-465a-a02a-d892d991148f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdinMath.h">
@@ -72,33 +78,42 @@
     <ClInclude Include="AdjugateMatrix.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
+    <ClInclude Include="OVector3.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="OMatrix3.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DXVector4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DXMatrix4.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
+    <ClCompile Include="DXVector4.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="OMatrix4.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="OVector4.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RungeKutta.inl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="TrapezoidIntegration.inl">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="MassProperties.inl">
       <Filter>Source Files</Filter>
     </None>
     <None Include="Matrix.inl">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </None>
+    <None Include="RungeKutta.inl">
+      <Filter>Source Files\Calculus</Filter>
+    </None>
+    <None Include="TrapezoidIntegration.inl">
+      <Filter>Source Files\Calculus</Filter>
     </None>
   </ItemGroup>
 </Project>
