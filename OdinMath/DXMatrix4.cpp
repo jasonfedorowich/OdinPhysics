@@ -43,6 +43,20 @@ namespace OdinMath {
 		return m[row][col];
 	}
 
+	DXMatrix4 DXMatrix4::operator+(DXMatrix4& matrix)
+	{
+		XMMATRIX xmmatrix1 = this->getXMMatrix();
+		XMMATRIX xmmatrix2 = matrix.getXMMatrix();
+		return xmmatrix1 + xmmatrix2;
+	}
+
+	DXMatrix4 DXMatrix4::operator+(DXMatrix4&& matrix)
+	{
+		XMMATRIX xmmatrix1 = this->getXMMatrix();
+		XMMATRIX xmmatrix2 = matrix.getXMMatrix();
+		return xmmatrix1 + xmmatrix2;
+	}
+
 
 }
 

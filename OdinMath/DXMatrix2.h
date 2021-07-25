@@ -1,10 +1,10 @@
 #pragma once
 #include "OdinMath.h"
+
 namespace OdinMath {
 
 
-	class DXVector2 {
-
+	class DXMatrix2 {
 
 	};
 }

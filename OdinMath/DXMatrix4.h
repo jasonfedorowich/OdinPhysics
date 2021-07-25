@@ -55,8 +55,8 @@ namespace OdinMath {
 		//DXMatrix4 operator*(float scale);
 		//DXMatrix4& operator*=(float scale);
 
-		//DXMatrix4 operator+(DXMatrix4& matrix);
-		//DXMatrix4 operator+(DXMatrix4&& m);
+		DXMatrix4 operator+(DXMatrix4& matrix);
+		DXMatrix4 operator+(DXMatrix4&& m);
 
 		//DXMatrix4& operator+=(DXMatrix4& m);
 		//DXMatrix4& operator+=(DXMatrix4&& m);
@@ -81,11 +81,18 @@ namespace OdinMath {
 		//DXVector4 determinant();
 
 
+		DXMatrix4 identity() { return DXMatrix4(); }
+
 		XMMATRIX getXMMatrix() { return XMLoadFloat4x4(this); }
 
 	};
 
+	inline DXMatrix4 operator*(float scale, DXMatrix4& m) {
+		XMMATRIX xmmatrix = m.getXMMatrix();
+		xmmatrix *= scale;
+		return Matrix4(xmmatrix);
 
+	}
 
 	inline void operator*=(DXVector4& vector, DXMatrix4& matrix)
 	{
@@ -103,6 +110,21 @@ namespace OdinMath {
 
 		xmvector = XMVector4Transform(xmvector, xmmatrix);
 		return DXVector4(xmvector);
+	}
+
+	inline void outterProduct(DXMatrix4& matrix, const DXVector4& v1, const DXVector4& v2) {
+		DXMatrix4 matrix;
+		for (int i = 0; i < 4; i++) {
+
+			for (int j = 0; j < 4; j++) {
+				matrix(i, j) = v1[i] * v2[j];
+
+
+			}
+
+		}
+
+
 	}
 
 }

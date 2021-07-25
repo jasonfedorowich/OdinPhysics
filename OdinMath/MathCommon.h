@@ -29,6 +29,7 @@ namespace OdinMath {
 		static real odLog10(real x);
 		static real odLoge(real x);
 		static real odLog2(real x);
+		static real sign(real x);
 
 
 
@@ -146,6 +147,12 @@ namespace OdinMath {
 	inline real Math<real>::odLog2(real x)
 	{
 		return log2(x);
+	}
+
+	template<typename real>
+	inline real Math<real>::sign(real x)
+	{
+		return (real)(x < (real)0.0 ? -1.0 : 1.0);
 	}
 
 	typedef Math<float> Mathf;

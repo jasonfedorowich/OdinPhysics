@@ -87,6 +87,15 @@
     <ClInclude Include="MathCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Eigen.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMatrix3.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMatrix2.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXMatrix4.cpp">
@@ -99,6 +108,9 @@
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="OVector4.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
+    <ClCompile Include="Eigen.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
   </ItemGroup>
