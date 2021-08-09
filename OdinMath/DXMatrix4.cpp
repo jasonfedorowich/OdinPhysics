@@ -43,6 +43,42 @@ namespace OdinMath {
 		return m[row][col];
 	}
 
+	DXMatrix4 DXMatrix4::operator*(DXMatrix4& matrix)
+	{
+		return XMMatrixMultiply(this->getXMMatrix(), matrix.getXMMatrix());
+	}
+
+	DXMatrix4 DXMatrix4::operator*(DXMatrix4&& matrix)
+	{
+		return XMMatrixMultiply(this->getXMMatrix(), matrix.getXMMatrix());
+	}
+
+	void DXMatrix4::operator*=(DXMatrix4& m)
+	{
+		XMMATRIX xmmatrix = XMMatrixMultiply(this->getXMMatrix(), m.getXMMatrix());
+		XMStoreFloat4x4(this, xmmatrix);
+
+	}
+
+	void DXMatrix4::operator*=(DXMatrix4&& m)
+	{
+		XMMATRIX xmmatrix = XMMatrixMultiply(this->getXMMatrix(), m.getXMMatrix());
+		XMStoreFloat4x4(this, xmmatrix);
+
+	}
+
+	void DXMatrix4::operator%=(DXMatrix4& m)
+	{
+		XMMATRIX xmmatrix = XMMatrixMultiply(m.getXMMatrix(), this->getXMMatrix());
+		XMStoreFloat4x4(this, xmmatrix);
+	}
+
+	void DXMatrix4::operator%=(DXMatrix4&& M)
+	{
+		XMMATRIX xmmatrix = XMMatrixMultiply(M.getXMMatrix(), this->getXMMatrix());
+		XMStoreFloat4x4(this, xmmatrix);
+	}
+
 	DXMatrix4 DXMatrix4::operator+(DXMatrix4& matrix)
 	{
 		XMMATRIX xmmatrix1 = this->getXMMatrix();
@@ -55,6 +91,48 @@ namespace OdinMath {
 		XMMATRIX xmmatrix1 = this->getXMMatrix();
 		XMMATRIX xmmatrix2 = matrix.getXMMatrix();
 		return xmmatrix1 + xmmatrix2;
+	}
+
+	DXVector4 DXMatrix4::getCol(int c)
+	{
+		return DXVector4((*this)(0, c), (*this)(1, c), (*this)(2, c), (*this)(3, c));
+	}
+
+	DXVector4 DXMatrix4::getRow(int r)
+	{
+		return DXVector4((*this)(r, 0), (*this)(r, 1), (*this)(r, 2), (*this)(r, 3));
+	}
+
+	void DXMatrix4::setCol(int c, const DXVector4& v)
+	{
+		(*this)(0, c) = v[0];
+		(*this)(1, c) = v[1];
+		(*this)(2, c) = v[2];
+		(*this)(3, c) = v[3];
+	}
+
+	void DXMatrix4::setCol(int c, DXVector4&& v)
+	{
+		(*this)(0, c) = v[0];
+		(*this)(1, c) = v[1];
+		(*this)(2, c) = v[2];
+		(*this)(3, c) = v[3];
+	}
+
+	void DXMatrix4::setRow(int r, const DXVector4& v)
+	{
+		(*this)(r, 0) = v[0];
+		(*this)(r, 1) = v[1];
+		(*this)(r, 2) = v[2];
+		(*this)(r, 3) = v[3];
+	}
+
+	void DXMatrix4::setRow(int r, DXVector4&& v)
+	{
+		(*this)(r, 0) = v[0];
+		(*this)(r, 1) = v[1];
+		(*this)(r, 2) = v[2];
+		(*this)(r, 3) = v[3];
 	}
 
 

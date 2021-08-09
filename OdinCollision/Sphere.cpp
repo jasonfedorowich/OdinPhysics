@@ -32,5 +32,13 @@ namespace OdinCollision {
 
 
 	}
+	BoundingSphere::BoundingSphere(std::vector<ODVector>&& points) : BoundingSphere(points)
+	{
+
+	}
+	bool BoundingSphere::overlaps(BoundingSphere& sphere)
+	{
+		return sphere.center.distance(sphere.center) <= radius + sphere.radius;
+	}
 }
 

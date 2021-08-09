@@ -1,10 +1,11 @@
 #pragma once
+#include "OdinMath.h"
 #include <cfloat>
 #include <cmath>
 #include <cstdlib>
 #include <algorithm> 
+#include <ctime>
 
-#include "OdinMath.h"
 
 namespace OdinMath {
 	template<typename real>
@@ -30,6 +31,14 @@ namespace OdinMath {
 		static real odLoge(real x);
 		static real odLog2(real x);
 		static real sign(real x);
+
+		/*[l, u]*/
+		static real odRandom(int lower, int upper);
+		static real odRandom();
+		static real odRandSeed(unsigned int seed);
+		static real odRandSeedTime();
+
+
 
 
 
@@ -153,6 +162,34 @@ namespace OdinMath {
 	inline real Math<real>::sign(real x)
 	{
 		return (real)(x < (real)0.0 ? -1.0 : 1.0);
+	}
+
+	template<typename real>
+	inline real Math<real>::odRandom(int lower, int upper)
+	{
+		int range = upper - lower + 1;
+		real randNumber = (real)(rand() % range + lower);
+		return randNumber;
+
+	}
+
+	template<typename real>
+	inline real Math<real>::odRandom()
+	{
+		return (real)rand();
+	}
+
+	template<typename real>
+	inline real Math<real>::odRandSeed(unsigned int seed)
+	{
+		srand(seed);
+	}
+
+	template<typename real>
+	inline real Math<real>::odRandSeedTime()
+	{
+		time_t ti;
+		srand((unsigned)time(&ti));
 	}
 
 	typedef Math<float> Mathf;

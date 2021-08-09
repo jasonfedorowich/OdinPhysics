@@ -14,7 +14,8 @@ namespace OdinMath {
 			float _20, float _21, float _22, float _23,
 			float _30, float _31, float _32, float _33);
 		
-		DXMatrix4(XMMATRIX matrix) { XMStoreFloat4x4(this, matrix); }
+		DXMatrix4(XMMATRIX& matrix) { XMStoreFloat4x4(this, matrix); }
+		DXMatrix4(XMMATRIX&& matrix) { XMStoreFloat4x4(this, matrix); }
 		DXMatrix4(XMFLOAT4X4& xmfloat4x4);
 		DXMatrix4(const DXMatrix4& other) { *this = other; }
 		~DXMatrix4() {}
@@ -40,11 +41,17 @@ namespace OdinMath {
 		//DXMatrix4 add(int increment);
 		//DXMatrix4 add(float increment);
 
-		//DXMatrix4 operator*(DXMatrix4& matrix);
-		//DXMatrix4 operator*(DXMatrix4&& m);
+		DXMatrix4 operator*(DXMatrix4& matrix);
+		DXMatrix4 operator*(DXMatrix4&& m);
 
-		//DXMatrix4& operator*=(DXMatrix4& m);
-		//DXMatrix4& operator*=(DXMatrix4&& m);
+		//todo
+		/*A = A * M */
+		void operator*=(DXMatrix4& m);
+		void operator*=(DXMatrix4&& m);
+
+		/*A = M * A */
+		void operator%=(DXMatrix4& M);
+		void operator%=(DXMatrix4&& M);
 
 		//DXVector4 operator*(DXVector4& DXVector4);
 		//DXVector4 operator*(DXVector4&& v);
@@ -80,6 +87,15 @@ namespace OdinMath {
 
 		//DXVector4 determinant();
 
+		DXVector4 getCol(int c);
+		DXVector4 getRow(int r);
+
+		void setCol(int c, const DXVector4& v);
+		void setCol(int c, DXVector4&& v);
+
+		void setRow(int r, const DXVector4& v);
+		void setRow(int r, DXVector4&& v);
+
 
 		DXMatrix4 identity() { return DXMatrix4(); }
 
@@ -90,7 +106,7 @@ namespace OdinMath {
 	inline DXMatrix4 operator*(float scale, DXMatrix4& m) {
 		XMMATRIX xmmatrix = m.getXMMatrix();
 		xmmatrix *= scale;
-		return Matrix4(xmmatrix);
+		return DXMatrix4(xmmatrix);
 
 	}
 
@@ -113,7 +129,6 @@ namespace OdinMath {
 	}
 
 	inline void outterProduct(DXMatrix4& matrix, const DXVector4& v1, const DXVector4& v2) {
-		DXMatrix4 matrix;
 		for (int i = 0; i < 4; i++) {
 
 			for (int j = 0; j < 4; j++) {

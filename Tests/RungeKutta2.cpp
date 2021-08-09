@@ -80,6 +80,28 @@ struct BallHill : public ODE<float>::Derivative {
 };
 
 
+struct TwoMass : public ODE<float>::Derivative {
+	// Inherited via Derivative
+	float gamma, beta;
+
+	TwoMass(float beta, float gamma) { this->beta = beta; this->gamma = gamma; }
+	virtual void differentiateEq(float t, float y, float& dydt) override
+	{
+
+	}
+
+	virtual void differentiateEqs(float t, std::vector<float>& y, std::vector<float>& dydt) override
+	{
+		float rSq = y[0] * y[0];
+		dydt[0] = y[1];
+		dydt[1] = (beta * beta) / (rSq * y[0]) - gamma / rSq;
+		dydt[2] = beta / rSq;
+
+	}
+};
+
+
+
 namespace Tests
 {
 	TEST_CLASS(MathTests2)
