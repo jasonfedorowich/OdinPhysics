@@ -36,9 +36,80 @@ namespace OdinCollision {
 	{
 
 	}
+	BoundingSphere::BoundingSphere(const BoundingSphere& s)
+	{
+		*this = s;
+	}
+	BoundingSphere& BoundingSphere::operator=(const BoundingSphere& s)
+	{
+		if (this != &s) {
+			this->center = center;
+			this->radius = radius;
+		}return *this;
+	}
 	bool BoundingSphere::overlaps(BoundingSphere& sphere)
 	{
-		return sphere.center.distance(sphere.center) <= radius + sphere.radius;
+		return sphere.center.distance(sphere.center) <= (radius + sphere.radius);
+	}
+	BoundingSphere BoundingSphere::merge(BoundingSphere& s)
+	{
+		BoundingSphere ms;
+		rl distSq = s.center.dot(s.center);
+		rl radiusDiff = radius - s.radius;
+
+		if (radiusDiff * radiusDiff >= distSq) {
+			if (s.radius > radius) {
+				ms.center = s.center;
+				ms.radius = s.radius;
+			}
+			else {
+				ms.center = center;
+				ms.radius = radius;
+			}
+		}
+		else {
+			ODVector offset = s.center - center;
+			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
+			ms.radius = (dist + s.radius + radius) * (rl)0.5;
+			ms.center = center;
+			if(dist > 0)
+				ms.center += offset * ((ms.radius - radius) / dist);
+
+
+
+		}
+
+		return ms;
+	}
+	void BoundingSphere::makeUnion(BoundingSphere& s)
+	{
+
+		rl distSq = s.center.dot(s.center);
+		rl radiusDiff = radius - s.radius;
+
+		if (radiusDiff * radiusDiff >= distSq) {
+			if (s.radius > radius) {
+				center = s.center;
+				radius = s.radius;
+			}
+			
+		}
+		else {
+			ODVector offset = s.center - center;
+			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
+			rl rad = (dist + s.radius + radius) * (rl)0.5;
+			if (dist > 0)
+				center += offset * ((rad - radius) / dist);
+			radius = rad;
+
+
+
+		}
+
+	}
+	rl BoundingSphere::seperation(BoundingSphere& s)
+	{
+		return s.center.distance(center) - (s.radius + radius);
 	}
 }
 

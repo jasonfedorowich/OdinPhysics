@@ -149,6 +149,7 @@
     <ClInclude Include="Eigen.h" />
     <ClInclude Include="GaussianQuadratre.h" />
     <ClInclude Include="LegendrePolynomials.h" />
+    <ClInclude Include="LUDecomp.h" />
     <ClInclude Include="MassProperties.h" />
     <ClInclude Include="MathCommon.h" />
     <ClInclude Include="Matrix.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="DXMatrix4.cpp" />
     <ClCompile Include="DXVector4.cpp" />
     <ClCompile Include="Eigen.cpp" />
+    <ClCompile Include="LUDecomp.cpp" />
     <ClCompile Include="OMatrix4.cpp" />
     <ClCompile Include="OVector4.cpp" />
   </ItemGroup>

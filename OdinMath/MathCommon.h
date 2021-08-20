@@ -38,8 +38,10 @@ namespace OdinMath {
 		static real odRandSeed(unsigned int seed);
 		static real odRandSeedTime();
 
+		static real odAbs(real x);
 
-
+		static real odRound(real x, int decimal);
+		static real odRound(real x);
 
 
 		static const real REAL_MAX;
@@ -190,6 +192,12 @@ namespace OdinMath {
 	{
 		time_t ti;
 		srand((unsigned)time(&ti));
+	}
+
+	template<typename real>
+	inline real Math<real>::odAbs(real x)
+	{
+		return abs(x);
 	}
 
 	typedef Math<float> Mathf;

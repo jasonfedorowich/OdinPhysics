@@ -79,6 +79,17 @@ namespace OdinMath {
 		XMStoreFloat4x4(this, xmmatrix);
 	}
 
+	DXVector4 DXMatrix4::operator*(DXVector4& v)
+	{
+		DXMatrix4 trans = getTranspose();
+		return v * trans;
+	}
+
+	DXVector4 DXMatrix4::operator*(DXVector4&& v)
+	{
+		return DXVector4();
+	}
+
 	DXMatrix4 DXMatrix4::operator+(DXMatrix4& matrix)
 	{
 		XMMATRIX xmmatrix1 = this->getXMMatrix();
@@ -91,6 +102,18 @@ namespace OdinMath {
 		XMMATRIX xmmatrix1 = this->getXMMatrix();
 		XMMATRIX xmmatrix2 = matrix.getXMMatrix();
 		return xmmatrix1 + xmmatrix2;
+	}
+
+	void DXMatrix4::transpose()
+	{
+		XMMATRIX xm = XMMatrixTranspose(this->getXMMatrix());
+		store(xm);
+
+	}
+
+	DXMatrix4 DXMatrix4::getTranspose()
+	{
+		return XMMatrixTranspose(this->getXMMatrix());
 	}
 
 	DXVector4 DXMatrix4::getCol(int c)
@@ -133,6 +156,15 @@ namespace OdinMath {
 		(*this)(r, 1) = v[1];
 		(*this)(r, 2) = v[2];
 		(*this)(r, 3) = v[3];
+	}
+
+	void DXMatrix4::swapRows(int i, int j)
+	{
+		for (int k = 0; k < 4; k++) {
+			
+			std::swap((*this)(i, k), (*this)(j, k));
+
+		}
 	}
 
 

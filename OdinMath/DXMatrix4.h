@@ -53,8 +53,8 @@ namespace OdinMath {
 		void operator%=(DXMatrix4& M);
 		void operator%=(DXMatrix4&& M);
 
-		//DXVector4 operator*(DXVector4& DXVector4);
-		//DXVector4 operator*(DXVector4&& v);
+		DXVector4 operator*(DXVector4& v);
+		DXVector4 operator*(DXVector4&& v);
 
 		//DXVector4& operator*=(DXVector4& v);
 		//DXVector4& operator*=(DXVector4&& v);
@@ -79,11 +79,11 @@ namespace OdinMath {
 
 
 
-		//DXMatrix4& invert();
-		//DXMatrix4& transpose();
+		void invert();
+		void transpose();
 
-		//DXMatrix4 getInverse();
-		//DXMatrix4 getTranspose();
+		DXMatrix4 getInverse();
+		DXMatrix4 getTranspose();
 
 		//DXVector4 determinant();
 
@@ -96,10 +96,12 @@ namespace OdinMath {
 		void setRow(int r, const DXVector4& v);
 		void setRow(int r, DXVector4&& v);
 
+		void swapRows(int i, int j);
 
 		DXMatrix4 identity() { return DXMatrix4(); }
 
 		XMMATRIX getXMMatrix() { return XMLoadFloat4x4(this); }
+		void store(XMMATRIX& xmmatrix) { XMStoreFloat4x4(this, xmmatrix); }
 
 	};
 

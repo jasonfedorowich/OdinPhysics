@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Calculus">
       <UniqueIdentifier>{a62d24fd-a5d7-465a-a02a-d892d991148f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\LinearAlgebra\MatrixAndVector">
+      <UniqueIdentifier>{9feb5558-d00c-4738-b2d8-8b4d06ad0319}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdinMath.h">
@@ -36,35 +39,11 @@
     <ClInclude Include="MassProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DXMatrix4.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="DXVector2.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="DXVector3.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="DXVector4.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="Vect.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
     <ClInclude Include="GaussianQuadratre.h">
       <Filter>Header Files\Calculus</Filter>
     </ClInclude>
     <ClInclude Include="ODE.h">
       <Filter>Header Files\Calculus</Filter>
-    </ClInclude>
-    <ClInclude Include="OMatrix4.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="OVector4.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
     <ClInclude Include="RungeKutta.h">
       <Filter>Header Files\Calculus</Filter>
@@ -75,26 +54,53 @@
     <ClInclude Include="TrapezoidIntegration.h">
       <Filter>Header Files\Calculus</Filter>
     </ClInclude>
-    <ClInclude Include="AdjugateMatrix.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="OVector3.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
-    <ClInclude Include="OMatrix3.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
-    </ClInclude>
     <ClInclude Include="MathCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Eigen.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
-    <ClInclude Include="DXMatrix3.h">
+    <ClInclude Include="LUDecomp.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
+    <ClInclude Include="AdjugateMatrix.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
     <ClInclude Include="DXMatrix2.h">
-      <Filter>Header Files\LinearAlgebra</Filter>
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMatrix3.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMatrix4.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector2.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector3.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVector4.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="OMatrix3.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="OMatrix4.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="OVector3.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="OVector4.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vect.h">
+      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +117,9 @@
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="Eigen.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
+    <ClCompile Include="LUDecomp.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
   </ItemGroup>

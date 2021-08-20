@@ -48,6 +48,7 @@ namespace OdinMath {
 }
 
 #include "Eigen.h"
+#include "LUDecomp.h"
 
 #if 1
 typedef float rl;

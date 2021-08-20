@@ -7,6 +7,28 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace OdinMath;
 using namespace std;
 
+struct Angles : public ODE<float>::Derivative {
+
+	float alpha, gamma, beta, epi;
+	Angles(float alpha, float beta, float gamma, float epi) { this->alpha = alpha; this->beta = beta; this->gamma = gamma; this->epi = epi; }
+
+	// Inherited via Derivative
+	virtual void differentiateEq(float t, float y, float& dydt) override
+	{
+		return;
+	}
+
+	virtual void differentiateEqs(float t, std::vector<float>& y, std::vector<float>& dydt) override
+	{
+		dydt[0] = -sqrt((1 - y[0] * y[0]) * (beta - 2 * alpha * y[0]) - powf((gamma - epi * y[0]), 2));
+		dydt[1] = gamma - epi * y[0] / (1 - y[0] * y[0]);
+		dydt[2] = y[0] * (gamma - epi * y[0]) / (1.f - y[0] * y[0]);
+
+	}
+
+
+};
+
 struct Grav : public ODE<float>::Derivative {
 
 
