@@ -53,7 +53,8 @@ namespace OdinMath {
 				for (int k = 0; k < j; k++) {
 					sum += (L(i, k) * U(k, j));
 				}
-
+				if (U(j, j) == (rl)0.0)
+					throw std::exception("Matrix is singular");
 				L(i, j) = ((rl)1.0 / U(j, j)) * (Ap(i, j) - sum);
 
 			}
@@ -112,4 +113,23 @@ namespace OdinMath {
 
 		}
 	}
+	void LU4::invserse(Matrix4& inv)
+	{
+		Matrix4 I;
+		solve(inv, I);
+	}
+
+	rl LU4::determinant()
+	{
+		rl det = (rl)1.0;
+		for (int i = 0; i < 4; i++) {
+			det *= U(i, i);
+			if (P(i, i) != (rl)1.0)
+				det *= (rl)-1.0;
+		}
+
+		return det;
+
+	}
+	
 }

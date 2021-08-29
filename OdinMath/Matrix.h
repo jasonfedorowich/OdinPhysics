@@ -6,6 +6,9 @@ namespace OdinMath {
 #define SINGULAR 1
 #define NON_SINGULAR 0
 
+	//TODO put iterator in matrix to loop over columns
+	///iterator should give vectors which support iterator as well
+
 	template<int SIZE, typename real>
 	class Matrix {
 	private:
@@ -347,6 +350,7 @@ namespace OdinMath {
 		return Matrix<SIZE, real>();
 	}
 
+	//no support for 3x3 (because needed extra block to make 4x4 use regular 0(n^3) mult)
 	template<typename real>
 	inline Matrix<2, real> strassenMulti(Matrix<2, real>& A, Matrix<2, real>& B);
 

@@ -107,6 +107,38 @@ namespace MathTests
 
 		}
 
+		TEST_METHOD(testQRDecomp) {
+
+			Matrix4 A(2.f, 4, -2, -2,
+				1, 2, 4, -3,
+				-3, -3, 8, -2,
+				-1, 1, 6, -3);
+
+			QRDecomp4 qr(A);
+			Matrix4 inv;
+			qr.inverse(inv);
+
+			Assert::AreEqual(std::roundf(inv(0, 0)), std::roundf(0.333));
+
+			Matrix4 B(11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+
+			QRDecomp4 qr2(B);
+			qr2.inverse(inv);
+			Assert::AreEqual(std::roundf(inv(0, 0)), std::roundf(0.722));
+
+			
+
+
+		}
+
+		TEST_METHOD(testQRDecompEigen) {
+
+			//todo
+		}
+
 
 
 	};

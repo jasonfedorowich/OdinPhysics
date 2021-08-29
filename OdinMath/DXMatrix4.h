@@ -59,8 +59,8 @@ namespace OdinMath {
 		//DXVector4& operator*=(DXVector4& v);
 		//DXVector4& operator*=(DXVector4&& v);
 
-		//DXMatrix4 operator*(float scale);
-		//DXMatrix4& operator*=(float scale);
+		DXMatrix4 operator*(float scale);
+		void operator*=(float scale);
 
 		DXMatrix4 operator+(DXMatrix4& matrix);
 		DXMatrix4 operator+(DXMatrix4&& m);
@@ -68,11 +68,11 @@ namespace OdinMath {
 		//DXMatrix4& operator+=(DXMatrix4& m);
 		//DXMatrix4& operator+=(DXMatrix4&& m);
 
-		//DXMatrix4 operator-(DXMatrix4& matrix);
-		//DXMatrix4 operator-(DXMatrix4&& m);
+		DXMatrix4 operator-(DXMatrix4& matrix);
+		DXMatrix4 operator-(DXMatrix4&& m);
 
-		//DXMatrix4& operator-=(DXMatrix4& m);
-		//DXMatrix4& operator-=(DXMatrix4&& m);
+		void operator-=(DXMatrix4& m);
+		void operator-=(DXMatrix4&& m);
 
 
 		//DXMatrix4& operator+=(int increment);
@@ -89,6 +89,7 @@ namespace OdinMath {
 
 		DXVector4 getCol(int c);
 		DXVector4 getRow(int r);
+		DXVector4 diag() { return DXVector4((*this)(0, 0), (*this)(1, 1), (*this)(2, 2), (*this)(2, 2)); }
 
 		void setCol(int c, const DXVector4& v);
 		void setCol(int c, DXVector4&& v);
@@ -130,7 +131,7 @@ namespace OdinMath {
 		return DXVector4(xmvector);
 	}
 
-	inline void outterProduct(DXMatrix4& matrix, const DXVector4& v1, const DXVector4& v2) {
+	inline void outerProduct(DXMatrix4& matrix, const DXVector4& v1, const DXVector4& v2) {
 		for (int i = 0; i < 4; i++) {
 
 			for (int j = 0; j < 4; j++) {

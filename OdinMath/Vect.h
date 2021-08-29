@@ -2,6 +2,8 @@
 #include "OdinMath.h"
 namespace OdinMath {
 
+	//tood build iterator for class
+
 	template<int SIZE, typename real>
 	class Vector {
 	private:

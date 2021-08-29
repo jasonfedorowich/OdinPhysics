@@ -32,6 +32,15 @@ namespace OdinMath {
 		return temp.x;
 	}
 
+	float DXVector4::length4()
+	{
+		XMVECTOR xmvector = XMLoadFloat4(this);
+		xmvector = XMVector4Length(xmvector);
+		XMFLOAT4 temp;
+		XMStoreFloat4(&temp, xmvector);
+		return temp.x;
+	}
+
 	float DXVector4::dot(const DXVector4& v)
 	{
 		XMVECTOR xmvectorA = XMLoadFloat4(this);
@@ -68,6 +77,13 @@ namespace OdinMath {
 		xmvector = XMVector3Normalize(xmvector);
 		XMStoreFloat4(this, xmvector);
 
+	}
+
+	void DXVector4::normalize4()
+	{
+		XMVECTOR xmvector = XMLoadFloat4(this);
+		xmvector = XMVector4Normalize(xmvector);
+		XMStoreFloat4(this, xmvector);
 	}
 
 	DXVector4 DXVector4::getAngleBetweenVectors(DXVector4& v)
@@ -165,6 +181,22 @@ namespace OdinMath {
 		default:
 			throw std::invalid_argument("Index out of range");
 		}
+	}
+
+	void DXVector4::operator/=(float c)
+	{
+		x /= c;
+		y /= c;
+		z /= c;
+		w /= c;
+	}
+
+	void DXVector4::operator*=(float c)
+	{
+		x *= c;
+		y *= c;
+		z *= c;
+		w *= c;
 	}
 
 

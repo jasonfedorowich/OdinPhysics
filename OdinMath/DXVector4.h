@@ -37,11 +37,14 @@ namespace OdinMath {
 		
 		float distance(const DXVector4& v);
 		float length();
+		float length4();
+
 		float dot(const DXVector4& v);
 		DXVector4 cross(const DXVector4& v);
 
 		DXVector4 normal();
 		void normalize();
+		void normalize4();
 
 		DXVector4 getAngleBetweenVectors(DXVector4& v);
 		float getAngleToTarget(DXVector4& v);
@@ -60,6 +63,7 @@ namespace OdinMath {
 		float& operator[](int index);
 		const float& operator[](int index) const;
 		DXVector4& operator=(XMVECTOR& xmvector) { store(xmvector); return *this; }
+		void operator/=(float c);
 		void operator*=(float val);
 		DXVector4 operator*(float val);
 		friend void operator*=(float val, DXVector4& vector);

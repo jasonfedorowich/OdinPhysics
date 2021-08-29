@@ -38,6 +38,22 @@ namespace Tests
 			Matrix<4, float> mm = strassenMulti(m4, m5);
 			/*strassenMult<float, 4>(m4, m5);*/
 
+			Matrix<4, float> A({ {11.f, 9, 24, 2},
+				{1, 5, 2, 6},
+				{3, 17, 18, 1},
+				{2, 5, 7, 1} });
+
+
+			Matrix<4, float>  B({ {2.f, 4, -2, -2},
+				{1, 2, 4, -3},
+				{-3, -3, 8, -2},
+				{-1, 1, 6, -3} });
+
+			Matrix<4, float> C = strassenMulti(A, B);
+
+			Assert::AreEqual(C(0, 0), -43.0f);
+
+
 		}
 
 		TEST_METHOD(inverseTest) {

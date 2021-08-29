@@ -18,6 +18,9 @@ namespace OdinMath {
 		void solve(Matrix4& x, Matrix4& b);
 		void solve(Matrix4& x, Matrix4&& b);
 
+		void invserse(Matrix4& inv);
+		rl determinant();
+
 	};
 
 }

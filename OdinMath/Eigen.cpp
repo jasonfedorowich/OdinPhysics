@@ -31,7 +31,7 @@ namespace OdinMath {
 				v[j] = H(j, i) / r2;
 
 			Matrix4 P;
-			outterProduct(P, v, v);
+			outerProduct(P, v, v);
 			Matrix4 I;
 			P = I + (rl)-2.0 * P;
 			H %= P;

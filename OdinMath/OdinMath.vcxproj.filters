@@ -25,8 +25,11 @@
     <Filter Include="Source Files\Calculus">
       <UniqueIdentifier>{a62d24fd-a5d7-465a-a02a-d892d991148f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\LinearAlgebra\MatrixAndVector">
+    <Filter Include="Header Files\LinearAlgebra\DX">
       <UniqueIdentifier>{9feb5558-d00c-4738-b2d8-8b4d06ad0319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LinearAlgebra\OD">
+      <UniqueIdentifier>{ca747a72-7304-48f0-83d5-650e5ae22659}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,44 +66,47 @@
     <ClInclude Include="LUDecomp.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
-    <ClInclude Include="AdjugateMatrix.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+    <ClInclude Include="QRDecomp.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
     <ClInclude Include="DXMatrix2.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\DX</Filter>
     </ClInclude>
     <ClInclude Include="DXMatrix3.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\DX</Filter>
     </ClInclude>
     <ClInclude Include="DXMatrix4.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\DX</Filter>
     </ClInclude>
     <ClInclude Include="DXVector2.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\DX</Filter>
     </ClInclude>
     <ClInclude Include="DXVector3.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\DX</Filter>
     </ClInclude>
     <ClInclude Include="DXVector4.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="AdjugateMatrix.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
     <ClInclude Include="OMatrix3.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
     <ClInclude Include="OMatrix4.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
     <ClInclude Include="OVector3.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
     <ClInclude Include="OVector4.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
     <ClInclude Include="Vect.h">
-      <Filter>Header Files\LinearAlgebra\MatrixAndVector</Filter>
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +126,9 @@
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="LUDecomp.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
+    <ClCompile Include="QRDecomp.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
   </ItemGroup>

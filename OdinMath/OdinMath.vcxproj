@@ -156,6 +156,7 @@
     <ClInclude Include="AdjugateMatrix.h" />
     <ClInclude Include="OMatrix3.h" />
     <ClInclude Include="OVector3.h" />
+    <ClInclude Include="QRDecomp.h" />
     <ClInclude Include="SingleIntegral.h" />
     <ClInclude Include="ODE.h" />
     <ClInclude Include="OdinMath.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="LUDecomp.cpp" />
     <ClCompile Include="OMatrix4.cpp" />
     <ClCompile Include="OVector4.cpp" />
+    <ClCompile Include="QRDecomp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl" />

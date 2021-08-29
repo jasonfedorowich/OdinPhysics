@@ -20,6 +20,8 @@
 
 /*ODVector must have a index overloaded operator like operator()(int idx) */
 /*ODVector must have a real distance(ODVector) function */
+/*ODVector must have a operator/=(rl c)*/
+
 /*ODMatrix must have ::identity*/
 /*ODMatrix must have void outerProduct(M&, V&, V&)*/
 
@@ -47,8 +49,6 @@ namespace OdinMath {
 
 }
 
-#include "Eigen.h"
-#include "LUDecomp.h"
 
 #if 1
 typedef float rl;
@@ -56,3 +56,8 @@ using ODVector = OdinMath::Vector4;
 
 
 #endif
+
+
+#include "Eigen.h"
+#include "LUDecomp.h"
+#include "QRDecomp.h"

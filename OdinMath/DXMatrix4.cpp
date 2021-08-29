@@ -90,6 +90,29 @@ namespace OdinMath {
 		return DXVector4();
 	}
 
+	DXMatrix4 DXMatrix4::operator*(float scale)
+	{
+		DXMatrix4 newM;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				newM(i, j) = (*this)(i, j) * scale;
+
+			}
+		}
+		return newM;
+
+	}
+
+	void DXMatrix4::operator*=(float scale)
+	{
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				(*this)(i, j) *= scale;
+
+			}
+		}
+	}
+
 	DXMatrix4 DXMatrix4::operator+(DXMatrix4& matrix)
 	{
 		XMMATRIX xmmatrix1 = this->getXMMatrix();
@@ -102,6 +125,38 @@ namespace OdinMath {
 		XMMATRIX xmmatrix1 = this->getXMMatrix();
 		XMMATRIX xmmatrix2 = matrix.getXMMatrix();
 		return xmmatrix1 + xmmatrix2;
+	}
+
+	DXMatrix4 DXMatrix4::operator-(DXMatrix4& matrix)
+	{
+		XMMATRIX m1 = this->getXMMatrix();
+		XMMATRIX m2 = matrix.getXMMatrix();
+		m1 -= m2;
+		return m1;
+	}
+
+	DXMatrix4 DXMatrix4::operator-(DXMatrix4&& matrix)
+	{
+		XMMATRIX m1 = this->getXMMatrix();
+		XMMATRIX m2 = matrix.getXMMatrix();
+		m1 -= m2;
+		return m1;
+	}
+
+	void DXMatrix4::operator-=(DXMatrix4& m)
+	{
+		XMMATRIX m1 = this->getXMMatrix();
+		XMMATRIX m2 = m.getXMMatrix();
+		m1 -= m2;
+		store(m1);
+	}
+
+	void DXMatrix4::operator-=(DXMatrix4&& m)
+	{
+		XMMATRIX m1 = this->getXMMatrix();
+		XMMATRIX m2 = m.getXMMatrix();
+		m1 -= m2;
+		store(m1);
 	}
 
 	void DXMatrix4::transpose()
