@@ -50,6 +50,7 @@ namespace OdinMath {
 		static const real PI_OVER_2;
 		static const real PI_OVER_4;
 		static const real e;
+		static const real eps;
 
 	};
 
@@ -59,6 +60,7 @@ namespace OdinMath {
 	template<> const float Math<float>::PI_OVER_2 = Math<float>::PI / 2;
 	template<> const float Math<float>::PI_OVER_4 = Math<float>::PI / 4;
 	template<> const float Math<float>::e = 2.71828182845904523536f;
+	template<> const float Math<float>::eps = 0.001f;
 
 
 	template<> const double Math<double>::REAL_MAX = DBL_MAX;
@@ -67,6 +69,7 @@ namespace OdinMath {
 	template<> const double Math<double>::PI_OVER_2 = Math<double>::PI / 2;
 	template<> const double Math<double>::PI_OVER_4 = Math<double>::PI / 4;
 	template<> const double Math<double>::e = 2.71828182845904523536;
+	template<> const double Math<double>::eps = 0.001;
 
 
 	

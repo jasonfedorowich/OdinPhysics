@@ -15,6 +15,16 @@ namespace OdinCollision {
 		BoundingCircle(std::vector<ODVector>&& points);
 		BoundingCircle(const BoundingCircle& c);
 
+		bool overlaps(BoundingCircle& other);
+
+		BoundingCircle merge(BoundingCircle& other);
+		void makeUnion(BoundingCircle& other);
+
+		BoundingCircle& operator=(const BoundingCircle& aabb);
+
+		rl seperation(BoundingCircle& c);
+
+
 
 
 	};

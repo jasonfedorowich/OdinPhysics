@@ -1,6 +1,8 @@
 #pragma once
 #include <assert.h>
 #include <stdexcept>
+#include <vector>
+
 #include "MathCommon.h"
 
 #include "RungeKutta.h"
@@ -12,6 +14,7 @@
 #include "DXMatrix2.h"
 #include "DXVector3.h"
 #include "DXVector2.h"
+#include "DXQuat.h"
 #include "Vect.h"
 #include "Matrix.h"
 #include "AdjugateMatrix.h"
@@ -61,3 +64,4 @@ using ODVector = OdinMath::Vector4;
 #include "Eigen.h"
 #include "LUDecomp.h"
 #include "QRDecomp.h"
+#include "BSpline.h"

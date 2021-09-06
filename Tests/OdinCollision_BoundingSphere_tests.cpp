@@ -14,7 +14,14 @@ namespace CollisionTests
 
 		TEST_METHOD(TestConstructor)
 		{
+			std::vector<ODVector> v{ {1.f, 2.f, 3.3f}, { 0.f, -1.f, 10.f }, { 100.f, 0.f, -1000.f } };
+			//BoundingSphere bs({ {1.f, 2.f, 3.3f}, {0.f, -1.f, 10.f}, {100.f, 0.f, -1000.f} });
+			BoundingSphere bs1(v);
+			ODVector vec = { 1.f, 2.f, 3.3f };
+			BoundingSphere bs2(vec, 100.f);
+			BoundingSphere bs;
 			
 		}
+		//todo add more tests
 	};
 }

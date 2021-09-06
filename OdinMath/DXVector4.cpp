@@ -199,5 +199,10 @@ namespace OdinMath {
 		w *= c;
 	}
 
+	DXVector4 DXVector4::operator*(float val)
+	{
+		return DXVector4(x * val, y * val, z * val, w * val);
+	}
+
 
 }

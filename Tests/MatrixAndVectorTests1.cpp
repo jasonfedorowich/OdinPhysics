@@ -129,6 +129,38 @@ namespace Tests
 
 		}
 
+		TEST_METHOD(testGetTranspose) {
+			Matrix<4, int> m4({
+						{ 7, 12, 1, 14 },
+						 { 2, 13, 8, 11 },
+						 { 16, 3, 10, 5 },
+							{9, 6, 14, 4}
+				});
+
+			Matrix<4, int> transpo = m4.getTranspose();
+
+			Assert::AreEqual(transpo(1, 0), 12);
+
+		}
+
+		TEST_METHOD(testLooping) {
+
+			Matrix<4, int> m4({
+						{ 7, 12, 1, 14 },
+						 { 2, 13, 8, 11 },
+						 { 16, 3, 10, 5 },
+							{9, 6, 14, 4}
+				});
+
+			auto it = m4.begin();
+			it = Vector<4, int>({ 1, 2, 3, 4 });
+
+			for (Vector<4, int>& v : m4) {
+				Vector<4, int> vv = v;
+
+			}
+		}
+
 		
 
 

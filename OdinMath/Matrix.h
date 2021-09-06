@@ -12,7 +12,43 @@ namespace OdinMath {
 	template<int SIZE, typename real>
 	class Matrix {
 	private:
+		friend struct Iterator;
+
 		real matrix[SIZE][SIZE] = { (real)0.0 };
+
+		struct Iterator {
+			Matrix<SIZE, real>* mat;
+			int row;
+
+			Iterator(Matrix* matrix) : mat(matrix), row(0) { }
+			Iterator(Matrix* matrix, int pos) : mat(matrix), row(pos) { }
+
+			Vector<SIZE, real> operator*() const { 
+				if (row < SIZE)
+					return this->mat->getRow(row);
+				else
+					return Vector<SIZE, real>();
+			}
+			Iterator& operator++() { ++row; return *this; }
+			Iterator operator++(int) { Iterator it = (*this); ++(*this); return it; }
+
+			friend bool operator==(const Iterator& a, const Iterator& b) { return a.row == b.row; }
+			friend bool operator!=(const Iterator& a, const Iterator& b) { return a.row != b.row; }
+			
+			Iterator& operator=(Vector<SIZE, real>& ro) {
+				if (row < SIZE)
+					this->mat->setRow(row, ro);
+				return *this;
+			}
+
+			Iterator& operator=(Vector<SIZE, real>&& ro) {
+				if (row < SIZE)
+					this->mat->setRow(row, ro);
+				return *this;
+			}
+
+
+		};
 
 	public:
 		Matrix() {};
@@ -36,6 +72,9 @@ namespace OdinMath {
 		Matrix& operator=(const Matrix<SIZE, real>& mat);
 		void operator*=(real c);
 
+
+		Iterator begin() { return Iterator(this); }
+		Iterator end() { return Iterator(this, SIZE); }
 
 		Vector<SIZE, real> operator()(int row);
 
@@ -213,6 +252,15 @@ namespace OdinMath {
 				std::swap((*this)(i, j), (*this)(j, i));
 			}
 		}
+	}
+
+	template<int SIZE, typename real>
+	inline Matrix<SIZE, real> Matrix<SIZE, real>::getTranspose()
+	{
+		Matrix<SIZE, real> transp = *this;
+		transp.transpose();
+		return transp;
+
 	}
 
 	template<int SIZE, typename real>
@@ -504,10 +552,12 @@ namespace OdinMath {
 	typedef Matrix<4, float> Matrix4f;
 	typedef Matrix<2, float> Matrix2f;
 	typedef Matrix<1, float> Matrix1f;
+	typedef Matrix<3, float> Matrix3f;
 
 	typedef Matrix<4, double> Matrix4d;
 	typedef Matrix<2, double> Matrix2d;
 	typedef Matrix<1, double> Matrix1d;
+	typedef Matrix<3, double> Matrix3d;
 
 #include "Matrix.inl"
 

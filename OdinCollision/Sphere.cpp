@@ -1,6 +1,7 @@
 #include "OdinCollision.h"
+
 namespace OdinCollision {
-	BoundingSphere::BoundingSphere(std::vector<ODVector>& points)
+	BoundingSphere::BoundingSphere(std::vector<OdinMath::Vector4>& points)
 	{
 		int n = points.size();
 	

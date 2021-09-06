@@ -48,6 +48,9 @@
     <ClInclude Include="SeperatingAxis.h">
       <Filter>Header Files\FineCollisionTests</Filter>
     </ClInclude>
+    <ClInclude Include="IntervalTree.h">
+      <Filter>Header Files\BroadCollisionTests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="AABB.inl">
