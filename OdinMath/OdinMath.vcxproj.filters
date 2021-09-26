@@ -152,6 +152,15 @@
     <ClCompile Include="DXQuat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BSpline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DXMatrix3.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
+    <ClCompile Include="DXVector3.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl">

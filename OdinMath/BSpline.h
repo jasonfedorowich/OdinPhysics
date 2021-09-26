@@ -3,15 +3,18 @@
 #include "BSplineBasis.h"
 namespace OdinMath {
 
-	void computeControl(std::vector<ODVector>& pts);
-	void computeKnots(std::vector<ODVector>& knts);
+	void computeControl(std::vector<Vector4>& pts);
 
 	struct BSplineCurve4 {
-		std::vector<ODVector> controlPoints;
-		std::vector<ODVector> knotVector;
-		int degree;
-		BSplineCurve4(std::vector<ODVector>& controlPoints, int order, std::vector<rl>&& knotVector = {});
-
+		std::vector<Vector4> controlPoints;
+		std::vector<Vector4> knotVector;
+		int d;
+		int n;
+		BSplineBasis<rl>* basis;
+		BSplineCurve4(std::vector<Vector4>& controlPoints, int d, bool open, std::vector<rl>&& knotVector = {});
+		
+		void get(rl u, Vector4& pos);
+		~BSplineCurve4() { delete basis; }
 		
 	};
 

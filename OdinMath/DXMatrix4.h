@@ -119,7 +119,7 @@ namespace OdinMath {
 		XMMATRIX xmmatrix = matrix.getXMMatrix();
 
 		xmvector = XMVector4Transform(xmvector, xmmatrix);
-		vector = xmvector;
+		vector.store(xmvector);
 	}
 
 	inline DXVector4 operator*(DXVector4 vector , DXMatrix4& matrix)

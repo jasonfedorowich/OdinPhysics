@@ -141,7 +141,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="AABB2PointDistance.h" />
+    <ClInclude Include="AABB2PointIntersection.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="IntervalTree.h" />
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OdinCollision.h" />
@@ -149,13 +152,19 @@
     <ClInclude Include="Poly3.h" />
     <ClInclude Include="SeperatingAxis.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Sphere2PointDistance.h" />
+    <ClInclude Include="Sphere2PointIntersection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AABB.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AABB2PointDistance.cpp" />
+    <ClCompile Include="AABB2PointIntersection.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Sphere2PointDistance.cpp" />
+    <ClCompile Include="Sphere2PointIntersection.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "OdinMath.h"
 namespace OdinMath {
 
-	//tood build iterator for class
+	//todo build iterator for class
 
 	template<int SIZE, typename real>
 	class Vector {

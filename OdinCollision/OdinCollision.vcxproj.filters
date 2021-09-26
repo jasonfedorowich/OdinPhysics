@@ -22,6 +22,18 @@
     <Filter Include="Header Files\CollisionPrimitive">
       <UniqueIdentifier>{9b8a0e37-cf76-4d67-a5bc-fbdc8d37ce7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Distances">
+      <UniqueIdentifier>{ec28fcf3-8da2-4ba1-8e61-9e7288b31076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Distances">
+      <UniqueIdentifier>{d40bc670-cfe9-43bd-a0be-1fe73934f7bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IntersectionTests">
+      <UniqueIdentifier>{6437c786-ba09-4279-921a-a70501e8786f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IntersectionTests">
+      <UniqueIdentifier>{8a5afa4a-02d0-456d-990d-fcb1bc2b6dce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdinCollision.h">
@@ -51,6 +63,21 @@
     <ClInclude Include="IntervalTree.h">
       <Filter>Header Files\BroadCollisionTests</Filter>
     </ClInclude>
+    <ClInclude Include="AABB2PointDistance.h">
+      <Filter>Header Files\Distances</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere2PointDistance.h">
+      <Filter>Header Files\Distances</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB2PointIntersection.h">
+      <Filter>Header Files\IntersectionTests</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere2PointIntersection.h">
+      <Filter>Header Files\IntersectionTests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="AABB.inl">
@@ -63,6 +90,18 @@
     </ClCompile>
     <ClCompile Include="Circle.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB2PointDistance.cpp">
+      <Filter>Source Files\Distances</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere2PointDistance.cpp">
+      <Filter>Source Files\Distances</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB2PointIntersection.cpp">
+      <Filter>Source Files\IntersectionTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere2PointIntersection.cpp">
+      <Filter>Source Files\IntersectionTests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,12 +14,10 @@ namespace OdinMath {
 		static real odSqrt(real x);
 		static real odPow(real b,  real e);
 
-		static const real& odMax(const real& x, const real& y);
-		static real odMax(const real&& x, const real&& y);
+		static real odMax(real x, real y);
+		static real odMin(real x, real y);
 
-		static const real& odMin(const real& x, const real& y);
-		static real odMin(const real&& x, const real&& y);
-
+		
 
 		static real odCos(real x);
 		static real odSin(real x);
@@ -42,7 +40,7 @@ namespace OdinMath {
 
 		static real odRound(real x, int decimal);
 		static real odRound(real x);
-
+		static real odFloor(real x);
 
 		static const real REAL_MAX;
 		static const real REAL_MIN;
@@ -86,25 +84,13 @@ namespace OdinMath {
 	}
 
 	template<typename real>
-	inline const real& Math<real>::odMax(const real& x, const real& y)
+	inline real Math<real>::odMax(real x,  real y)
 	{
 		return x > y ? x : y;
 	}
 
 	template<typename real>
-	inline real Math<real>::odMax(const real&& x, const real&& y)
-	{
-		return x > y ? x : y;
-	}
-
-	template<typename real>
-	inline const real& Math<real>::odMin(const real& x, const real& y)
-	{
-		return x < y ? x : y;
-	}
-
-	template<typename real>
-	inline real Math<real>::odMin(const real&& x, const real&& y)
+	inline real Math<real>::odMin( real x,  real y)
 	{
 		return x < y ? x : y;
 	}
@@ -201,6 +187,12 @@ namespace OdinMath {
 	inline real Math<real>::odAbs(real x)
 	{
 		return abs(x);
+	}
+
+	template<typename real>
+	inline real Math<real>::odFloor(real x)
+	{
+		return std::floor(x);
 	}
 
 	typedef Math<float> Mathf;

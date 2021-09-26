@@ -159,6 +159,13 @@ namespace OdinMath {
 		store(m1);
 	}
 
+	void DXMatrix4::invert()
+	{
+		XMVECTOR v;
+		XMMATRIX matrix = XMMatrixInverse(&v, this->getXMMatrix());
+		store(matrix);
+	}
+
 	void DXMatrix4::transpose()
 	{
 		XMMATRIX xm = XMMatrixTranspose(this->getXMMatrix());

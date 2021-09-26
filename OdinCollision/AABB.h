@@ -13,12 +13,21 @@ namespace OdinCollision {
 		AABB(std::vector<ODVector>&& points);
 		AABB(const AABB& aabb) { *this = aabb; }
 
+		AABB& operator=(const AABB& aabb);
+
 		bool overlaps(AABB& other);
 
 		AABB merge(AABB& other);
 		void makeUnion(AABB& other);
 
-		AABB& operator=(const AABB& aabb);
+		AABB merge(ODVector& p);
+		void makeUnion(ODVector& p);
+
+		AABB merge(ODVector&& p);
+		void makeUnion(ODVector&& p);
+
+	
+	
 
 
 	};
@@ -33,4 +42,5 @@ namespace OdinCollision {
 	
 
 
+	
 }

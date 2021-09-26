@@ -72,6 +72,7 @@ namespace OdinMath {
 		
 
 		XMVECTOR getXMVector() { return XMLoadFloat4(this); }
+		
 
 		bool empty() { return x == 0 && y == 0 && z == 0; }
 

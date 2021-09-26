@@ -173,7 +173,10 @@
     <ClInclude Include="Vect.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BSpline.cpp" />
+    <ClCompile Include="DXMatrix3.cpp" />
     <ClCompile Include="DXMatrix4.cpp" />
+    <ClCompile Include="DXVector3.cpp" />
     <ClCompile Include="DXVector4.cpp" />
     <ClCompile Include="Eigen.cpp" />
     <ClCompile Include="LUDecomp.cpp" />

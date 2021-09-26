@@ -55,8 +55,8 @@ inline AABB<N> AABB<N>::merge(AABB& other)
 	AABB<N> aabb;
 
 	for (int i = 0; i < N; i++) {
-		aabb.maxi[i] = Math<rl>::max(this->maxi[i], other.maxi[i]);
-		aabb.mini[i] = Math<rl>::min(this->mini[i], other.mini[i]);
+		aabb.maxi[i] = Math<rl>::odMax(this->maxi[i], other.maxi[i]);
+		aabb.mini[i] = Math<rl>::odMin(this->mini[i], other.mini[i]);
 
 	}
 	return aabb;
@@ -69,12 +69,41 @@ inline void AABB<N>::makeUnion(AABB& other)
 	using namespace OdinMath;
 
 	for (int i = 0; i < N; i++) {
-		this->maxi[i] = Math<rl>::max(this->maxi[i], other.maxi[i]);
-		this->mini[i] = Math<rl>::min(this->mini[i], other.mini[i]);
+		this->maxi[i] = Math<rl>::odMax(this->maxi[i], other.maxi[i]);
+		this->mini[i] = Math<rl>::odMin(this->mini[i], other.mini[i]);
 
 	}
 
 }
+
+template<int N>
+inline AABB<N> OdinCollision::AABB<N>::merge(ODVector& p)
+{
+	using namespace OdinMath;
+
+	ODVector mi = this->mini;
+	ODVector ma = this->maxi;
+	for (int i = 0; i < 3; i++) {
+		ma = Math<rl>::odMin(ma, p[i]);
+		mi = Math<rl>::odMax(mi, p[i]);
+
+	}
+
+	return AABB<N>(mi, ma);
+
+}
+
+template<int N>
+inline void OdinCollision::AABB<N>::makeUnion(ODVector& p)
+{
+	using namespace OdinMath;
+	for (int i = 0; i < 3; i++) {
+		maxi[i] = Math<rl>::odMax(this->maxi[i], p[i]);
+		mini[i] = Math<rl>::odMin(this->mini[i], p[i]);
+	}
+}
+
+
 
 template<int N>
 inline AABB<N>& AABB<N>::operator=(const AABB<N>& aabb)

@@ -158,7 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DistanceTests.cpp" />
     <ClCompile Include="DXMatrixVector_tests.cpp" />
+    <ClCompile Include="Intersections1.cpp" />
     <ClCompile Include="MathCommon_tests.cpp" />
     <ClCompile Include="MatrixAndVectorTests1.cpp" />
     <ClCompile Include="OdinCollision_AABB_tests.cpp" />
@@ -174,6 +176,7 @@
     <ClCompile Include="QuatTests.cpp" />
     <ClCompile Include="RungeKutta2.cpp" />
     <ClCompile Include="Tests.cpp" />
+    <ClCompile Include="DXVector3AndMatrix3Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

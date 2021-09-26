@@ -18,7 +18,9 @@ namespace OdinMath {
 		~DXQuat() {}
 
 		DXQuat(const DXQuat& q) { *this = q; }
+
 		void toRotation(DXMatrix4& matrix);
+		void toRotation(DXMatrix3& matrix);
 
 		const float& operator[](int i) const;
 		float& operator[](int i);
@@ -37,7 +39,7 @@ namespace OdinMath {
 		float length() { return Math<float>::odSqrt(x * x + y * y + z * z + w * w); }
 
 		void normalize();
-		bool isNormal() { x* x + y * y + z * z + w * w - 1.f <= Math<float>::eps; }
+		bool isNormal() { return (x* x + y * y + z * z + w * w - 1.f) <= Math<float>::eps; }
 		DXQuat getNormal();
 		float dot();
 
