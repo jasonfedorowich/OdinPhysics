@@ -3,7 +3,10 @@
 
 namespace OdinMath {
 
-	
+	enum QRMode{
+		HOUSEHOLDER,
+		GS
+	};
 	template<typename Matrix, typename Vect, typename real>
 	void houseHolder(Matrix& A, Matrix& Q, Matrix& R, int d) {
 		std::vector<Matrix> q;

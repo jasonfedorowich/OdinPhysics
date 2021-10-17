@@ -4,26 +4,27 @@ namespace OdinMath {
 	
 	QRDecomp4::QRDecomp4(Matrix4& matrix)
 	{
-		pivot<Matrix4, rl>(P, matrix, 4);
-		matrix %= P;
+		/*Matrix4 copy(matrix);*/
+		/*pivot<Matrix4, rl>(P, matrix, 4);
+		copy *= P;*/
 		houseHolder<Matrix4, Vector4, rl>(matrix, Q, R, 4);
 	}
 	QRDecomp4::QRDecomp4(Matrix4&& matrix)
 	{
-		pivot<Matrix4, rl>(P, matrix, 3);
-		matrix %= P;
+	/*	pivot<Matrix4, rl>(P, matrix, 3);
+		matrix *= P;*/
 		houseHolder<Matrix4, Vector4, rl>(matrix, Q, R, 4);
 	}
 	void QRDecomp4::solve(Vector4& x, Vector4& b)
 	{
-		b *= P;
+		/*b *= P;*/
 		Matrix4 Qt = Q.getTranspose();
 		Vector4 beta = Qt * b;
 		backSub<Matrix4, Vector4, rl>(R, x, beta, 4);
 	}
 	void QRDecomp4::solve(Vector4& x, Vector4&& b)
 	{
-		b *= P;
+		/*b *= P;*/
 		Matrix4 Qt = Q.getTranspose();
 		Vector4 beta = Qt * b;
 		backSub<Matrix4, Vector4, rl>(R, x, beta, 4);
@@ -38,7 +39,7 @@ namespace OdinMath {
 			x.setCol(i, xx);
 		}
 
-		x *= P;
+		/*x *= P;*/
 
 	}
 	void QRDecomp4::solve(Matrix4& x, Matrix4&& b)
@@ -51,11 +52,11 @@ namespace OdinMath {
 			x.setCol(i, xx);
 		}
 
-		x *= P;
+		/*x *= P;*/
 	}
 	void QRDecomp4::solve(Vector4& x, Vector4& b, Matrix4& qt)
 	{
-		b *= P;
+	/*	b *= P;*/
 		Vector4 beta = qt * b;
 		backSub<Matrix4, Vector4, rl>(R, x, beta, 4);
 	}
@@ -74,21 +75,21 @@ namespace OdinMath {
 	}
 	QRDecomp3::QRDecomp3(Matrix3& matrix)
 	{
-		pivot<Matrix3, rl>(P, matrix, 3);
-		matrix %= P;
+	/*	pivot<Matrix3, rl>(P, matrix, 3);
+		matrix %= P;*/
 		houseHolder<Matrix3, Vector3, rl>(matrix, Q, R, 3);
 	}
 
 	QRDecomp3::QRDecomp3(Matrix3&& matrix)
 	{
-		pivot<Matrix3, rl>(P, matrix, 4);
-		matrix %= P;
+		/*pivot<Matrix3, rl>(P, matrix, 4);
+		matrix %= P;*/
 		houseHolder<Matrix3, Vector3, rl>(matrix, Q, R, 3);
 	}
 
 	void QRDecomp3::solve(Vector3& x, Vector3& b)
 	{
-		b *= P;
+		//b *= P;
 		Matrix3 Qt = Q.getTranspose();
 		Vector3 beta = Qt * b;
 		backSub<Matrix3, Vector3, rl>(R, x, beta, 3);
@@ -96,7 +97,7 @@ namespace OdinMath {
 
 	void QRDecomp3::solve(Vector3& x, Vector3&& b)
 	{
-		b *= P;
+		//b *= P;
 		Matrix3 Qt = Q.getTranspose();
 		Vector3 beta = Qt * b;
 		backSub<Matrix3, Vector3, rl>(R, x, beta, 3);
@@ -112,7 +113,7 @@ namespace OdinMath {
 			x.setCol(i, xx);
 		}
 
-		x *= P;
+	/*	x *= P;*/
 	}
 
 	void QRDecomp3::solve(Matrix3& x, Matrix3&& b)
@@ -125,12 +126,12 @@ namespace OdinMath {
 			x.setCol(i, xx);
 		}
 
-		x *= P;
+		/*x *= P;*/
 	}
 
 	void QRDecomp3::solve(Vector3& x, Vector3& b, Matrix3& qt)
 	{
-		b *= P;
+		/*b *= P;*/
 		Vector3 beta = qt * b;
 		backSub<Matrix3, Vector3, rl>(R, x, beta, 3);
 	}

@@ -105,6 +105,9 @@ namespace OdinMath {
 
 
 			QRDecomp qrd(A);
+			Matrix inv;
+			qrd.inverse(inv);
+
 			if (computeEigenVectors)
 				V *= qrd.Q;
 
@@ -113,10 +116,10 @@ namespace OdinMath {
 				A += I;
 
 
-			rl sum2 = A.sumDiagSq();
+			/*rl sum2 = A.sumDiagSq();
 
 			if (Math<rl>::odAbs(sum2 - sum1) <= EIGEN_TOL)
-				return;
+				return;*/
 			iterations--;
 
 		}
@@ -125,9 +128,9 @@ namespace OdinMath {
 
 	template<typename Matrix, typename Vect, typename real>
 	void hessenbergMatrix(Matrix& H, Matrix& V, int d, bool computeEigenVectors) {
-		Matrix copy = H;
+		
 		std::vector<Matrix> reflectors;
-		tridiag<Matrix, Vect, real>(copy, reflectors, d);
+		tridiag<Matrix, Vect, real>(H, reflectors, d);
 
 		if (computeEigenVectors) {
 			while (!reflectors.empty()) {
