@@ -31,6 +31,13 @@ namespace OdinMath {
 		z -= v.z;
 	}
 
+	void DXVector3::operator*=(float scale)
+	{
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+
 	DXVector3 DXVector3::operator-(DXVector3& v)
 	{
 		return { x - v.x, y - v.y, z - v.z };

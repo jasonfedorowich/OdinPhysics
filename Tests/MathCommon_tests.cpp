@@ -38,24 +38,7 @@ namespace MathTests
 
 		}
 
-		TEST_METHOD(testEigen4) {
-			Matrix4 A(1.f, -1, 0, 0,
-				-1, 1, -1, 0,
-				0, -1, 2, 0,
-				0, 0, 0, 3);
-
-
-
-			QREigen4 qre(A);
-			Vector4 E = qre.getEigenValues();
-			Assert::AreEqual(std::round(E[1]), 1.f);
-
-			Matrix4 B(2.f, -1, -1, 0, -1, 3, -1, -1, -1, -1, 3, -1, 0, -1, -1, 2);
-
-			QREigen4 qre2(B);
-			qre.getEigenValues();
-
-		}
+		
 		TEST_METHOD(testLU) {
 			Matrix4 A(11.f, 9, 24, 2,
 				1, 5, 2, 6,
@@ -134,10 +117,25 @@ namespace MathTests
 
 		}
 
-		TEST_METHOD(testQRDecompEigen) {
+		TEST_METHOD(testQRDecomp3) {
 
-			//todo
+			Matrix3 A(2.f, 4, -2,
+				4, 2, 4,
+				-2, 4, 8);
+
+			QRDecomp3 qr(A);
+			Matrix3 inv;
+			qr.inverse(inv);
+
+			Assert::AreEqual(std::roundf(inv(0, 0)), std::roundf(0.0f));
+
+
+
+
+
 		}
+
+	
 
 
 

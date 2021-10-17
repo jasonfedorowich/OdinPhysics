@@ -23,7 +23,7 @@ namespace OdinMath {
 		return dest.x;
 	}
 
-	float DXVector4::length()
+	float DXVector4::length3()
 	{
 		XMVECTOR xmvector = XMLoadFloat4(this);
 		xmvector = XMVector3Length(xmvector);
@@ -32,7 +32,7 @@ namespace OdinMath {
 		return temp.x;
 	}
 
-	float DXVector4::length4()
+	float DXVector4::length()
 	{
 		XMVECTOR xmvector = XMLoadFloat4(this);
 		xmvector = XMVector4Length(xmvector);
@@ -71,7 +71,7 @@ namespace OdinMath {
 		return DXVector4(dest);
 	}
 
-	void DXVector4::normalize()
+	void DXVector4::normalize3()
 	{
 		XMVECTOR xmvector = XMLoadFloat4(this);
 		xmvector = XMVector3Normalize(xmvector);
@@ -79,7 +79,7 @@ namespace OdinMath {
 
 	}
 
-	void DXVector4::normalize4()
+	void DXVector4::normalize()
 	{
 		XMVECTOR xmvector = XMLoadFloat4(this);
 		xmvector = XMVector4Normalize(xmvector);

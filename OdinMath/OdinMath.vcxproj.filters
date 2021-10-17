@@ -93,9 +93,6 @@
     <ClInclude Include="DXVector4.h">
       <Filter>Header Files\LinearAlgebra\DX</Filter>
     </ClInclude>
-    <ClInclude Include="AdjugateMatrix.h">
-      <Filter>Header Files\LinearAlgebra\OD</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
@@ -125,6 +122,12 @@
     </ClInclude>
     <ClInclude Include="BSplineBasis.h">
       <Filter>Header Files\Iterpolation\Bspline</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorFunctions.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixFunctions.h">
+      <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

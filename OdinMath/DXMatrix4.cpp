@@ -159,6 +159,42 @@ namespace OdinMath {
 		store(m1);
 	}
 
+	void DXMatrix4::operator+=(DXMatrix4& mm)
+	{
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				m[i][j] += mm(i, j);
+
+			}
+
+		}
+	}
+
+	void DXMatrix4::operator+=(DXMatrix4&& mm)
+	{
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				m[i][j] += mm(i, j);
+
+			}
+
+		}
+	}
+
+	bool DXMatrix4::operator==(DXMatrix4& m)
+	{
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if ((*this)(i, j) != m(i, j))
+					return false;
+
+			}
+
+		}
+
+		return true;
+	}
+
 	void DXMatrix4::invert()
 	{
 		XMVECTOR v;

@@ -36,15 +36,15 @@ namespace OdinMath {
 		void move(float mx, float my, float mz, float mw = 0.0f) { x += mx; y += my; z += mz; w += mw; }
 		
 		float distance(const DXVector4& v);
+		float length3();
 		float length();
-		float length4();
 
 		float dot(const DXVector4& v);
 		DXVector4 cross(const DXVector4& v);
 
 		DXVector4 normal();
+		void normalize3();
 		void normalize();
-		void normalize4();
 
 		DXVector4 getAngleBetweenVectors(DXVector4& v);
 		float getAngleToTarget(DXVector4& v);
@@ -66,8 +66,8 @@ namespace OdinMath {
 		void operator/=(float c);
 		void operator*=(float val);
 		DXVector4 operator*(float val);
-		friend void operator*=(float val, DXVector4& vector);
-		friend DXVector4 operator*(float val, DXVector4& vector);
+		/*friend void operator*=(float val, DXVector4& vector);
+		friend DXVector4 operator*(float val, DXVector4& vector);*/
 
 		
 
@@ -79,4 +79,19 @@ namespace OdinMath {
 	};
 
 
+	inline void operator*=(float val, DXVector4& v) {
+		v[0] *= val;
+		v[1] *= val;
+		v[2] *= val;
+		v[3] *= val;
+	}
+
+	inline DXVector4 operator*(float val, DXVector4& v) {
+		DXVector4 copy(v);
+		copy[0] *= val;
+		copy[1] *= val;
+		copy[2] *= val;
+		copy[3] *= val;
+		return copy;
+	}
 }

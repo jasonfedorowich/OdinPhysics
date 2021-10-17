@@ -63,6 +63,18 @@ namespace OdinMath {
 
 	}
 
+	DXVector3 DXMatrix3::operator*(DXVector3& v)
+	{
+		DXMatrix3 trans = this->getTranspose();
+		return v * trans;
+	}
+
+	DXVector3 DXMatrix3::operator*(DXVector3&& v)
+	{
+		DXMatrix3 trans = this->getTranspose();
+		return v * trans;
+	}
+
 	void DXMatrix3::operator*=(const DXMatrix3& m)
 	{
 		XMMATRIX matrix = XMMatrixMultiply(this->getXMMatrix(), m.getXMMatrix());
@@ -74,6 +86,83 @@ namespace OdinMath {
 		XMMATRIX mat1 = this->getXMMatrix();
 		XMMATRIX mat2 = m.getXMMatrix();
 		store(mat1 + mat2);
+	}
+
+	void DXMatrix3::operator%=(const DXMatrix3& m)
+	{
+		XMMATRIX matrix = XMMatrixMultiply(m.getXMMatrix(), this->getXMMatrix());
+		store(matrix);
+	}
+
+	void DXMatrix3::operator-=(const DXMatrix3& m)
+	{
+		XMMATRIX mat1 = this->getXMMatrix();
+		XMMATRIX mat2 = m.getXMMatrix();
+		mat1 -= mat2;
+		store(mat1);
+
+	}
+
+	void DXMatrix3::operator-=(const DXMatrix3&& m)
+	{
+		XMMATRIX mat1 = this->getXMMatrix();
+		XMMATRIX mat2 = m.getXMMatrix();
+		mat1 -= mat2;
+		store(mat1);
+	}
+
+	void DXMatrix3::operator*=(float scale)
+	{
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				(*this)(i, j) *= scale;
+			}
+		}
+	}
+
+	DXVector3 DXMatrix3::getRow(int r)
+	{
+		return DXVector3((*this)(r, 0), (*this)(r, 1), (*this)(r, 2));
+	}
+
+	DXVector3 DXMatrix3::getCol(int c)
+	{
+		return DXVector3((*this)(0, c), (*this)(1, c), (*this)(2, c));
+	}
+
+	void DXMatrix3::setRow(int r, const DXVector3& v)
+	{
+		(*this)(r, 0) = v[0];
+		(*this)(r, 1) = v[1];
+		(*this)(r, 2) = v[2];
+	}
+
+	void DXMatrix3::setRow(int r, const DXVector3&& v)
+	{
+		(*this)(r, 0) = v[0];
+		(*this)(r, 1) = v[1];
+		(*this)(r, 2) = v[2];
+	}
+
+	void DXMatrix3::setCol(int c, const DXVector3& v)
+	{
+		(*this)(0, c) = v[0];
+		(*this)(1, c) = v[1];
+		(*this)(2, c) = v[2];
+	}
+
+	void DXMatrix3::setCol(int c, const DXVector3&& v)
+	{
+		(*this)(0, c) = v[0];
+		(*this)(1, c) = v[1];
+		(*this)(2, c) = v[2];
+	}
+
+	void DXMatrix3::swapRows(int i, int j)
+	{
+		for (int k = 0; k < 3; k++) {
+			std::swap((*this)(i, k), (*this)(j, k));
+		}
 	}
 
 	DXMatrix3 DXMatrix3::getInverse()
@@ -92,7 +181,9 @@ namespace OdinMath {
 
 	DXMatrix3 DXMatrix3::getTranspose()
 	{
-		return DXMatrix3();
+		Matrix3 copy(*this);
+		copy.transpose();
+		return copy;
 	}
 
 	void DXMatrix3::transpose()

@@ -23,8 +23,11 @@ namespace OdinMath {
 		DXVector3& operator=(const DXVector3& v);
 		float operator*(DXVector3& v) { return dot(v); }
 		DXVector3 operator+(DXVector3& v);
+
 		void operator+=(DXVector3& v);
 		void operator-=(DXVector3& v);
+		void operator*=(float scale);
+
 		DXVector3 operator-(DXVector3& v);
 		const float& operator[](int idx) const;
 		float& operator[](int idx);
@@ -43,6 +46,20 @@ namespace OdinMath {
 		XMVECTOR getXMVector() { return XMLoadFloat3(this); }
 
 	};
+
+	inline void operator*=(float val, DXVector3& v) {
+		v[0] *= val;
+		v[1] *= val;
+		v[2] *= val;
+	}
+
+	inline DXVector3 operator*(float val, DXVector3& v) {
+		DXVector3 copy(v);
+		copy[0] *= val;
+		copy[1] *= val;
+		copy[2] *= val;
+		return copy;
+	}
 
 
 }

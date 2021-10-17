@@ -79,7 +79,7 @@ namespace Tests
 							{-1, 1, 1, 1}
 				});
 
-			float det = determinant(m4);
+			float det = determinant<float>(m4);
 			Assert::AreEqual(det, -16.f);
 
 		}

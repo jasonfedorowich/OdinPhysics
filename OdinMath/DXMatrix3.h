@@ -22,14 +22,38 @@ namespace OdinMath {
 
 		DXMatrix3 operator+(const DXMatrix3& m);
 		DXMatrix3 operator*(const DXMatrix3& m);
+
+		DXVector3 operator*(DXVector3& v);
+		DXVector3 operator*(DXVector3&& v);
+
 		void operator*=(const DXMatrix3& m);
 		void operator+=(const DXMatrix3& m);
+		void operator%=(const DXMatrix3& m);
+		void operator-=(const DXMatrix3& m);
+		void operator-=(const DXMatrix3&& m);
+		void operator*=(float scale);
 
+		DXVector3 getRow(int r);
+		DXVector3 getCol(int c);
+		void setRow(int r, const DXVector3& v);
+		void setRow(int r, const DXVector3&& v);
+		void setCol(int c, const DXVector3& v);
+		void setCol(int c, const DXVector3&& v);
 
-
+		void swapRows(int i, int j);
 
 		DXMatrix3 getInverse();
 		void invert();
+
+		float& back() { return m[2][2]; }
+		const float& back() const { return m[2][2]; }
+		float& front() { return m[0][0]; }
+		const float& front() const { return m[0][0]; }
+
+		DXVector3 diag() { return DXVector3((*this)(0, 0), (*this)(1, 1), (*this)(2, 2)); }
+		float sumDiag() { float result = m[0][0]; result += m[1][1]; result += m[2][2]; return result; }
+		float sumDiagSq() { float result = m[0][0] * m[0][0]; result += (m[1][1] * m[1][1]); result += (m[2][2] * m[2][2]); return result; }
+
 
 		DXMatrix3 getTranspose();
 		void transpose();
@@ -61,9 +85,9 @@ namespace OdinMath {
 	}
 
 	inline void outerProduct(DXMatrix3& matrix, const DXVector3& v1, const DXVector3& v2) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 3; j++) {
 				matrix(i, j) = v1[i] * v2[j];
 
 

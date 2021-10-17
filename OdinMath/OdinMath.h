@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <stdexcept>
 #include <vector>
+#include <deque>
+#include <map>
 
 #include "MathCommon.h"
 
@@ -17,7 +19,7 @@
 #include "DXQuat.h"
 #include "Vect.h"
 #include "Matrix.h"
-#include "AdjugateMatrix.h"
+#include "MatrixFunctions.h"
 
 //todo move the directx stuff into a precompiled directive
 
@@ -60,8 +62,7 @@ using ODVector = OdinMath::Vector4;
 
 #endif
 
-
+#include "QRDecomp.h"
 #include "Eigen.h"
 #include "LUDecomp.h"
-#include "QRDecomp.h"
 #include "BSpline.h"

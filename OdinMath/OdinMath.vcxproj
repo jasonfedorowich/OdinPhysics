@@ -156,7 +156,7 @@
     <ClInclude Include="MassProperties.h" />
     <ClInclude Include="MathCommon.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="AdjugateMatrix.h" />
+    <ClInclude Include="MatrixFunctions.h" />
     <ClInclude Include="OMatrix3.h" />
     <ClInclude Include="OVector3.h" />
     <ClInclude Include="QRDecomp.h" />
@@ -171,6 +171,7 @@
     </ClInclude>
     <ClInclude Include="TrapezoidIntegration.h" />
     <ClInclude Include="Vect.h" />
+    <ClInclude Include="VectorFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BSpline.cpp" />

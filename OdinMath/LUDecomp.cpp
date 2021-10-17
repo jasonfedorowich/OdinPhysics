@@ -24,7 +24,8 @@ namespace OdinMath {
 	{
 		
 		pivot(A);
-		Matrix4 Ap = P * A;
+		A %= P;
+		//Matrix4 Ap = P * A;
 		
 
 		for (int i = 0; i < 4; i++) {
@@ -44,7 +45,7 @@ namespace OdinMath {
 					sum += (L(i, k) * U(k, j));
 				}
 
-				U(i, j) = Ap(i, j) - sum;
+				U(i, j) = A(i, j) - sum;
 			}
 
 			for (int i = j + 1; i < 4; i++) {
@@ -55,7 +56,7 @@ namespace OdinMath {
 				}
 				if (U(j, j) == (rl)0.0)
 					throw std::exception("Matrix is singular");
-				L(i, j) = ((rl)1.0 / U(j, j)) * (Ap(i, j) - sum);
+				L(i, j) = ((rl)1.0 / U(j, j)) * (A(i, j) - sum);
 
 			}
 		}

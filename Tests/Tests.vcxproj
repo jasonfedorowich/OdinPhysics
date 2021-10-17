@@ -175,6 +175,7 @@
     </ClCompile>
     <ClCompile Include="QuatTests.cpp" />
     <ClCompile Include="RungeKutta2.cpp" />
+    <ClCompile Include="TestEigen.cpp" />
     <ClCompile Include="Tests.cpp" />
     <ClCompile Include="DXVector3AndMatrix3Tests.cpp" />
   </ItemGroup>
