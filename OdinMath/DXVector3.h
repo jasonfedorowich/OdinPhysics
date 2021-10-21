@@ -27,6 +27,7 @@ namespace OdinMath {
 		void operator+=(DXVector3& v);
 		void operator-=(DXVector3& v);
 		void operator*=(float scale);
+		void operator/=(float scale);
 
 		DXVector3 operator-(DXVector3& v);
 		const float& operator[](int idx) const;

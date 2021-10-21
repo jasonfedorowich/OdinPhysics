@@ -134,6 +134,29 @@ namespace MathTests
 
 
 		}
+		TEST_METHOD(testQRDecompGS) {
+			Matrix4 A(2.f, 4, -2, -2,
+				1, 2, 4, -3,
+				-3, -3, 8, -2,
+				-1, 1, 6, -3);
+			QRDecomp4 qr(A, QRMode::GS);
+			Matrix4 P = qr.Q * qr.R;
+
+			Matrix4 inv;
+			qr.inverse(inv);
+			Assert::AreEqual(std::roundf(inv(0, 0)), std::roundf(0.333));
+			Matrix3 B(60.f, 91, 26, 60, 3, 75, 45, 90, 31);
+			Matrix3 Q;
+			Matrix3 R;
+			gs<Matrix3, Vector3, float>(B, Q, R, 3);
+			Assert::AreEqual(std::roundf(inv(0, 0)), std::roundf(0.333));
+
+			Vector3 v{ 26.f, 75 ,31 };
+			Vector3 q{ 0.62469f, 0.62469, 0.46852 };
+			float d = v.dot(q);
+
+
+		}
 
 	
 

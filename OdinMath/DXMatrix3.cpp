@@ -179,6 +179,14 @@ namespace OdinMath {
 		store(matrix);
 	}
 
+	float DXMatrix3::determinant()
+	{
+		XMMATRIX xmmatrix = this->getXMMatrix();
+		XMVECTOR xmvector = XMMatrixDeterminant(xmmatrix);
+		DXVector3 dxvec(xmvector);
+		return dxvec[0];
+	}
+
 	DXMatrix3 DXMatrix3::getTranspose()
 	{
 		Matrix3 copy(*this);

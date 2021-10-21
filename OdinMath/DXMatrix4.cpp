@@ -214,6 +214,14 @@ namespace OdinMath {
 		return XMMatrixTranspose(this->getXMMatrix());
 	}
 
+	float DXMatrix4::determinant()
+	{
+		XMMATRIX xmmatrix = this->getXMMatrix();
+		XMVECTOR xmvector = XMMatrixDeterminant(xmmatrix);
+		DXVector4 dxvec(xmvector);
+		return dxvec[0];
+	}
+
 	DXVector4 DXMatrix4::getCol(int c)
 	{
 		return DXVector4((*this)(0, c), (*this)(1, c), (*this)(2, c), (*this)(3, c));

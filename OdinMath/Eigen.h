@@ -60,7 +60,7 @@ namespace OdinMath {
 					Matrix R;
 					Matrix RT;
 
-					rot<Matrix4, real>(H, R, RT, i, j);
+					rot<Matrix, real>(H, R, RT, i, j);
 
 					H %= R;
 					transposes.push_back(RT);
@@ -143,6 +143,33 @@ namespace OdinMath {
 
 	}
 
+	template<typename Matrix, typename Vect, typename real>
+	void sortEV(Vect& E, Matrix& V, int d) {
+		int i;
+		for (i = 1; i < d; i++) {
+			if (E[i] < E[i - 1])
+				break;
+
+		}
+		if (i == d)
+			return;
+
+		std::multimap<real, Vect> _map;
+		i = 0;
+		for (i = 0; i < d; i++) {
+			_map.insert({ E[i], V.getCol(i) });
+
+		}
+		i = 0;
+		for (auto it = _map.begin(); it != _map.end(); it++, i++) {
+			E[i] = it->first;
+			V.setCol(i, it->second);
+		}
+
+
+
+	}
+
 	//compute the Eigenvalues and eigenvectors of Matrix 
 	class QREigen4 {
 	private:
@@ -158,8 +185,8 @@ namespace OdinMath {
 		
 
 	public:
-		QREigen4(Matrix4& A, EigenMode mode, bool computeEVs = true, bool sortEVas=true, int iterations=MAX_ITERATIONS);
-		QREigen4(Matrix4&& A, EigenMode mode, bool computeEVs = true, bool sortEVas=true, int iterations=MAX_ITERATIONS);
+		QREigen4(Matrix4& A, EigenMode mode = EigenMode::QR_HESS, bool computeEVs = true, bool sortEVas=true, int iterations=MAX_ITERATIONS);
+		QREigen4(Matrix4&& A, EigenMode mode = EigenMode::QR_HESS, bool computeEVs = true, bool sortEVas=true, int iterations=MAX_ITERATIONS);
 
 		void sortEigenvalues();
 		Matrix4 getEigenVectors() { return V; }
@@ -171,16 +198,12 @@ namespace OdinMath {
 	private:
 		Vector3 E;
 		Matrix3 V;
-		bool computeEigenValues;
-		void hessenbergMatrix(Matrix3& H);
-		/*Takes identity matrix R and given the row i and column j makes a rotation matrix*/
-		void rotation(Matrix3& A, Matrix3& R, Matrix3& RT, int i, int j);
-		void qr(Matrix3& A, int iterations, bool shift = false);
-		void givens(Matrix3& A, int iterations);
+		bool computeEigenVectors;
+	
 
 	public:
-		QREigen3(Matrix3& A, EigenMode mode, bool computeEVs = true, bool sortEVas = true, int iterations = MAX_ITERATIONS);
-		QREigen3(Matrix3&& A, EigenMode mode, bool computeEVs = true, bool sortEVas = true, int iterations = MAX_ITERATIONS);
+		QREigen3(Matrix3& A, EigenMode mode = EigenMode::QR_HESS, bool computeEVs = true, bool sortEVas = true, int iterations = MAX_ITERATIONS);
+		QREigen3(Matrix3&& A, EigenMode mode = EigenMode::QR_HESS, bool computeEVs = true, bool sortEVas = true, int iterations = MAX_ITERATIONS);
 
 		void sortEigenvalues();
 		Matrix3 getEigenVectors() { return V; }

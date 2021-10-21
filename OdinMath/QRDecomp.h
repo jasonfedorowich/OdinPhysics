@@ -48,6 +48,38 @@ namespace OdinMath {
 		Q.transpose();
 	}
 
+	template<typename Matrix, typename Vect, typename real>
+	void gs(Matrix& A, Matrix& Q, Matrix& R, int d) {
+
+		//assume matrix are identity
+		for (int i = 0; i < d; i++) {
+			Q(i, i) = (real)0.0;
+			R(i, i) = (real)0.0;
+
+		}
+
+		for (int i = 0; i < d; i++) {
+			Vect v = A.getCol(i);
+
+			for (int j = 0; j < i-1; j++) {
+
+				Vect q = Q.getCol(j);
+				R(j, i) = v.dot(q);
+				v -= (R(j, i) * q);
+
+			}
+			real l = v.length();
+			v /= l;
+			Q.setCol(i, v);
+			R(i, i) = l;
+
+
+
+
+		}
+
+	}
+
 
 
 	struct QRDecomp4 {
@@ -55,8 +87,8 @@ namespace OdinMath {
 		Matrix4 Q, R, P;
 
 
-		QRDecomp4(Matrix4& matrix);
-		QRDecomp4(Matrix4&& matrix);
+		QRDecomp4(Matrix4& matrix, QRMode mode = QRMode::HOUSEHOLDER);
+		QRDecomp4(Matrix4&& matrix, QRMode mode = QRMode::HOUSEHOLDER);
 
 		void solve(Vector4& x, Vector4& b);
 		void solve(Vector4& x, Vector4&& b);

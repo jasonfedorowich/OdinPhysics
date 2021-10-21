@@ -88,6 +88,28 @@ namespace MathTests
 			Vector4 E7 = qre5.getEigenValues();
 
 		}
+		TEST_METHOD(testEigen3WithQR) {
+
+			Matrix3 A(1.f, -1.f, 0.f,
+				-1.f, 1.f, -1.f,
+				0.f, -1.f, 2.f);
+
+
+
+			QREigen3 qre(A);
+			Vector3 E = qre.getEigenValues();
+
+			Assert::AreEqual(std::round(E[1]), std::round(1.44f));
+			Matrix3 B(2.f, -1, -1,
+				-1, 3, -1,
+				-1, -1, 3);
+
+			QREigen3 qre2(B);
+			E = qre2.getEigenValues();
+			
+		}
+
+
 	
 
 		

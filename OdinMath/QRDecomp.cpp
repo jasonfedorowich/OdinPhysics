@@ -2,14 +2,22 @@
 namespace OdinMath {
 	
 	
-	QRDecomp4::QRDecomp4(Matrix4& matrix)
+	QRDecomp4::QRDecomp4(Matrix4& matrix, QRMode mode)
 	{
 		/*Matrix4 copy(matrix);*/
 		/*pivot<Matrix4, rl>(P, matrix, 4);
 		copy *= P;*/
-		houseHolder<Matrix4, Vector4, rl>(matrix, Q, R, 4);
+		switch (mode) {
+		case HOUSEHOLDER:
+			houseHolder<Matrix4, Vector4, rl>(matrix, Q, R, 4);
+			break;
+		case GS:
+			gs<Matrix4, Vector4, rl>(matrix, Q, R, 4);
+			break;
+		}
+		
 	}
-	QRDecomp4::QRDecomp4(Matrix4&& matrix)
+	QRDecomp4::QRDecomp4(Matrix4&& matrix, QRMode mode)
 	{
 	/*	pivot<Matrix4, rl>(P, matrix, 3);
 		matrix *= P;*/

@@ -38,6 +38,13 @@ namespace OdinMath {
 		z *= scale;
 	}
 
+	void DXVector3::operator/=(float scale)
+	{
+		x /= scale;
+		y /= scale;
+		z /= scale;
+	}
+
 	DXVector3 DXVector3::operator-(DXVector3& v)
 	{
 		return { x - v.x, y - v.y, z - v.z };
@@ -75,7 +82,10 @@ namespace OdinMath {
 
 	float DXVector3::dot(DXVector3& v)
 	{
-		return v.x * x + v.y + y + z * v.z;
+		float prod = v.x * x;
+		prod += (v.y * y);
+		prod += (v.z * z);
+		return prod;
 		
 	}
 

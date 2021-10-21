@@ -95,13 +95,17 @@ namespace OdinMath {
 		const float& back() const { return m[3][3]; }
 		float& front() { return m[0][0]; }
 		const float& front() const { return m[0][0]; }
+		float determinant();
 
+		float trace();
+		float traceSq();
 
 		//DXVector4 determinant();
 
 		DXVector4 getCol(int c);
 		DXVector4 getRow(int r);
 		DXVector4 diag() { return DXVector4((*this)(0, 0), (*this)(1, 1), (*this)(2, 2), (*this)(3, 3)); }
+		//todo remove these as they are trace
 		float sumDiag() { float result = m[0][0]; result += m[1][1]; result += m[2][2]; result += m[3][3]; return result; }
 		float sumDiagSq(){ float result = m[0][0] * m[0][0]; result += (m[1][1] * m[1][1]); result += (m[2][2] * m[2][2]); result += (m[3][3] * m[3][3]); return result; }
 		void setCol(int c, const DXVector4& v);
