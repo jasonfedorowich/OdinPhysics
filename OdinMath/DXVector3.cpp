@@ -82,10 +82,11 @@ namespace OdinMath {
 
 	float DXVector3::dot(DXVector3& v)
 	{
-		float prod = v.x * x;
-		prod += (v.y * y);
-		prod += (v.z * z);
-		return prod;
+		XMVECTOR xmvector = v.getXMVector();
+		xmvector = XMVector3Dot(xmvector, v.getXMVector());
+		DXVector3 temp;
+		XMStoreFloat3(&temp, xmvector);
+		return temp.x;
 		
 	}
 

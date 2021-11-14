@@ -91,7 +91,7 @@ namespace OdinMath {
 		XMVECTOR xmvector1 = XMLoadFloat4(this);
 		XMVECTOR xmvector2 = XMLoadFloat4(&v);
 		XMVECTOR result = XMVector3AngleBetweenVectors(xmvector1, xmvector2);
-		return Vector4(result);
+		return DXVector4(result);
 	}
 
 	float DXVector4::getAngleToTarget(DXVector4& v)
@@ -100,7 +100,7 @@ namespace OdinMath {
 		XMVECTOR xmvector2 = XMLoadFloat4(&v);
 
 		XMVECTOR result = xmvector1 - xmvector2;
-		Vector4 vector3(result);
+		DXVector4 vector3(result);
 		return atan2(vector3.getY(), vector3.getX());
 	}
 
@@ -133,6 +133,7 @@ namespace OdinMath {
 
 	bool DXVector4::operator==(const DXVector4& v) const
 	{
+		
 		return x == v.x && y == v.y && z == v.z && w == v.w;
 
 	}

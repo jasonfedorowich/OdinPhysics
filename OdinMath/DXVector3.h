@@ -35,6 +35,8 @@ namespace OdinMath {
 
 		float dot(DXVector3& v);
 		DXVector3 cross(DXVector3& v);
+		float distance(const DXVector3& v);
+
 		void normalize();
 		DXVector3 normal();
 		float length();

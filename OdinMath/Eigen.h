@@ -48,7 +48,7 @@ namespace OdinMath {
 	template<typename Matrix, typename real>
 	void givens(Matrix& H, Matrix& V, int iterations, int d, bool computeEigenVectors) {
 		while (iterations) {
-			real sum1 = H.sumDiagSq();
+			real sum1 = H.traceSq();
 
 			std::deque<Matrix> transposes;
 
@@ -79,7 +79,7 @@ namespace OdinMath {
 				transposes.pop_front();
 
 			}
-			real sum2 = H.sumDiagSq();
+			real sum2 = H.traceSq();
 
 			if (Math<real>::odAbs(sum2 - sum1) <= EIGEN_TOL)
 				return;
@@ -93,7 +93,7 @@ namespace OdinMath {
 		Matrix I;
 		real sigma;
 		while (iterations) {
-			real sum1 = A.sumDiagSq();
+			real sum1 = A.traceSq();
 			if (shift) {
 				sigma = A.back();
 				I = Matrix();
@@ -105,8 +105,8 @@ namespace OdinMath {
 
 
 			QRDecomp qrd(A);
-			Matrix inv;
-			qrd.inverse(inv);
+		/*	Matrix inv;
+			qrd.inverse(inv);*/
 
 			if (computeEigenVectors)
 				V *= qrd.Q;

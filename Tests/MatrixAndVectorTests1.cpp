@@ -10,7 +10,7 @@ namespace Tests
 	{
 	public:
 
-		TEST_METHOD(Test1)
+		TEST_METHOD(TestConstructor)
 		{
 			Matrix < 4, float> m4;
 			m4(1, 1) = 1.f;

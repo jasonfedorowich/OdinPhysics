@@ -158,6 +158,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MatrixFunctions.h" />
     <ClInclude Include="OMatrix3.h" />
+    <ClInclude Include="OQuat.h" />
     <ClInclude Include="OVector3.h" />
     <ClInclude Include="QRDecomp.h" />
     <ClInclude Include="DXQuat.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="TrapezoidIntegration.h" />
     <ClInclude Include="Vect.h" />
     <ClInclude Include="VectorFunctions.h" />
+    <ClInclude Include="VectorIntrin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BSpline.cpp" />
@@ -181,8 +183,6 @@
     <ClCompile Include="DXVector4.cpp" />
     <ClCompile Include="Eigen.cpp" />
     <ClCompile Include="LUDecomp.cpp" />
-    <ClCompile Include="OMatrix4.cpp" />
-    <ClCompile Include="OVector4.cpp" />
     <ClCompile Include="QRDecomp.cpp" />
     <ClCompile Include="DXQuat.cpp" />
   </ItemGroup>

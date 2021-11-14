@@ -50,9 +50,11 @@ namespace OdinMath {
 		float& front() { return m[0][0]; }
 		const float& front() const { return m[0][0]; }
 
+		float trace() { float result = m[0][0]; result += m[1][1]; result += m[2][2]; return result; }
+		float traceSq(){ float result = m[0][0] * m[0][0]; result += (m[1][1] * m[1][1]); result += (m[2][2] * m[2][2]); return result; }
+
 		DXVector3 diag() { return DXVector3((*this)(0, 0), (*this)(1, 1), (*this)(2, 2)); }
-		float sumDiag() { float result = m[0][0]; result += m[1][1]; result += m[2][2]; return result; }
-		float sumDiagSq() { float result = m[0][0] * m[0][0]; result += (m[1][1] * m[1][1]); result += (m[2][2] * m[2][2]); return result; }
+		
 
 		float determinant();
 

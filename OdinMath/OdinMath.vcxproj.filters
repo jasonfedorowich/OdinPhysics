@@ -129,18 +129,18 @@
     <ClInclude Include="MatrixFunctions.h">
       <Filter>Header Files\LinearAlgebra</Filter>
     </ClInclude>
+    <ClInclude Include="OQuat.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorIntrin.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXMatrix4.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="DXVector4.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
-    </ClCompile>
-    <ClCompile Include="OMatrix4.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
-    </ClCompile>
-    <ClCompile Include="OVector4.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="Eigen.cpp">

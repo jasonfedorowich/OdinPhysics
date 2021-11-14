@@ -102,7 +102,7 @@ inline Vector<SIZE, real> Matrix<SIZE, real>::getRow(int row)
 {
     Vector<SIZE, real> rVect;
     for (int i = 0; i < SIZE; i++) {
-        rVect[i] = matrix[row][i];
+        rVect[i] = m[row][i];
     }
 
     return rVect;
@@ -113,7 +113,7 @@ inline Vector<SIZE, real> Matrix<SIZE, real>::getCol(int col)
 {
     Vector<SIZE, real> cVect;
     for (int i = 0; i < SIZE; i++) {
-        cVect[i] = matrix[i][col];
+        cVect[i] = m[i][col];
     }
 
     return cVect;
@@ -132,7 +132,7 @@ template<int SIZE, typename real>
 inline void Matrix<SIZE, real>::setRow(int row, const Vector<SIZE, real>& vector)
 {
     for (int i = 0; i < SIZE; i++) {
-        matrix[row][i] = vector[i];
+        m[row][i] = vector[i];
 
     }
 }
@@ -141,7 +141,7 @@ template<int SIZE, typename real>
 inline void Matrix<SIZE, real>::setRow(int row, Vector<SIZE, real>&& vector)
 {
     for (int i = 0; i < SIZE; i++) {
-        matrix[row][i] = vector[i];
+        m[row][i] = vector[i];
 
     }
 }
@@ -150,7 +150,7 @@ template<int SIZE, typename real>
 inline void Matrix<SIZE, real>::setCol(int col, const Vector<SIZE, real>& vector)
 {
     for (int i = 0; i < SIZE; i++) {
-        matrix[i][col] = vector[i];
+        m[i][col] = vector[i];
     }
 }
 
@@ -158,6 +158,6 @@ template<int SIZE, typename real>
 inline void Matrix<SIZE, real>::setCol(int col, Vector<SIZE, real>&& vector)
 {
     for (int i = 0; i < SIZE; i++) {
-        matrix[i][col] = vector[i];
+        m[i][col] = vector[i];
     }
 }

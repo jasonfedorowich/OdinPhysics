@@ -10,6 +10,9 @@
 #include "RungeKutta.h"
 #include "GaussianQuadratre.h"
 #include "TrapezoidIntegration.h"
+
+
+
 #include "DXVector4.h"
 #include "DXVector3.h"
 #include "DXVector2.h"
@@ -17,8 +20,19 @@
 #include "DXMatrix3.h"
 #include "DXMatrix2.h"
 #include "DXQuat.h"
+
+#define INTRINSICS
+#ifdef INTRINSICS
+#include "VectorIntrin.h"
+#endif // INTRINSICS
+
 #include "Vect.h"
 #include "Matrix.h"
+#include "OVector4.h"
+#include "OMatrix4.h"
+
+#include "VectorIntrin.h"
+
 #include "MatrixFunctions.h"
 
 //todo move the directx stuff into a precompiled directive

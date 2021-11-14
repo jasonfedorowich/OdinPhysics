@@ -11,10 +11,14 @@ namespace OdinMath {
 
 	template<int SIZE, typename real>
 	class Matrix {
+
+	protected:
+		real m[SIZE][SIZE] = { (real)0.0 };
 	private:
 		friend struct Iterator;
 
-		real matrix[SIZE][SIZE] = { (real)0.0 };
+
+		
 
 		struct Iterator {
 			Matrix<SIZE, real>* mat;
@@ -146,7 +150,7 @@ namespace OdinMath {
 		for (; it != mat.end(); it++, i++) {
 			j = 0;
 			for (auto itj = (*it).begin(); itj != (*it).end(); itj++, j++) {
-				matrix[i][j] = *itj;
+				m[i][j] = *itj;
 			}
 		}
 	}
@@ -270,7 +274,7 @@ namespace OdinMath {
 		for (int i = 0; i < SIZE; i++) {
 
 			for (int j = 0; j < SIZE; j++) {
-				C(i, j) = matrix[i][j] + mat(i, j);
+				C(i, j) = m[i][j] + mat(i, j);
 
 			}
 		}
@@ -285,7 +289,7 @@ namespace OdinMath {
 		for (int i = 0; i < SIZE; i++) {
 
 			for (int j = 0; j < SIZE; j++) {
-				C(i, j) = matrix[i][j] + mat(i, j);
+				C(i, j) = m[i][j] + mat(i, j);
 
 			}
 		}
@@ -301,7 +305,7 @@ namespace OdinMath {
 		for (int i = 0; i < SIZE; i++) {
 
 			for (int j = 0; j < SIZE; j++) {
-				C(i, j) = matrix[i][j] - mat(i, j);
+				C(i, j) = m[i][j] - mat(i, j);
 
 			}
 		}
@@ -316,7 +320,7 @@ namespace OdinMath {
 		for (int i = 0; i < SIZE; i++) {
 
 			for (int j = 0; j < SIZE; j++) {
-				C(i, j) = matrix[i][j] - mat(i, j);
+				C(i, j) = m[i][j] - mat(i, j);
 
 			}
 		}
@@ -329,7 +333,7 @@ namespace OdinMath {
 	{
 		if (row >= SIZE || col >= SIZE || row < 0 || col < 0)
 			throw std::invalid_argument("Invalid argument");
-		return matrix[row][col];
+		return m[row][col];
 	}
 
 	template<int SIZE, typename real>
@@ -337,7 +341,7 @@ namespace OdinMath {
 	{
 		if (row >= SIZE || col >= SIZE || row < 0 || col < 0)
 			throw std::invalid_argument("Invalid argument");
-		return matrix[row][col];
+		return m[row][col];
 	}
 
 	template<int SIZE, typename real>
@@ -361,7 +365,7 @@ namespace OdinMath {
 		if (this != &mat) {
 			for (int i = 0; i < SIZE; i++) {
 				for (int j = 0; j < SIZE; j++) {
-					this->matrix[i][j] = mat(i, j);
+					this->m[i][j] = mat(i, j);
 				}
 			}
 		}
@@ -374,7 +378,7 @@ namespace OdinMath {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 
-				matrix[i][j] *= c;
+				m[i][j] *= c;
 			}
 
 		}
@@ -558,6 +562,8 @@ namespace OdinMath {
 	typedef Matrix<2, double> Matrix2d;
 	typedef Matrix<1, double> Matrix1d;
 	typedef Matrix<3, double> Matrix3d;
+
+	//todo make intrinsic functions for matrix mult
 
 #include "Matrix.inl"
 
