@@ -157,6 +157,7 @@
     <ClInclude Include="MathCommon.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MatrixFunctions.h" />
+    <ClInclude Include="MatrixIntrin.h" />
     <ClInclude Include="OMatrix3.h" />
     <ClInclude Include="OQuat.h" />
     <ClInclude Include="OVector3.h" />
@@ -183,12 +184,14 @@
     <ClCompile Include="DXVector4.cpp" />
     <ClCompile Include="Eigen.cpp" />
     <ClCompile Include="LUDecomp.cpp" />
+    <ClCompile Include="MatrixIntrin.cpp" />
     <ClCompile Include="QRDecomp.cpp" />
     <ClCompile Include="DXQuat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl" />
     <None Include="Matrix.inl" />
+    <None Include="OMatrix4.inl" />
     <None Include="RungeKutta.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>

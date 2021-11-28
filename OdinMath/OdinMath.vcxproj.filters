@@ -135,6 +135,9 @@
     <ClInclude Include="VectorIntrin.h">
       <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
+    <ClInclude Include="MatrixIntrin.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXMatrix4.cpp">
@@ -164,6 +167,9 @@
     <ClCompile Include="DXVector3.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
+    <ClCompile Include="MatrixIntrin.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl">
@@ -177,6 +183,9 @@
     </None>
     <None Include="TrapezoidIntegration.inl">
       <Filter>Source Files\Calculus</Filter>
+    </None>
+    <None Include="OMatrix4.inl">
+      <Filter>Source Files\LinearAlgebra</Filter>
     </None>
   </ItemGroup>
 </Project>

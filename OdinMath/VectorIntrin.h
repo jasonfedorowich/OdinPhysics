@@ -351,7 +351,7 @@ namespace OdinMath {
 	template<> inline void normalize43<float>(float* data) {
 		InVectf a = _mm_loadu_ps(data);
 		float d3 = _dot3<float>(data, data);
-		InVectf rs = _mm_rsqrt_ps(_mm_set_ps(d3, d3, d3, 1.f));
+		InVectf rs = _mm_rsqrt_ps(_mm_set_ps(1.f, d3, d3, d3));
 		_mm_store_ps(data, _mm_mul_ps(a, rs));
 
 	}
@@ -359,7 +359,7 @@ namespace OdinMath {
 	template<> inline void normalize43<double>(double* data) {
 		InVectd a = _mm256_loadu_pd(data);
 		double d3 = _dot3<double>(data, data);
-		InVectd rs = _mm256_sqrt_pd(_mm256_set_pd(d3, d3, d3, 1.0));
+		InVectd rs = _mm256_sqrt_pd(_mm256_set_pd(1.0, d3, d3, d3));
 
 		rs = _mm256_div_pd(_mm256_set1_pd(1.0), rs);
 		_mm256_store_pd(data, _mm256_mul_pd(a, rs));
@@ -447,23 +447,39 @@ namespace OdinMath {
 	}
 
 	template<typename T>
-	inline void store4(T* a, T* b) {
+	inline void store4(T* a, const T* b) {
 
 		return;
 	}
 
 	//store a in b
-	template<> inline void store4<float>(float* a, float* b) {
-		InVectf aVect = _mm_loadu_ps(a);
-		_mm_store_ps(b, aVect);
+	template<> inline void store4<float>(float* a, const float* b) {
+		InVectf bVect = _mm_loadu_ps(b);
+		_mm_store_ps(a, bVect);
 	}
 
 	//store a in b
-	template<> inline void store4<double>(double* a, double* b) {
-		InVectd aVect = _mm256_loadu_pd(a);
-		_mm256_store_pd(b, aVect);
+	template<> inline void store4<double>(double* a, const double* b) {
+		InVectd bVect = _mm256_loadu_pd(b);
+		_mm256_store_pd(a, bVect);
 	}
 
+	/*template<typename T>
+	inline void swizzle4(T* in, const int direction, T* out) {
+		return;
+	}
+
+	template<> inline void swizzle4<float>(float* in, const int dir, float* out) {
+		InVectf aVect = _mm_loadu_ps(in);
+		aVect = _mm_shuffle_ps(aVect, aVect, dir);
+		_mm_store_ps(out, aVect);
+	}
+
+	template<> inline void swizzle4<double>(double* in, const int dir, double* out) {
+		InVectd aVect = _mm256_loadu_pd(in);
+		aVect = _mm256_permutex_pd(aVect, dir);
+		_mm256_store_pd(out, aVect);
+	}*/
 
 }
 

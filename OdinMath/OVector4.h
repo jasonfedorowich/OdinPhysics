@@ -273,6 +273,7 @@ namespace OdinMath {
 		if (this != &v) {
 #if defined(INTRINSICS)
 			store4<real>(this->data, v.data);
+			
 #else
 			(*this)[0] = v[0];
 			(*this)[1] = v[1];
@@ -281,6 +282,7 @@ namespace OdinMath {
 #endif // INTRINSICS
 
 		}
+		return *this;
 	}
 
 	template<typename real>

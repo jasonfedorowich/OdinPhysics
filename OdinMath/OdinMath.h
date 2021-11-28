@@ -24,6 +24,7 @@
 #define INTRINSICS
 #ifdef INTRINSICS
 #include "VectorIntrin.h"
+#include "MatrixIntrin.h"
 #endif // INTRINSICS
 
 #include "Vect.h"

@@ -12,11 +12,11 @@ namespace OdinMath{
 	}
 	DXQuat::DXQuat(DXMatrix4& m)
 	{
-		int t;
+		float t;
 
 		if (m(2, 2) < 0.f) {
 			if (m(0, 0) > m(1, 1)) {
-				t = 1 + m(0, 0) - m(1, 1) - m(2, 2);
+				t = 1.0f + m(0, 0) - m(1, 1) - m(2, 2);
 				x = t;
 				y = m(0, 1) + m(1, 0);
 				z = m(2, 0) + m(0, 2);
@@ -25,7 +25,7 @@ namespace OdinMath{
 			}
 			else {
 
-				t = 1 - m(0, 0) + m(1, 1) - m(2, 2);
+				t = 1.0f - m(0, 0) + m(1, 1) - m(2, 2);
 				x = m(0, 1) + m(1, 0);
 				y = t;
 				z = m(1, 2) + m(2, 1);
@@ -37,7 +37,7 @@ namespace OdinMath{
 
 			if (m(0, 0) < -m(1, 1)) {
 
-				t = 1 - m(0, 0) - m(1, 1) + m(2, 2);
+				t = 1.0f - m(0, 0) - m(1, 1) + m(2, 2);
 				x = m(2, 0) + m(0, 2);
 				y = m(1, 2) - m(2, 1);
 				z = t;
@@ -45,7 +45,7 @@ namespace OdinMath{
 			}
 			else {
 
-				t = 1 + m(0, 0) + m(1, 1) + m(2, 2);
+				t = 1.0f + m(0, 0) + m(1, 1) + m(2, 2);
 				x = m(1, 2) - m(2, 1);
 				y = m(2, 0) + m(0, 2);
 				z = m(0, 1) + m(1, 0);
@@ -54,7 +54,7 @@ namespace OdinMath{
 			}
 		}
 
-		float xx = 0.5 / Math<float>::odSqrt(t);
+		float xx = 0.5f / Math<float>::odSqrt(t);
 		x *= xx;
 		y *= xx;
 		z *= xx;

@@ -12,7 +12,7 @@ namespace OdinCollision {
 		center /= (rl)2.0;
 
 		radius = center.distance(points[0]);
-		for (int i = 1; i < points.size(); i++) {
+		for (unsigned i = 1; i < points.size(); i++) {
 			radius = OdinMath::Math<rl>::odMax(radius, center.distance(points[i]));
 		}
 	}
@@ -26,7 +26,7 @@ namespace OdinCollision {
 		center /= (rl)2.0;
 
 		radius = center.distance(points[0]);
-		for (int i = 1; i < points.size(); i++) {
+		for (unsigned i = 1; i < points.size(); i++) {
 			radius = OdinMath::Math<rl>::odMax(radius, center.distance(points[i]));
 
 		}

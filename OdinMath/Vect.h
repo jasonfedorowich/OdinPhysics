@@ -7,19 +7,16 @@ namespace OdinMath {
 
 	
 
-	template<int SIZE, typename real>
-	class Vector;
-
 
 
 	//todo build iterator for class
 
 	template<int SIZE, typename real>
-	class Vector {
-	protected:
+	struct Vector {
+	
 		real data[SIZE];
 
-	public:
+	
 		Vector() { };
 		Vector(const Vector& vector) { *this = vector; }
 		Vector(std::initializer_list<real>&& list);

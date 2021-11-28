@@ -45,7 +45,7 @@ template<typename real>
 inline void RK4<real>::solveEquations(real t0, real dt, std::vector<real>& yIn, typename ODE<real>::Derivative& derivative, std::vector<real>& yOut, real& tOut)
 {
 	real halfDt = dt * (real)(0.5);
-	int n = yIn.size();
+	unsigned n = yIn.size();
 	std::vector<real> k1(n);
 	derivative.differentiateEqs(t0, yIn, k1);
 

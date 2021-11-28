@@ -156,6 +156,7 @@ namespace Tests
 
 				rk4.solveEquations(time, 0.001, st, gr, st, time);
 			}
+			Logger::WriteMessage("here");
 
 
 		}

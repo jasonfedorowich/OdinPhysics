@@ -11,9 +11,9 @@ inline AABB<N>::AABB(std::vector<ODVector>& points)
 
 	}
 
-	for (int i = 0; i < points.size(); i++) {
+	for (unsigned i = 0; i < points.size(); i++) {
 
-		for (int j = 0; j < N; j++) {
+		for (unsigned j = 0; j < N; j++) {
 			maxi[j] = Math<rl>::odMax(maxi[j], points[i][j]);
 			mini[j] = Math<rl>::odMin(mini[j], points[i][j]);
 		}
@@ -30,7 +30,7 @@ inline AABB<N>::AABB(std::vector<ODVector>&& points)
 
 	}
 
-	for (int i = 0; i < points.size(); i++) {
+	for (unsigned i = 0; i < points.size(); i++) {
 
 		for (int j = 0; j < N; j++) {
 			maxi[j] = Math<rl>::odMax(maxi[j], points[i][j]);
