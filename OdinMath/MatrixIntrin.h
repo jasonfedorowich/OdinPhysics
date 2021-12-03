@@ -260,7 +260,7 @@ namespace OdinMath {
 	template<typename T>
 	inline void transpose4(T A[][4], T O[][4]) { return; }
 
-	template <> inline void transpose4(float A[][4], float O[][4]) {
+	template <> inline void transpose4<float>(float A[][4], float O[][4]) {
 		InMatrix4F output;
 		transpose4(A, output);
 
@@ -270,7 +270,7 @@ namespace OdinMath {
 		_mm_store_ps(O[3], output.row[3]);
 
 	}
-	template <> inline void transpose4(double A[][4], double O[][4]) {
+	template <> inline void transpose4<double>(double A[][4], double O[][4]) {
 		InMatrix4D output;
 
 		transpose4(A, output);
@@ -282,7 +282,110 @@ namespace OdinMath {
 
 	}
 
+	template<typename T>
+	inline T trace4(T A[][4]) {
+		return 0.0;
+	}
+
+	
+	template <> inline float trace4<float>(float A[][4]) {
+		InMatrix4F M(A);
+		InVectf tmp0 = _mm_add_ps(M.row[0], _mm_shuffle_ps(M.row[1], M.row[1], _MM_SHUFFLE(1, 1, 1, 1)));
+		tmp0 = _mm_add_ps(tmp0, _mm_shuffle_ps(M.row[2], M.row[2], _MM_SHUFFLE(2, 2, 2, 2)));
+		tmp0 = _mm_add_ps(tmp0, _mm_shuffle_ps(M.row[3], M.row[3], _MM_SHUFFLE(3, 3, 3, 3)));
+		return _mm_cvtss_f32(tmp0);
+
+
+	}
+
+	template<typename T>
+	inline T traceSq4(T A[][4]) {
+		return 0.0;
+	}
+
+	template <> inline float traceSq4<float>(float A[][4]) {
+		InMatrix4F M(A);
+		InVectf tmp = _mm_shuffle_ps(M.row[0], M.row[1], _MM_SHUFFLE(1, 1, 0, 0));
+		InVectf tmp1 = _mm_shuffle_ps(M.row[2], M.row[3], _MM_SHUFFLE(3, 3, 2, 2));
+		tmp = _mm_shuffle_ps(tmp, tmp1, _MM_SHUFFLE(3, 0, 3, 0));
+		tmp = _mm_mul_ps(tmp, tmp);
+		tmp1 = _mm_shuffle_ps(tmp, tmp, _MM_SHUFFLE(2, 2, 1, 1));
+		tmp = _mm_add_ps(tmp1, tmp);
+		tmp = _mm_add_ss(tmp, _mm_shuffle_ps(tmp, tmp, _MM_SHUFFLE(3, 3, 3, 3)));
+		return _mm_cvtss_f32(tmp);
+	}
+
 #define PERMUTE_PS( v, c ) _mm_shuffle_ps( v, v, c )
+
+	template<typename T>
+	inline T determinant4(T A[][4]) {
+		return 0.0;
+	}
+
+	template<> inline float determinant4<float>(float A[][4]) {
+		InMatrix4F M(A);
+
+		__m128 v0 = PERMUTE_PS(M.row[0], _MM_SHUFFLE(0, 0, 0, 0));
+		v0 = _mm_mul_ps(v0, M.row[1]);
+
+		__m128 v1 = PERMUTE_PS(M.row[0], _MM_SHUFFLE(1, 1, 1, 1));
+		v1 = _mm_mul_ps(v1, M.row[1]);
+
+		__m128 v2 = PERMUTE_PS(M.row[0], _MM_SHUFFLE(2, 2, 2, 2));
+		v2 = _mm_mul_ps(v2, M.row[1]);
+
+		__m128 v3 = PERMUTE_PS(M.row[0], _MM_SHUFFLE(3, 3, 3, 3));
+		v3 = _mm_mul_ps(v3, M.row[1]);
+
+		__m128 v4 = _mm_mul_ps(PERMUTE_PS(M.row[2], _MM_SHUFFLE(0, 0, 0, 0)), M.row[3]);
+		__m128 v5 = _mm_mul_ps(PERMUTE_PS(M.row[2], _MM_SHUFFLE(1, 1, 1, 1)), M.row[3]);
+		__m128 v6 = _mm_mul_ps(PERMUTE_PS(M.row[2], _MM_SHUFFLE(2, 2, 2, 2)), M.row[3]);
+		__m128 v7 = _mm_mul_ps(PERMUTE_PS(M.row[2], _MM_SHUFFLE(3, 3, 3, 3)), M.row[3]);
+
+		__m128 tmp0 = _mm_shuffle_ps(v0, v0, _MM_SHUFFLE(0, 3, 2, 1));
+		__m128 tmp1 = _mm_shuffle_ps(v0, v1, _MM_SHUFFLE(2, 2, 3, 3));
+		tmp0 = _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 0, 1, 0));
+
+		__m128 tmp2 = _mm_shuffle_ps(v1, v2, _MM_SHUFFLE(0, 0, 0, 0));
+		__m128 tmp3 = _mm_shuffle_ps(v3, v2, _MM_SHUFFLE(1, 1, 0, 0));
+		tmp2 = _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 0, 3, 0));
+
+		__m128 fi = _mm_sub_ps(tmp0, tmp2);
+
+		tmp0 = _mm_shuffle_ps(v1, v2, _MM_SHUFFLE(3, 3, 3, 3));
+		tmp1 = _mm_shuffle_ps(v4, v4, _MM_SHUFFLE(2, 2, 1, 1));
+		tmp0 = _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 0, 3, 0));
+
+		tmp2 = _mm_shuffle_ps(v3, v3, _MM_SHUFFLE(2, 2, 1, 1));
+		tmp3 = _mm_shuffle_ps(v5, v6, _MM_SHUFFLE(0, 0, 0, 0));
+		tmp2 = _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 0, 3, 0));
+
+		__m128 se = _mm_sub_ps(tmp0, tmp2);
+
+		tmp0 = _mm_shuffle_ps(v6, v5, _MM_SHUFFLE(3, 3, 3, 3));
+		tmp1 = _mm_shuffle_ps(v5, v4, _MM_SHUFFLE(3, 3, 2, 2));
+		tmp0 = _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 0, 3, 0));
+
+		tmp2 = _mm_shuffle_ps(v7, v7, _MM_SHUFFLE(1, 1, 2, 2));
+		tmp3 = _mm_shuffle_ps(v6, v7, _MM_SHUFFLE(0, 0, 1, 1));
+		tmp2 = _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 0, 3, 0));
+
+		__m128 th = _mm_sub_ps(tmp0, tmp2);
+
+		tmp0 = _mm_mul_ps(fi, th);
+		tmp1 = _mm_shuffle_ps(se, se, _MM_SHUFFLE(0, 0, 2, 3));
+		tmp2 = _mm_mul_ps(tmp1, se);
+
+		tmp0 = _mm_sub_ss(tmp0, tmp2);
+		tmp0 = _mm_add_ss(tmp0, _mm_shuffle_ps(tmp2, tmp2, _MM_SHUFFLE(1, 1, 1, 1)));
+		tmp0 = _mm_sub_ss(tmp0, _mm_shuffle_ps(tmp0, tmp0, _MM_SHUFFLE(1, 1, 1, 1)));
+		tmp0 = _mm_add_ss(tmp0, _mm_shuffle_ps(tmp0, tmp0, _MM_SHUFFLE(2, 2, 2, 2)));
+		tmp0 = _mm_add_ss(tmp0, _mm_shuffle_ps(tmp0, tmp0, _MM_SHUFFLE(3, 3, 3, 3)));
+
+		return _mm_cvtss_f32(tmp0);
+	}
+
+
 
 	template<typename T>
 	void matScale4(T A[][4], T scale, T R[][4]);

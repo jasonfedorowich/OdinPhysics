@@ -98,9 +98,54 @@ namespace Tests
 
 
 		}
+		TEST_METHOD(testSetCol) {
+			OMatrix4<float> A(
 
+				11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+			A.setCol(0, { 0.f, 0.f, 0.f, 0.f });
+
+			Assert::AreEqual(A(0, 0), 0.f);
+
+
+		}
+
+		TEST_METHOD(testSetRow) {
+			OMatrix4<float> A(
+
+				11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+			A.setRow(0, { 0.f, 0.f, 0.f, 0.f });
+
+			Assert::AreEqual(A(0, 0), 0.f);
+
+
+		}
 		
+		TEST_METHOD(testDetermin) {
+			OMatrix4<float> A(
 
+				11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+			float d = A.determinant();
+
+			Assert::AreEqual(d, 284.0f);
+
+
+		}
+		TEST_METHOD(testIdent) {
+			OMatrix4<float> I = OMatrix4<float>::identity();
+
+			Assert::AreEqual(I(0,0), 1.f);
+
+
+		}
 
 
 	};

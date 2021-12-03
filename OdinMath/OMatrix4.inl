@@ -167,3 +167,52 @@ inline bool invertMat4(real mat[][4], real dst[][4], real eps, real* deter) {
 
 }
 
+
+template<typename real>
+inline void matTranspose4(real mat[][4], real dst[][4]) {
+    dst[0][0] = mat[0][0];
+    dst[0][1] = mat[1][0];
+    dst[0][2] = mat[2][0];
+    dst[0][3] = mat[3][0];
+
+    dst[1][0] = mat[0][1];
+    dst[1][1] = mat[1][1];
+    dst[1][2] = mat[2][1];
+    dst[1][3] = mat[3][1];
+
+    dst[2][0] = mat[0][2];
+    dst[2][1] = mat[1][2];
+    dst[2][2] = mat[2][2];
+    dst[2][3] = mat[3][2];
+
+    dst[3][0] = mat[0][3];
+    dst[3][1] = mat[1][3];
+    dst[3][2] = mat[2][3];
+    dst[3][3] = mat[3][3];
+
+
+}
+
+template<typename real>
+float matDeterminant4(real mm[][4]) {
+    real a0 = mm[0][0] * mm[1][1] - mm[0][1] * mm[1][0];
+    real a1 = mm[0][0] * mm[1][2] - mm[0][2] * mm[1][0];
+    real a2 = mm[0][0] * mm[1][3] - mm[0][3] * mm[1][0];
+    real a3 = mm[0][1] * mm[1][2] - mm[0][2] * mm[1][1];
+
+    real a4 = mm[0][1] * mm[1][3] - mm[0][3] * mm[1][1];
+    real a5 = mm[0][2] * mm[1][3] - mm[0][3] * mm[1][2];
+    real b0 = mm[2][0] * mm[3][1] - mm[2][1] * mm[3][0];
+    real b1 = mm[2][0] * mm[3][2] - mm[2][2] * mm[3][0];
+
+    real b5 = mm[2][2] * mm[3][3] - mm[2][3] * mm[3][2];
+    real b4 = mm[2][1] * mm[3][3] - mm[2][3] * mm[3][1];
+    real b3 = mm[2][1] * mm[3][2] - mm[2][2] * mm[3][1];
+    real b2 = mm[2][0] * mm[3][3] - mm[2][3] * mm[3][0];
+
+
+
+    real det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+    return det;
+}
+

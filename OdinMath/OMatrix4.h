@@ -4,10 +4,10 @@
 namespace OdinMath {
 	template<typename real>
 	struct OMatrix4 : public Matrix<4, real> {
-		OMatrix4() : OMatrix4(1.f, 0.f, 0.f, 0.f,
-			0.f, 1.f, 0.f, 0.f,
-			0.f, 0.f, 1.f, 0.f,
-			0.f, 0.f, 0.f, 1.f) {}
+		OMatrix4() : OMatrix4((real)1.f, (real)0.f, (real)0.f, (real)0.f,
+			(real)0.f, (real)1.f, (real)0.f, (real)0.f,
+			(real)0.f, (real)0.f, (real)1.f, (real)0.f,
+			(real)0.f, (real)0.f, (real)0.f, (real)1.f) {}
 		OMatrix4(real _00, real _01, real _02, real _03,
 			real _10, real _11, real _12, real _13,
 			real _20, real _21, real _22, real _23,
@@ -18,7 +18,7 @@ namespace OdinMath {
 		OMatrix4(const OMatrix4& other) { *this = other; }
 		~OMatrix4() {}
 
-		void set(int r, int c, float v) { (*this)(r, c) = v; }
+		void set(int r, int c, real v) { (*this)(r, c) = v; }
 
 		OMatrix4& operator=(const OMatrix4& matrix);
 		
@@ -83,33 +83,58 @@ namespace OdinMath {
 		bool invert(real epsilon = Math<real>::eps, real* determinant=nullptr);
 		void transpose();
 
-		//OMatrix4 getInverse();
-		//OMatrix4 getTranspose();
+		OMatrix4<real> getInverse(real epsilon = Math<real>::eps, real* determinant = nullptr);
+		OMatrix4<real> getTranspose();
 
 		float& back() { return this->m[3][3]; }
 		const float& back() const { return this->m[3][3]; }
 		float& front() { return this->m[0][0]; }
-		//const float& front() const { return m[0][0]; }
-		//float determinant();
+		const float& front() const { return this->m[0][0]; }
+		float determinant();
 
-		//float trace() { float result = m[0][0]; result += m[1][1]; result += m[2][2]; result += m[3][3]; return result; }
-		//float traceSq() { float result = m[0][0] * m[0][0]; result += (m[1][1] * m[1][1]); result += (m[2][2] * m[2][2]); result += (m[3][3] * m[3][3]); return result; }
+		float trace();
+		float traceSq();
 
 		////DXVector4 determinant();
 
-		//OMatrix4 getCol(int c);
-		//OMatrix4 getRow(int r);
-		//OVector4 diag() { return OVector4((*this)(0, 0), (*this)(1, 1), (*this)(2, 2), (*this)(3, 3)); }
+		OVector4<real> getCol(int c) {
+			if (c >= 4 || c < 0)
+				throw std::invalid_argument("Invalid argument");
+			return OVector4<real>(this->m[0][c], this->m[1][c], this->m[2][c], this->m[3][c]);
+		}
+		OVector4<real> getRow(int r) {
+			if (r >= 4 || r < 0)
+				throw std::invalid_argument("Invalid argument");
+			return OVector4<real>(this->m[r][0], this->m[r][1], this->m[r][2], this->m[r][3]);
+		}
+		OVector4<real> diag() { return OVector4<real>((*this)(0, 0), (*this)(1, 1), (*this)(2, 2), (*this)(3, 3)); }
 		////todo remove these as they are trace
-		//void setCol(int c, const OVector4& v);
-		//void setCol(int c, OVector4&& v);
+		void setCol(int c, const OVector4<real>& v) {
+			(*this)(0, c) = v[0];
+			(*this)(1, c) = v[1];
+			(*this)(2, c) = v[2];
+			(*this)(3, c) = v[3];
+		}
+		void setCol(int c, OVector4<real>&& v);
 
-		//void setRow(int r, const OVector4& v);
-		//void setRow(int r, OVector4&& v);
+		void setRow(int r, const OVector4<real>& v) {
+			(*this)(r, 0) = v[0];
+			(*this)(r, 1) = v[1];
+			(*this)(r, 2) = v[2];
+			(*this)(r, 3) = v[3];
+		}
+		void setRow(int r, OVector4<real>&& v);
 
-		//void swapRows(int i, int j);
+		
 
-		//OMatrix4 identity() { return OMatrix4(); }
+		static OMatrix4<real> identity() { return OMatrix4<real>(); }
+		static OMatrix4<real> zeros() {
+			return OMatrix4<real>((real)0.f, (real)0.f, (real)0.f, (real)0.f,
+				(real)0.f, (real)01.f, (real)0.f, (real)0.f,
+				(real)0.f, (real)0.f, (real)0.f, (real)0.f,
+				(real)0.f, (real)0.f, (real)0.f, (real)0.f);
+		}
+
 
 	
 
@@ -310,6 +335,89 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline void OMatrix4<real>::transpose()
+	{
+#if defined(INTRINSICS)
+		 transpose4<real>(this->m, this->m);
+
+#else
+		matTranspose4(this->m, this->m);
+#endif
+
+	}
+
+	template<typename real>
+	inline OMatrix4<real> OMatrix4<real>::getInverse(real eps, real* determinant)
+	{
+#if defined(INTRINSICS)
+		OMatrix4<real> R;
+
+		invert4<real>(this->m, R.m, eps, determinant);
+		return R;
+
+#else
+		OMatrix4<real> R;
+		invertMat4(this->m, R.m, eps, determinant);
+		return R;
+#endif
+	}
+
+	template<typename real>
+	inline OMatrix4<real> OMatrix4<real>::getTranspose()
+	{
+#if defined(INTRINSICS)
+		OMatrix4<real> R;
+		transpose4<real>(this->m, R.m);
+		return R;
+
+#else
+		OMatrix4<real> R;
+		matTranspose4(this->m, R.m);
+		return R;
+#endif
+	}
+
+	template<typename real>
+	inline float OMatrix4<real>::determinant()
+	{
+#if defined(INTRINSICS)
+		
+		return determinant4<real>(this->m);
+
+#else
+		OMatrix4<real> R;
+		matTranspose4(this->m, R.m);
+		return R;
+#endif
+	}
+
+	template<typename real>
+	inline float OMatrix4<real>::trace()
+	{
+#if defined(INTRINSICS)
+
+		return trace4<real>(this->m);
+
+#else
+		return this->m[0][0] + this->m[1][1] + this->m[2][2] + this->m[3][3];
+#endif
+	}
+
+	template<typename real>
+	inline float OMatrix4<real>::traceSq()
+	{
+#if defined(INTRINSICS)
+
+		return traceSq4<real>(this->m);
+
+#else
+		float result = m[0][0] * m[0][0]; result += (m[1][1] * m[1][1]); result += (m[2][2] * m[2][2]); result += (m[3][3] * m[3][3]); return result;
+#endif
+
+		
+	}
+
+	template<typename real>
 	inline OMatrix4<real> OMatrix4<real>::operator-(OMatrix4<real>& matrix)
 	{
 #if defined(INTRINSICS)
@@ -337,6 +445,24 @@ namespace OdinMath {
 		subMatrix4(*this, matrix, R);
 		return R;
 #endif
+	}
+
+	template<typename real>
+	inline void OdinMath::OMatrix4<real>::setCol(int c, OVector4<real>&& v)
+	{
+		(*this)(0, c) = v[0];
+		(*this)(1, c) = v[1];
+		(*this)(2, c) = v[2];
+		(*this)(3, c) = v[3];
+	}
+
+	template<typename real>
+	inline void OdinMath::OMatrix4<real>::setRow(int r, OVector4<real>&& v)
+	{
+		(*this)(r, 0) = v[0];
+		(*this)(r, 1) = v[1];
+		(*this)(r, 2) = v[2];
+		(*this)(r, 3) = v[3];
 	}
 
 	

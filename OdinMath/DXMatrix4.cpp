@@ -57,7 +57,7 @@ namespace OdinMath {
 	{
 		XMMATRIX xmmatrix = XMMatrixMultiply(this->getXMMatrix(), m.getXMMatrix());
 		XMStoreFloat4x4(this, xmmatrix);
-
+		
 	}
 
 	void DXMatrix4::operator*=(DXMatrix4&& m)
