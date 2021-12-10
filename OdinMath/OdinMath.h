@@ -31,7 +31,7 @@
 #include "Matrix.h"
 #include "OVector4.h"
 #include "OMatrix4.h"
-
+#include "OVector3.h"
 #include "VectorIntrin.h"
 
 #include "MatrixFunctions.h"

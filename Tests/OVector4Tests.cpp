@@ -41,7 +41,19 @@ namespace Tests
 
 
 		}
+		TEST_METHOD(testNormal4) {
+			OVector4<float> uu = { 1.f, 2.0, 3.0, 4.0 };
+			uu.normalize();
+			Assert::AreEqual(std::round(uu[0]), std::round(0.18257f));
 
+		}
+		TEST_METHOD(testNormal3) {
+			OVector4<float> uu = { 1.f, 2.0, 3.0, 4.0 };
+			uu.normalize3();
+			uu.normal();
+			Assert::AreEqual(std::round(uu[0]), std::round(0.26726f));
+
+		}
 
 
 

@@ -10,7 +10,7 @@ namespace OdinMath {
 		OVector4(real x, real y, real z, real w=(real)0.0f) { this->data[0] = x; this->data[1] = y; this->data[2] = z; this->data[3] = w; }
 		OVector4() { OVector4((real)0.f, (real)0.f, (real)0.f, (real)0.f); }
 		OVector4(int x, int y, int z, int w = 0) : OVector4((float)x, (float)y, (float)z, (float)w) {}
-
+		OVector4(const OVector4<real>& v) { *this = v; }
 		virtual ~OVector4() {}
 
 		void set(real x, real y, real z, real w = 0.0f) { this->data[0] = x; this->data[1] = y; this->data[2] = z; this->data[3] = w; }
@@ -36,6 +36,7 @@ namespace OdinMath {
 		OVector4 normal();
 		void normalize3();
 		void normalize();
+		real norm();
 
 		real getAngleBetweenVectors(OVector4& v);
 		float getAngleToTarget(DXVector4& v);
@@ -131,7 +132,7 @@ namespace OdinMath {
 	{
 #if defined(INTRINSICS)
 		OVector4 copy(*this);
-		normalize43(copy.data);
+		normalize43<real>(copy.data);
 		return copy;
 #else
 		real l = length3();
@@ -195,10 +196,10 @@ namespace OdinMath {
 
 		return Math<real>::odAcos(d3);
 #else
-		real l1 = this->length3();
-		real l2 = v.length3();
+		real l1 = this->length();
+		real l2 = v.length();
 
-		real d3 = this->dot3(v);
+		real d3 = this->dot(v);
 		l1 *= l2;
 		d3 /= l1;
 
@@ -251,7 +252,7 @@ namespace OdinMath {
 		return re;
 
 #else
-		return OVector4<real>{(*this)[0] - v[0], (*this)[1] - v[1], (*this)[2] - v[2], (*this)[3] - v[3]};
+		return OVector4<real>{(*this)[0] / v[0], (*this)[1] / v[1], (*this)[2] / v[2], (*this)[3] / v[3]};
 #endif
 	}
 
