@@ -147,6 +147,45 @@ namespace Tests
 
 		}
 
+		TEST_METHOD(testLeftVectorMatMult) {
+			OMatrix4<float> A(
+				11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+
+			OVector4<float> v(1.f, 2.f, 3.f, 4.f);
+			v *= A;
+			Assert::AreEqual(v[0], 30.f);
+
+
+		}
+		TEST_METHOD(testMatVectMult) {
+			OMatrix4<float> A(
+				11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+
+			OVector4<float> v(1.f, 2.f, 3.f, 4.f);
+			A *= v;
+			Assert::AreEqual(v[0], 109.f);
+
+
+		}
+
+		TEST_METHOD(testOuterProduct4) {
+			OVector4<float> p(1.f, 2.f, 3.f, 4.f);
+			OVector4<float> q(5.f, 4.f, 3.f, 1.f);
+			OMatrix4<float> M;
+
+			outerProduct(M, p, q);
+			Assert::AreEqual(M(0, 0), 5.f);
+			Assert::AreEqual(M(1, 1), 8.f);
+
+
+		}
+
 
 
 	};

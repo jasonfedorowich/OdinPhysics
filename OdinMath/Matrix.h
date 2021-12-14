@@ -10,11 +10,11 @@ namespace OdinMath {
 	///iterator should give vectors which support iterator as well
 
 	template<int SIZE, typename real>
-	class Matrix {
+	struct Matrix {
 
-	protected:
+	
 		real m[SIZE][SIZE] = { (real)0.0 };
-	private:
+	
 		friend struct Iterator;
 
 
@@ -54,7 +54,7 @@ namespace OdinMath {
 
 		};
 
-	public:
+	
 		Matrix() {};
 		Matrix(std::initializer_list<std::initializer_list<real>>&& mat);
 		Matrix(const Matrix<SIZE, real>& mat) { *this = mat; };

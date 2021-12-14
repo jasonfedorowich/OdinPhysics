@@ -139,34 +139,16 @@ namespace OdinMath {
 		InVectf vf = _mm_loadu_ps(v);
 		
 		
-		InVectf res = _mm_mul_ps(Af.row[0], vf);
-		InVectf row = _mm_add_ps(res, _mm_shuffle_ps(res, res, 0x55));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0xaa));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0xff));
-		
-		_mm_store_ss(&r[0], row);
+		InVectf a1 = _mm_mul_ps(Af.row[0], vf);
+		InVectf a2 = _mm_mul_ps(Af.row[1], vf);
+		InVectf a3 = _mm_mul_ps(Af.row[2], vf);
+		InVectf a4 = _mm_mul_ps(Af.row[3], vf);
 
-		res = _mm_mul_ps(Af.row[1], vf);
-		row = _mm_add_ps(res, _mm_shuffle_ps(res, res, 0x55));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0xaa));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0xff));
+		a1 = _mm_hadd_ps(a1, a2);
+		a2 = _mm_hadd_ps(a3, a4);
+		a3 = _mm_hadd_ps(a1, a2);
 
-		_mm_store_ss(&r[1], row);
-
-		res = _mm_mul_ps(Af.row[2], vf);
-		row = _mm_add_ps(res, _mm_shuffle_ps(res, res, 0xff));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0xaa));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0x55));
-
-		_mm_store_ss(&r[2], row);
-
-
-		res = _mm_mul_ps(Af.row[3], vf);
-		row = _mm_add_ps(res, _mm_shuffle_ps(res, res, 0xff));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0x55));
-		row = _mm_add_ps(row, _mm_shuffle_ps(res, res, 0xaa));
-
-		_mm_store_ss(&r[3], row);
+		_mm_store_ps(r, a3);
 
 
 	}
@@ -208,6 +190,30 @@ namespace OdinMath {
 
 	}
 
+	template<typename T>
+	inline void vectMatMult4(T* d, T M[][4], T* out) {
+		return;
+	}
+
+	template<> inline void vectMatMult4(float* v, float A[][4], float* out) {
+		InMatrix4F M(A);
+
+		InVectf v1 = _mm_set1_ps(v[0]);
+		InVectf v2 = _mm_set1_ps(v[1]);
+		InVectf v3 = _mm_set1_ps(v[2]);
+		InVectf v4 = _mm_set1_ps(v[3]);
+
+		InVectf t1 = _mm_mul_ps(v1, M.row[0]);
+		InVectf t2 = _mm_mul_ps(v2, M.row[1]);
+		InVectf t3 = _mm_mul_ps(v3, M.row[2]);
+		InVectf t4 = _mm_mul_ps(v4, M.row[3]);
+
+		t1 = _mm_add_ps(t1, t2);
+		t3 = _mm_add_ps(t3, t4);
+		t1 = _mm_add_ps(t1, t3);
+
+		_mm_store_ps(out, t1);
+	}
 
 	inline void transpose4(float A[][4], InMatrix4F& output) {
 		InMatrix4F M(A);
@@ -385,7 +391,8 @@ namespace OdinMath {
 		return _mm_cvtss_f32(tmp0);
 	}
 
-
+	template<typename T>
+	void outerProduct4(const T* v1, const T* v2, T R[][4]);
 
 	template<typename T>
 	void matScale4(T A[][4], T scale, T R[][4]);

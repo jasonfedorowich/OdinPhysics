@@ -142,6 +142,103 @@ namespace OdinMath {
 
 #include "OMatrix4.inl"
 
+	template<typename real>
+	inline OMatrix4<real> operator*(float scale, OMatrix4<real> & m) {
+#if defined(INTRINSICS)
+		matScale4(m.data, scale, m.data);
+#else
+		m(0, 0) *= scale;
+		m(0, 1) *= scale;
+		m(0, 2) *= scale;
+		m(0, 3) *= scale;
+		
+		m(1, 0) *= scale;
+		m(1, 1) *= scale;
+		m(1, 2) *= scale;
+		m(1, 3) *= scale;
+
+		m(2, 0) *= scale;
+		m(2, 1) *= scale;
+		m(2, 2) *= scale;
+		m(2, 3) *= scale;
+
+		m(3, 0) *= scale;
+		m(3, 1) *= scale;
+		m(3, 2) *= scale;
+		m(3, 3) *= scale;
+#endif
+	
+	}
+	template<typename real>
+	inline void operator*=(OVector4<real>& vector, OMatrix4<real>& matrix)
+	{
+#if defined(INTRINSICS)
+		vectMatMult4(vector.data, matrix.m, vector.data);
+#else
+		real t1 = vector[0];
+		real t2 = vector[1];
+		real t3 = vector[2];
+		real t4 = vector[3];
+
+		vector[0] = t1 * matrix(0, 0) + t2 * matrix(1, 0) + t3 * matrix(2, 0) + t4 * matrix(3, 0);
+		vector[1] = t1 * matrix(0, 1) + t2 * matrix(1, 1) + t3 * matrix(2, 1) + t4 * matrix(3, 1);
+		vector[2] = t1 * matrix(0, 2) + t2 * matrix(1, 2) + t3 * matrix(2, 2) + t4 * matrix(3, 2);
+		vector[3] = t1 * matrix(0, 3) + t2 * matrix(1, 3) + t3 * matrix(2, 3) + t4 * matrix(3, 3);
+#endif
+	
+	}
+	template<typename real>
+	inline OVector4<real> operator*(OVector4<real> vector, OMatrix4<real>& matrix)
+	{
+#if defined(INTRINSICS)
+		OVector4<real> result;
+		vectMatMult4(vector.data, matrix.m, result.data);
+		return result;
+#else
+		real t1 = vector[0];
+		real t2 = vector[1];
+		real t3 = vector[2];
+		real t4 = vector[3];
+		OVector4<real> result;
+
+		result[0] = t1 * matrix(0, 0) + t2 * matrix(1, 0) + t3 * matrix(2, 0) + t4 * matrix(3, 0);
+		result[1] = t1 * matrix(0, 1) + t2 * matrix(1, 1) + t3 * matrix(2, 1) + t4 * matrix(3, 1);
+		result[2] = t1 * matrix(0, 2) + t2 * matrix(1, 2) + t3 * matrix(2, 2) + t4 * matrix(3, 2);
+		result[3] = t1 * matrix(0, 3) + t2 * matrix(1, 3) + t3 * matrix(2, 3) + t4 * matrix(3, 3);
+#endif
+	}
+	template<typename real>
+	inline void outerProduct(OMatrix4<real>& matrix, const OVector4<real>& v1, const OVector4<real>& v2) {
+#if defined(INTRINSICS)
+		outerProduct4(v1.data, v2.data, matrix.m);
+#else
+		matrix(0, 0) = v1[0] * v2[0];
+		matrix(0, 1) = v1[0] * v2[1];
+		matrix(0, 2) = v1[0] * v2[2];
+		matrix(0, 3) = v1[0] * v2[3];
+
+		matrix(1, 0) = v1[1] * v2[0];
+		matrix(1, 1) = v1[1] * v2[1];
+		matrix(1, 2) = v1[1] * v2[2];
+		matrix(1, 3) = v1[1] * v2[3];
+
+		matrix(2, 0) = v1[2] * v2[0];
+		matrix(2, 1) = v1[2] * v2[1];
+		matrix(2, 2) = v1[2] * v2[2];
+		matrix(2, 3) = v1[2] * v2[3];
+
+		matrix(3, 0) = v1[3] * v2[0];
+		matrix(3, 1) = v1[3] * v2[1];
+		matrix(3, 2) = v1[3] * v2[2];
+		matrix(3, 3) = v1[3] * v2[3];
+
+#endif
+		
+		
+
+
+	}
+
 
 
 	template<typename real>

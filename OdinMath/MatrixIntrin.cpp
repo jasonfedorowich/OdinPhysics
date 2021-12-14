@@ -284,4 +284,45 @@ namespace OdinMath {
 
 
     }
+
+    template<> void outerProduct4<float>(const float* v1, const float* v2, float R[][4]) {
+        InVectf tmp = _mm_load_ps(v2);
+
+        InVectf r1 = _mm_set1_ps(v1[0]);
+        r1 = _mm_mul_ps(r1, tmp);
+        InVectf r2 = _mm_set1_ps(v1[1]);
+        r2 = _mm_mul_ps(r2, tmp);
+        InVectf r3 = _mm_set1_ps(v1[2]);
+        r3 = _mm_mul_ps(r3, tmp);
+        InVectf r4 = _mm_set1_ps(v1[3]);
+        r4 = _mm_mul_ps(r4, tmp);
+
+        _mm_store_ps(R[0], r1);
+        _mm_store_ps(R[1], r2);
+        _mm_store_ps(R[2], r3);
+        _mm_store_ps(R[3], r4);
+
+    }
+
+    template<> void outerProduct4<double>(const double* v1, const double* v2, double R[][4]) {
+        InVectd tmp = _mm256_load_pd(v2);
+
+        InVectd r1 = _mm256_set1_pd(v1[0]);
+        r1 = _mm256_mul_pd(r1, tmp);
+        InVectd r2 = _mm256_set1_pd(v1[1]);
+        r2 = _mm256_mul_pd(r2, tmp);
+        InVectd r3 = _mm256_set1_pd(v1[2]);
+        r3 = _mm256_mul_pd(r3, tmp);
+        InVectd r4 = _mm256_set1_pd(v1[3]);
+        r4 = _mm256_mul_pd(r4, tmp);
+
+        _mm256_store_pd(R[0], r1);
+        _mm256_store_pd(R[1], r2);
+        _mm256_store_pd(R[2], r3);
+        _mm256_store_pd(R[3], r4);
+    }
+
+
+
+
 }

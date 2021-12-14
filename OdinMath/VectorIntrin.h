@@ -514,7 +514,7 @@ namespace OdinMath {
 	}
 
 	template <> inline void scalarDiv4<float>(float* d, float s) {
-		InVectf b = _mm_set_ss(s);
+		InVectf b = _mm_set1_ps(s);
 		b = _mm_rcp_ps(b);
 		InVectf a = _mm_loadu_ps(d);
 		a = _mm_mul_ps(a, b);
@@ -537,7 +537,7 @@ namespace OdinMath {
 
 	template<> inline void scalarDiv3<float>(float* d, float s) {
 		InVectf dv = loadVector3(d);
-		InVectf b = _mm_set_ss(s);
+		InVectf b = _mm_set1_ps(s);
 		b = _mm_rcp_ps(b);
 		storeVector3(d, _mm_mul_ps(b, dv));
 	}
@@ -556,7 +556,7 @@ namespace OdinMath {
 	}
 
 	template <> inline void scalarMul4<float>(float* d, float s) {
-		InVectf b = _mm_set_ss(s);
+		InVectf b = _mm_set1_ps(s);
 		InVectf a = _mm_loadu_ps(d);
 		a = _mm_mul_ps(a, b);
 		_mm_store_ps(d, a);
@@ -577,7 +577,7 @@ namespace OdinMath {
 
 	template<> inline void scalarMul3<float>(float* d, float s) {
 		InVectf av = loadVector3(d);
-		InVectf b = _mm_set_ss(s);
+		InVectf b = _mm_set1_ps(s);
 		av = _mm_mul_ps(av, b);
 		storeVector3(d, av);
 	}
