@@ -295,6 +295,25 @@ namespace OdinMath {
 		_mm256_store_pd(out, _mm256_div_pd(aVec, bVec));
 	}
 
+	inline bool equals4f(InVectf& aVec, InVectf& bVec) {
+		InVectf tempV = _mm_cmpeq_ps(aVec, bVec);
+		int comp = 0xFFFFFFFF;
+		return (_mm_extract_ps(tempV, 0) == comp && _mm_extract_ps(tempV, 1) == comp &&
+			_mm_extract_ps(tempV, 2) == comp && _mm_extract_ps(tempV, 3) == comp);
+
+	}
+
+	inline bool equals4d(InVectd& aVec, InVectd& bVec) {
+		InVectd tempV = _mm256_xor_pd(aVec, bVec);
+		InVecti temp = _mm256_cvtpd_epi32(tempV);
+		int comp = 0;
+
+
+		return (_mm_extract_epi32(temp, 0) == comp && _mm_extract_epi32(temp, 1) == comp &&
+			_mm_extract_epi32(temp, 2) == comp && _mm_extract_epi32(temp, 3) == comp);
+
+	}
+
 	template<typename T>
 	inline bool equals4(const T* a, const T* b) {
 		return true;
@@ -304,13 +323,7 @@ namespace OdinMath {
 		InVectd aVec = _mm256_loadu_pd(a);
 		InVectd bVec = _mm256_loadu_pd(b);
 		
-		InVectd tempV = _mm256_xor_pd(aVec, bVec);
-		InVecti temp = _mm256_cvtpd_epi32(tempV);
-		int comp = 0;
-
-
-		return (_mm_extract_epi32(temp, 0) == comp && _mm_extract_epi32(temp, 1) == comp &&
-			_mm_extract_epi32(temp, 2) == comp && _mm_extract_epi32(temp, 3) == comp);
+		return equals4d(aVec, bVec);
 
 
 	}
@@ -318,10 +331,8 @@ namespace OdinMath {
 	template<> inline bool equals4<float>(const float* a, const float* b) {
 		InVectf aVec = _mm_loadu_ps(a);
 		InVectf bVec = _mm_loadu_ps(b);
-		InVectf tempV = _mm_cmpeq_ps(aVec, bVec);
-		int comp = 0xFFFFFFFF;
-		return (_mm_extract_ps(tempV, 0) == comp && _mm_extract_ps(tempV, 1) == comp &&
-			_mm_extract_ps(tempV, 2) == comp && _mm_extract_ps(tempV, 3) == comp);
+
+		return equals4f(aVec, bVec);
 
 
 	}

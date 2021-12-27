@@ -56,8 +56,8 @@ namespace OdinMath {
 		OVector4<real>& operator*=(OVector4<real>& v);
 		////DXVector4& operator*=(DXVector4&& v);
 
-		OMatrix4 operator*(float scale);
-		void operator*=(float scale);
+		OMatrix4 operator*(real scale);
+		void operator*=(real scale);
 
 		OMatrix4 operator+(OMatrix4& matrix);
 		//OMatrix4 operator+(OMatrix4&& m);
@@ -86,14 +86,14 @@ namespace OdinMath {
 		OMatrix4<real> getInverse(real epsilon = Math<real>::eps, real* determinant = nullptr);
 		OMatrix4<real> getTranspose();
 
-		float& back() { return this->m[3][3]; }
-		const float& back() const { return this->m[3][3]; }
-		float& front() { return this->m[0][0]; }
-		const float& front() const { return this->m[0][0]; }
-		float determinant();
+		real& back() { return this->m[3][3]; }
+		const real& back() const { return this->m[3][3]; }
+		real& front() { return this->m[0][0]; }
+		const real& front() const { return this->m[0][0]; }
+		real determinant();
 
-		float trace();
-		float traceSq();
+		real trace();
+		real traceSq();
 
 		////DXVector4 determinant();
 
@@ -326,9 +326,9 @@ namespace OdinMath {
 		return result;
 #else
 		//todo
-		OMatrix4 R;
-		multMatrix4(R, matrix, *this);
-		storeMatrix4(R, *this);
+		OVector4<real> R;
+		matrixVector4<real>(R, *this, v);
+		return R;
 #endif
 	}
 
@@ -342,13 +342,13 @@ namespace OdinMath {
 #else
 		//todo
 		OMatrix4 R;
-		multMatrix4(R, matrix, *this);
-		storeMatrix4(R, *this);
+		multMatrix4<real>(R, matrix, *this);
+		storeMatrix4<real>(R, *this);
 #endif
 	}
 
 	template<typename real>
-	inline OMatrix4<real> OMatrix4<real>::operator*(float scale)
+	inline OMatrix4<real> OMatrix4<real>::operator*(real scale)
 	{
 #if defined(INTRINSICS)
 		OMatrix4<real> R;
@@ -357,13 +357,12 @@ namespace OdinMath {
 #else
 		//todo
 		OMatrix4 R;
-		multMatrix4(R, matrix, *this);
-		storeMatrix4(R, *this);
+		matrixScale4<real>(R, *this, scale);
 #endif
 	}
 
 	template<typename real>
-	inline void OMatrix4<real>::operator*=(float scale)
+	inline void OMatrix4<real>::operator*=(real scale)
 	{
 
 #if defined(INTRINSICS)
@@ -413,10 +412,7 @@ namespace OdinMath {
 		return matEquals4<real>(this->m, matrix.m);
 
 #else
-		//todo
-		OMatrix4 R;
-		matrixEquals4(*this, matrix, R);
-		return R;
+		return matrixEquals4<real>(*this, matrix);
 #endif
 	}
 
@@ -438,7 +434,7 @@ namespace OdinMath {
 		 transpose4<real>(this->m, this->m);
 
 #else
-		matTranspose4(this->m, this->m);
+		matTranspose4<real>(this->m, this->m);
 #endif
 
 	}
@@ -475,7 +471,7 @@ namespace OdinMath {
 	}
 
 	template<typename real>
-	inline float OMatrix4<real>::determinant()
+	inline real OMatrix4<real>::determinant()
 	{
 #if defined(INTRINSICS)
 		
@@ -489,7 +485,7 @@ namespace OdinMath {
 	}
 
 	template<typename real>
-	inline float OMatrix4<real>::trace()
+	inline real OMatrix4<real>::trace()
 	{
 #if defined(INTRINSICS)
 
@@ -501,7 +497,7 @@ namespace OdinMath {
 	}
 
 	template<typename real>
-	inline float OMatrix4<real>::traceSq()
+	inline real OMatrix4<real>::traceSq()
 	{
 #if defined(INTRINSICS)
 
@@ -524,8 +520,8 @@ namespace OdinMath {
 
 #else
 		//todo
-		OMatrix4 R;
-		subMatrix4(*this, matrix, R);
+		OMatrix4<real> R;
+		subMatrix4<real>(R, *this, matrix);
 		return R;
 #endif
 	}
@@ -538,8 +534,8 @@ namespace OdinMath {
 
 #else
 		//todo
-		OMatrix4 R;
-		subMatrix4(*this, matrix, R);
+		OMatrix4<real> R;
+		subMatrix4<real>(*this, matrix, R);
 		return R;
 #endif
 	}

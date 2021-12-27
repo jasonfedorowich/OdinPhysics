@@ -2,6 +2,8 @@
 namespace OdinCollision {
 	bool intersection(BoundingSphere& s, ODVector& p)
 	{
-		return s.center.dot(p) > s.radius * s.radius;
+		ODVector d = s.center - p;
+
+		return d.dot(d) > s.radius * s.radius;
 	}
 }

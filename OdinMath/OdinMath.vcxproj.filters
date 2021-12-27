@@ -187,5 +187,8 @@
     <None Include="OMatrix4.inl">
       <Filter>Source Files\LinearAlgebra</Filter>
     </None>
+    <None Include="OMatrix3.inl">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </None>
   </ItemGroup>
 </Project>

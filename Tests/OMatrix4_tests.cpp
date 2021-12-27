@@ -6,7 +6,7 @@ using namespace OdinMath;
 
 namespace Tests
 {
-	TEST_CLASS(MatrixTestsOMatrix4)
+	TEST_CLASS(OMatrix4Tests)
 	{
 	public:
 
