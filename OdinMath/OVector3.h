@@ -80,7 +80,7 @@ namespace OdinMath {
 	inline real OVector3<real>::dot(const OVector3& v)
 	{
 #if defined(INTRINSICS)
-		return _dot3<real>(this->data, v.data);
+		return _dot3<real, 3>(this->data, v.data);
 
 #else
 		return (*this)[0] * v[0] + (*this)[1] * v[1] + (*this)[2] * v[2];

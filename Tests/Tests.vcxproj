@@ -169,6 +169,7 @@
     <ClCompile Include="OdinMathTestsMassProperties.cpp" />
     <ClCompile Include="OMatrix3_tests.cpp" />
     <ClCompile Include="OMatrix4_tests.cpp" />
+    <ClCompile Include="OQuataternion_tests.cpp" />
     <ClCompile Include="OVector3Tests.cpp" />
     <ClCompile Include="OVector4Tests.cpp" />
     <ClCompile Include="pch.cpp">

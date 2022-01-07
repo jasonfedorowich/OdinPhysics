@@ -138,6 +138,9 @@
     <ClInclude Include="MatrixIntrin.h">
       <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
+    <ClInclude Include="QuatIntrin.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXMatrix4.cpp">
@@ -170,6 +173,9 @@
     <ClCompile Include="MatrixIntrin.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
+    <ClCompile Include="QuatIntrin.cpp">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl">
@@ -188,6 +194,9 @@
       <Filter>Source Files\LinearAlgebra</Filter>
     </None>
     <None Include="OMatrix3.inl">
+      <Filter>Source Files\LinearAlgebra</Filter>
+    </None>
+    <None Include="OQuat.inl">
       <Filter>Source Files\LinearAlgebra</Filter>
     </None>
   </ItemGroup>

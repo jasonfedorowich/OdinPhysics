@@ -163,6 +163,7 @@
     <ClInclude Include="OVector3.h" />
     <ClInclude Include="QRDecomp.h" />
     <ClInclude Include="DXQuat.h" />
+    <ClInclude Include="QuatIntrin.h" />
     <ClInclude Include="SingleIntegral.h" />
     <ClInclude Include="ODE.h" />
     <ClInclude Include="OdinMath.h" />
@@ -187,12 +188,14 @@
     <ClCompile Include="MatrixIntrin.cpp" />
     <ClCompile Include="QRDecomp.cpp" />
     <ClCompile Include="DXQuat.cpp" />
+    <ClCompile Include="QuatIntrin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl" />
     <None Include="Matrix.inl" />
     <None Include="OMatrix3.inl" />
     <None Include="OMatrix4.inl" />
+    <None Include="OQuat.inl" />
     <None Include="RungeKutta.inl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>

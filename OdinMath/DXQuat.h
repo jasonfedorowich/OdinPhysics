@@ -43,6 +43,8 @@ namespace OdinMath {
 		DXQuat getNormal();
 		float dot();
 
+		XMVECTOR getXMVector() { return XMLoadFloat4(this); }
+
 
 
 

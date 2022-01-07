@@ -370,20 +370,17 @@ namespace OdinMath {
 
 
 	/*returns a filled vector with registers as the answer*/
-	inline void dotVect3(const float* a, const float* b, InVectf& r) {
-		InVectf aVect = loadVector3(a);
-		InVectf bVect = loadVector3(b);
+	inline void dotVect3(InVectf& aVect, InVectf& bVect, InVectf& r) {
 		aVect = _mm_mul_ps(aVect, bVect);
 		InVectf temp = _mm_shuffle_ps(aVect, aVect, _MM_SHUFFLE(1, 1, 1, 1));
 		bVect = _mm_shuffle_ps(aVect, aVect, _MM_SHUFFLE(2, 2, 2, 2));
 		aVect = _mm_add_ps(temp, aVect);
 		aVect = _mm_add_ps(bVect, aVect);
 		r = _mm_shuffle_ps(aVect, aVect, _MM_SHUFFLE(0, 0, 0, 0));
-	}
-	inline void dotVect3(const double* a, const double* b, InVectd& r) {
-		InVectd aVect = loadVector3(a);
-		InVectd bVect = loadVector3(b);
 
+	}
+
+	inline void dotVect3(InVectd& aVect, InVectd& bVect, InVectd& r) {
 		aVect = _mm256_mul_pd(aVect, bVect);
 		bVect = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_ABCC);
 		bVect = _mm256_add_pd(aVect, bVect);
@@ -391,6 +388,31 @@ namespace OdinMath {
 		aVect = _mm256_add_pd(aVect, bVect);
 		r = _mm256_permutex_pd(aVect, 0x0);
 	}
+
+	inline void dot4f(InVectf& a, InVectf& b, InVectf& out) {
+		InVectf r = _mm_mul_ps(a, b);
+		InVectf aa = _mm_shuffle_ps(r, r, _MM_SHUFFLE(0, 1, 0, 0));
+		InVectf bb = _mm_add_ps(aa, r);
+		aa = _mm_shuffle_ps(bb, bb, _MM_SHUFFLE(2, 2, 2, 2));
+		bb = _mm_shuffle_ps(bb, bb, _MM_SHUFFLE(3, 3, 3, 3));
+		out = _mm_add_ps(aa, bb);
+		out = _mm_shuffle_ps(out, out, _MM_SHUFFLE(0, 0, 0, 0));
+
+
+
+	}
+
+	inline void dot4d(InVectd& a, InVectd& b, InVectd& out) {
+
+		InVectd aa = _mm256_mul_pd(a, b);
+		InVectd bb = _mm256_permutex_pd(aa, _MM_PERM_ENUM::_MM_PERM_ABCD);
+		aa = _mm256_add_pd(aa, bb);
+		bb = _mm256_permute_pd(aa, 0x1);
+		aa = _mm256_add_pd(aa, bb);
+		out = _mm256_permutex_pd(aa, _MM_PERM_ENUM::_MM_PERM_AAAA);
+
+	}
+
 
 	template<typename T>
 	inline T dot4(const T* a, const T* b) {
@@ -400,13 +422,9 @@ namespace OdinMath {
 	template<> inline float dot4<float>(const float* af, const float* bf) {
 		InVectf a = _mm_loadu_ps(af);
 		InVectf b = _mm_loadu_ps(bf);
+		InVectf r;
+		dot4f(a, b, r);
 
-		InVectf r = _mm_mul_ps(a, b);
-		a = _mm_shuffle_ps(r, r, _MM_SHUFFLE(0, 1, 0, 0));
-		b = _mm_add_ps(a, r);
-		a = _mm_shuffle_ps(b, b, _MM_SHUFFLE(2, 2, 2, 2));
-		b = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 3, 3, 3));
-		r = _mm_add_ps(a, b);
 		return _mm_cvtss_f32(r);
 
 	}
@@ -414,31 +432,64 @@ namespace OdinMath {
 	template<> inline double dot4<double>(const double* af, const double* bf) {
 		InVectd aVect = _mm256_load_pd(af);
 		InVectd bVect = _mm256_load_pd(bf);
+		InVectd r;
+		dot4d(aVect, bVect, r);
 
-		aVect = _mm256_mul_pd(aVect, bVect);
-		bVect = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_ABCD);
-		aVect = _mm256_add_pd(aVect, bVect);
-		bVect = _mm256_permute_pd(aVect, 0x1);
-		aVect = _mm256_add_pd(aVect, bVect);
 		return _mm256_cvtsd_f64(aVect);
 	}
 
-	template<typename T>
+	inline void length4f(InVectf& v, InVectf& out) {
+		dot4f(v, v, out);
+		out = _mm_sqrt_ps(out);
+
+
+	}
+
+	inline void length4d(InVectd& v, InVectd& out) {
+		dot4d(v, v, out);
+		out = _mm256_sqrt_pd(out);
+
+
+	}
+	template<typename T, int N>
 	inline T _dot3(const T* a, const T* b) {
 
 		return 0;
 	}
 
-	template<> inline float _dot3<float>(const float* a, const float* b) {
+	template<> inline float _dot3<float, 4>(const float* a, const float* b) {
 		InVectf r;
-		dotVect3(a, b, r);
+		InVectf aa = _mm_load_ps(a);
+		InVectf bb = _mm_load_ps(b);
+
+		dotVect3(aa, bb, r);
 		return _mm_cvtss_f32(r);
 
 	}
 
-	template<> inline double _dot3<double>(const double* a, const double* b) {
+	template<> inline double _dot3<double, 4>(const double* a, const double* b) {
 		InVectd r;
-		dotVect3(a, b, r);
+		InVectd aa = _mm256_load_pd(a);
+		InVectd bb = _mm256_load_pd(b);
+		dotVect3(aa, bb, r);
+		return _mm256_cvtsd_f64(r);
+	}
+
+	template<> inline float _dot3<float, 3>(const float* a, const float* b) {
+		InVectf r;
+		InVectf aa = loadVector3(a);
+		InVectf bb = loadVector3(b);
+
+		dotVect3(aa, bb, r);
+		return _mm_cvtss_f32(r);
+
+	}
+
+	template<> inline double _dot3<double, 3>(const double* a, const double* b) {
+		InVectd r;
+		InVectd aa = loadVector3(a);
+		InVectd bb = loadVector3(b);
+		dotVect3(aa, bb, r);
 		return _mm256_cvtsd_f64(r);
 	}
 	//cross 4 is for Vector4
@@ -607,7 +658,8 @@ namespace OdinMath {
 
 	template<> inline void normalize43<float>(float* data) {
 		InVectf r;
-		dotVect3(data, data, r);
+		InVectf dd = _mm_load_ps(data);
+		dotVect3(dd, dd, r);
 		InVectf a = _mm_set_ss(1.f);
 		InVectf b = _mm_shuffle_ps(r, a, _MM_SHUFFLE(0, 0, 3, 3));
 		r = _mm_shuffle_ps(r, b, _MM_SHUFFLE(3, 0, 1, 0));
@@ -619,7 +671,8 @@ namespace OdinMath {
 
 	template<> inline void normalize43<double>(double* data) {
 		InVectd r;
-		dotVect3(data, data, r);
+		InVectd dd = _mm256_load_pd(data);
+		dotVect3(dd, dd, r);
 		InVectd a = _mm256_set1_pd(1.0);
 		InVectd b = _mm256_shuffle_pd(r, a, 0x5);
 		a = _mm256_shuffle_pd(r, b, 0x8);
@@ -660,7 +713,7 @@ namespace OdinMath {
 	template<> inline void normalize33<float>(float* data) {
 		InVectf a = loadVector3(data);
 		InVectf r;
-		dotVect3(data, data, r);
+		dotVect3(a, a, r);
 		InVectf rs = _mm_rsqrt_ps(r);
 		_mm_store_ps(data, _mm_mul_ps(a, rs));
 	}
@@ -668,7 +721,7 @@ namespace OdinMath {
 	template<> inline void normalize33<double>(double* data) {
 		InVectd a = loadVector3(data);
 		InVectd r;
-		dotVect3(data, data, r);
+		dotVect3(a, a, r);
 		InVectd rs = _mm256_sqrt_pd(r);
 		_mm256_store_pd(data, _mm256_div_pd(a, rs));
 	}

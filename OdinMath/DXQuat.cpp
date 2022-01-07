@@ -65,6 +65,7 @@ namespace OdinMath{
 	}
 	void DXQuat::toRotation(DXMatrix4& matrix)
 	{
+
 		float yy2 = y * y * 2.f;
 		float zz2 = z * z * 2.f;
 		float ww2 = w * w * 2.f;

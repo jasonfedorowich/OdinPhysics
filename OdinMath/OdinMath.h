@@ -25,6 +25,7 @@
 #ifdef INTRINSICS
 #include "VectorIntrin.h"
 #include "MatrixIntrin.h"
+#include "QuatIntrin.h"
 #endif // INTRINSICS
 
 #include "Vect.h"
@@ -34,6 +35,7 @@
 #include "OVector3.h"
 #include "OMatrix3.h"
 #include "VectorIntrin.h"
+#include "OQuat.h"
 
 #include "MatrixFunctions.h"
 
