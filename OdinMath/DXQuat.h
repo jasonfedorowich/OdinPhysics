@@ -3,7 +3,7 @@
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 
-
+//todo need to change this class (if using?) to use XM operations
 namespace OdinMath {
 	using namespace DirectX;
 	using namespace DirectX::PackedVector;

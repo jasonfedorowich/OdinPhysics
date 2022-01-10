@@ -27,5 +27,11 @@ namespace OdinMath {
 	template<typename real>
 	void tEulerfQuat(real* data, real* rpy);
 
+	template<typename real>
+	void taxisfQuat(real* data, real* axis, real* angle);
+
+	template<typename real>
+	void multQuat(real* q1, real* q2, real* result);
+
 
 }

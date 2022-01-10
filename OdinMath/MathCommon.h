@@ -29,6 +29,7 @@ namespace OdinMath {
 		static real odLoge(real x);
 		static real odLog2(real x);
 		static real sign(real x);
+		static real odAtan2(real x, real y);
 
 		/*[l, u]*/
 		static real odRandom(int lower, int upper);
@@ -153,6 +154,12 @@ namespace OdinMath {
 	inline real Math<real>::sign(real x)
 	{
 		return (real)(x < (real)0.0 ? -1.0 : 1.0);
+	}
+
+	template<typename real>
+	inline real Math<real>::odAtan2(real x, real y)
+	{
+		return atan2(x, y);
 	}
 
 	template<typename real>

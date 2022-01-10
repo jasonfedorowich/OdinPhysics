@@ -165,6 +165,27 @@ namespace Tests
 			float rpy[3];
 			q.rollPitchYaw(rpy);
 			Assert::AreEqual(round(rpy[0]), 3.f);
+			
+		}
+
+		TEST_METHOD(testMult) {
+			OVector3<float> a1(1.f, 2.f, 3.f);
+			OVector3<float> a2(2.f, 3.f, 5.f);
+
+			OQuat<float> q1(3.f, a1);
+			OQuat<float> q2(1.f, a2);
+			XMVECTOR qq1 = XMQuaternionRotationAxis({ 1.f, 2.f, 3.f }, 3.f);
+			XMVECTOR qq2 = XMQuaternionRotationAxis({ 2.f, 3.f, 5.f }, 1.f);
+
+			OQuat<float> q3 = q1 * q2;
+
+			XMVECTOR qq3 = XMQuaternionMultiply(qq2, qq1);
+
+			Assert::AreEqual(roundf(XMVectorGetW(qq3)), roundf(q3[3]));
+
+
+
+
 		}
 		
 

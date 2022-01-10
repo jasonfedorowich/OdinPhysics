@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Iterpolation\Bspline">
       <UniqueIdentifier>{9d846439-04b9-40ee-bcf9-6cc5872d9a17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\LinearAlgebra\DX">
+      <UniqueIdentifier>{4106d0ff-6707-4f1f-b4c7-075a1a81a175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LinearAlgebra\OD">
+      <UniqueIdentifier>{1f56290a-2b4e-424b-8a9f-813194d5e95b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdinMath.h">
@@ -143,46 +149,43 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DXMatrix4.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
-    </ClCompile>
-    <ClCompile Include="DXVector4.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
-    </ClCompile>
     <ClCompile Include="Eigen.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
     <ClCompile Include="LUDecomp.cpp">
       <Filter>Source Files\LinearAlgebra</Filter>
     </ClCompile>
-    <ClCompile Include="QRDecomp.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
-    </ClCompile>
-    <ClCompile Include="DXQuat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DXMatrix3.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
+      <Filter>Source Files\LinearAlgebra\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DXMatrix4.cpp">
+      <Filter>Source Files\LinearAlgebra\DX</Filter>
     </ClCompile>
     <ClCompile Include="DXVector3.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
+      <Filter>Source Files\LinearAlgebra\DX</Filter>
     </ClCompile>
-    <ClCompile Include="MatrixIntrin.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
+    <ClCompile Include="DXVector4.cpp">
+      <Filter>Source Files\LinearAlgebra\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DXQuat.cpp">
+      <Filter>Source Files\LinearAlgebra\DX</Filter>
     </ClCompile>
     <ClCompile Include="QuatIntrin.cpp">
-      <Filter>Source Files\LinearAlgebra</Filter>
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixIntrin.cpp">
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
+    </ClCompile>
+    <ClCompile Include="QRDecomp.cpp">
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MassProperties.inl">
       <Filter>Source Files</Filter>
-    </None>
-    <None Include="Matrix.inl">
-      <Filter>Source Files\LinearAlgebra</Filter>
     </None>
     <None Include="RungeKutta.inl">
       <Filter>Source Files\Calculus</Filter>
@@ -190,14 +193,17 @@
     <None Include="TrapezoidIntegration.inl">
       <Filter>Source Files\Calculus</Filter>
     </None>
-    <None Include="OMatrix4.inl">
-      <Filter>Source Files\LinearAlgebra</Filter>
+    <None Include="Matrix.inl">
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
     </None>
     <None Include="OMatrix3.inl">
-      <Filter>Source Files\LinearAlgebra</Filter>
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
+    </None>
+    <None Include="OMatrix4.inl">
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
     </None>
     <None Include="OQuat.inl">
-      <Filter>Source Files\LinearAlgebra</Filter>
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
     </None>
   </ItemGroup>
 </Project>

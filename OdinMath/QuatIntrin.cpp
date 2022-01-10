@@ -471,6 +471,21 @@ namespace OdinMath {
 		storeMat4(A, M);
 	}
 
+	template<> void trotMatfQuat<float, 3>(float* data, float M[][3])
+	{
+		InVectf v = _mm_load_ps(data);
+		InMatrix4F A;
+		trotMatfQuatf(v, A);
+		storeMat3(A, M);
+	}
+
+	template<> void trotMatfQuat<double, 3>(double* data, double M[][3]) {
+		InVectd v = _mm256_load_pd(data);
+		InMatrix4D A;
+		trotMatfQuatd(v, A);
+		storeMat3(A, M);
+	}
+
 	template<> void tquatfEuler<float>(float roll, float pitch, float yaw, float* data) {
 		InVectf v = _mm_setr_ps(roll, pitch, yaw, 0.f);
 		InVectf q;
@@ -563,5 +578,126 @@ namespace OdinMath {
 
 	}
 
+	template<> void taxisfQuat<float>(float* data, float* axis, float* angle) {
+		InVectf v = _mm_load_ps(data);
+		InVectf q = PERMUTE_PS(v, _MM_SHUFFLE(3, 3, 3, 3));
 
+		InVectf ang1 = _mm_mul_ps(_mm_set1_ps(2.f), _mm_acos_ps(q));
+		InVectf ang2 = _mm_set1_ps(0.f);
+
+		InVectf qq = _mm_mul_ps(q, q);
+		
+		
+		InVectf axi1 = _mm_mul_ps(v, _mm_rsqrt_ps(qq));
+		InVectf axi2 = _mm_setr_ps(1.f, 0.f, 0.f, 0.f);
+
+		InVectf cc = _mm_cmpge_ps(qq, _mm_set1_ps(1.f));
+
+		axi1 = _mm_and_ps(axi1, cc);
+		axi2 = _mm_andnot_ps(axi2, cc);
+		axi1 = _mm_or_ps(axi1, axi2);
+
+		ang1 = _mm_and_ps(ang1, cc);
+		ang2 = _mm_andnot_ps(ang2, cc);
+		ang1 = _mm_or_ps(ang1, ang2);
+
+		_mm_store_ss(angle, ang1);
+		storeVector3(axis, axi1);
+
+	}
+
+	template<> void taxisfQuat<double>(double* data, double* axis, double* angle) {
+		InVectd v = _mm256_load_pd(data);
+		InVectd q = _mm256_permutex_pd(v, _MM_PERM_ENUM::_MM_PERM_DDDD);
+
+		InVectd ang1 = _mm256_mul_pd(_mm256_set1_pd(1.0), _mm256_acos_pd(q));
+		InVectd ang2 = _mm256_set1_pd(0.f);
+
+		InVectd qq = _mm256_mul_pd(q, q);
+
+		InVectd ones = _mm256_set1_pd(1.0);
+		InVectd axi1 = _mm256_mul_pd(v, _mm256_div_pd(ones, _mm256_sqrt_pd(qq)));
+		InVectd axi2 = _mm256_setr_pd(1.f, 0.f, 0.f, 0.f);
+
+		InVectd cc = _mm256_cmp_pd(qq, ones, 13);
+
+		axi1 = _mm256_and_pd(axi1, cc);
+		axi2 = _mm256_andnot_pd(axi2, cc);
+		axi1 = _mm256_or_pd(axi1, axi2);
+
+		ang1 = _mm256_and_pd(ang1, cc);
+		ang2 = _mm256_andnot_pd(ang2, cc);
+		ang1 = _mm256_or_pd(ang1, ang2);
+
+
+		_mm_store_sd(angle, _mm256_extractf128_pd(ang1, 0x0));
+		storeVector3(axis, axi1);
+
+	}
+
+	template<> void multQuat<float>(float* q1, float* q2, float* result) {
+		InVectf qq1 = _mm_load_ps(q1);
+		InVectf qq2 = _mm_load_ps(q2);
+
+		InVectf ww = PERMUTE_PS(qq1, _MM_SHUFFLE(3, 3, 3, 3));
+		InVectf xx = PERMUTE_PS(qq1, _MM_SHUFFLE(0, 0, 0, 0));
+		InVectf yy = PERMUTE_PS(qq1, _MM_SHUFFLE(1, 1, 1, 1));
+		InVectf zz = PERMUTE_PS(qq1, _MM_SHUFFLE(2, 2, 2, 2));
+
+		InVectf sol = _mm_mul_ps(ww, qq2);
+
+		InVectf mul = _mm_setr_ps(1.f, -1.f, 1.f, -1.f);
+
+		InVectf tmp = _mm_mul_ps(xx, PERMUTE_PS(qq2, _MM_SHUFFLE(0, 1, 2, 3)));
+		sol = _mm_add_ps(sol, _mm_mul_ps(mul, tmp));
+
+		mul = _mm_setr_ps(1.f, 1.f, -1.f, -1.f);
+
+		tmp = _mm_mul_ps(yy, PERMUTE_PS(qq2, _MM_SHUFFLE(1, 0, 3, 2)));
+
+		sol = _mm_add_ps(sol, _mm_mul_ps(mul, tmp));
+
+		tmp = _mm_mul_ps(zz, PERMUTE_PS(qq2, _MM_SHUFFLE(2, 3, 0, 1)));
+
+		mul = _mm_setr_ps(-1.f, 1.f, 1.f, -1.f);
+
+		sol = _mm_add_ps(sol, _mm_mul_ps(mul, tmp));
+
+		_mm_store_ps(result, sol);
+
+
+	}
+
+	template<> void multQuat<double>(double* q1, double* q2, double* result) {
+		InVectd qq1 = _mm256_load_pd(q1);
+		InVectd qq2 = _mm256_load_pd(q2);
+
+		InVectd ww = _mm256_permutex_pd(qq1, _MM_PERM_ENUM::_MM_PERM_DDDD);
+		InVectd xx = _mm256_permutex_pd(qq1, _MM_PERM_ENUM::_MM_PERM_AAAA);
+		InVectd yy = _mm256_permutex_pd(qq1, _MM_PERM_ENUM::_MM_PERM_BBBB);
+		InVectd zz = _mm256_permutex_pd(qq1, _MM_PERM_ENUM::_MM_PERM_CCCC);
+
+		InVectd sol = _mm256_mul_pd(ww, qq2);
+
+		InVectd mul = _mm256_setr_pd(1.f, -1.f, 1.f, -1.f);
+
+		InVectd tmp = _mm256_mul_pd(xx, _mm256_permutex_pd(qq2, _MM_PERM_ENUM::_MM_PERM_ABCD));
+		sol = _mm256_add_pd(sol, _mm256_mul_pd(mul, tmp));
+
+		mul = _mm256_setr_pd(1.f, 1.f, -1.f, -1.f);
+
+		tmp = _mm256_mul_pd(yy, _mm256_permutex_pd(qq2, _MM_PERM_ENUM::_MM_PERM_BADC));
+
+		sol = _mm256_add_pd(sol, _mm256_mul_pd(mul, tmp));
+
+		tmp = _mm256_mul_pd(zz, _mm256_permutex_pd(qq2, _MM_PERM_ENUM::_MM_PERM_CDAB));
+
+		mul = _mm256_setr_pd(-1.f, 1.f, 1.f, -1.f);
+
+		sol = _mm256_add_pd(sol, _mm256_mul_pd(mul, tmp));
+
+		_mm256_store_pd(result, sol);
+
+
+	}
 }

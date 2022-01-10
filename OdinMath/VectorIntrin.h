@@ -370,7 +370,7 @@ namespace OdinMath {
 
 
 	/*returns a filled vector with registers as the answer*/
-	inline void dotVect3(InVectf& aVect, InVectf& bVect, InVectf& r) {
+	inline void dotVect3(InVectf aVect, InVectf bVect, InVectf& r) {
 		aVect = _mm_mul_ps(aVect, bVect);
 		InVectf temp = _mm_shuffle_ps(aVect, aVect, _MM_SHUFFLE(1, 1, 1, 1));
 		bVect = _mm_shuffle_ps(aVect, aVect, _MM_SHUFFLE(2, 2, 2, 2));
@@ -380,7 +380,7 @@ namespace OdinMath {
 
 	}
 
-	inline void dotVect3(InVectd& aVect, InVectd& bVect, InVectd& r) {
+	inline void dotVect3(InVectd aVect, InVectd bVect, InVectd& r) {
 		aVect = _mm256_mul_pd(aVect, bVect);
 		bVect = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_ABCC);
 		bVect = _mm256_add_pd(aVect, bVect);
@@ -664,8 +664,7 @@ namespace OdinMath {
 		InVectf b = _mm_shuffle_ps(r, a, _MM_SHUFFLE(0, 0, 3, 3));
 		r = _mm_shuffle_ps(r, b, _MM_SHUFFLE(3, 0, 1, 0));
 		InVectf rs = _mm_rsqrt_ps(r);
-		a = _mm_load_ps(data);
-		_mm_store_ps(data, _mm_mul_ps(a, rs));
+		_mm_store_ps(data, _mm_mul_ps(dd, rs));
 
 	}
 
@@ -677,8 +676,7 @@ namespace OdinMath {
 		InVectd b = _mm256_shuffle_pd(r, a, 0x5);
 		a = _mm256_shuffle_pd(r, b, 0x8);
 		InVectd rs = _mm256_sqrt_pd(a);
-		a = _mm256_load_pd(data);
-		_mm256_store_pd(data, _mm256_div_pd(a, rs));
+		_mm256_store_pd(data, _mm256_div_pd(dd, rs));
 
 	}
 
