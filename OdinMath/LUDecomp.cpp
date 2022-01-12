@@ -22,11 +22,11 @@ namespace OdinMath {
 	}
 	LU4::LU4(Matrix4& A)
 	{
-		
+
 		pivot(A);
 		A %= P;
 		//Matrix4 Ap = P * A;
-		
+
 
 		for (int i = 0; i < 4; i++) {
 			L(i, i) = (rl)1.0;
@@ -114,7 +114,7 @@ namespace OdinMath {
 
 		}
 	}
-	void LU4::invserse(Matrix4& inv)
+	void LU4::inverse(Matrix4& inv)
 	{
 		Matrix4 I;
 		solve(inv, I);
@@ -132,5 +132,139 @@ namespace OdinMath {
 		return det;
 
 	}
-	
+
+	void LU3::pivot(Matrix3& A)
+	{
+		rl t;
+		for (int i = 0; i < 3; i++) {
+			int maxR = i;
+			rl maxV = A(i, i);
+			for (int j = i; j < 3; j++) {
+				t = Math<rl>::odAbs(A(j, i));
+				if (maxV < t) {
+					maxR = j;
+					maxV = t;
+				}
+			}
+
+			if (maxR != i) {
+				P.swapRows(i, maxR);
+			}
+		}
+	}
+
+	LU3::LU3(Matrix3& A)
+	{
+		pivot(A);
+		A %= P;
+
+		for (int i = 0; i < 3; i++) {
+			L(i, i) = (rl)1.0;
+		}
+
+		for (int i = 0; i < 3; i++) {
+			U(i, i) = (rl)0.0;
+		}
+
+		for (int j = 0; j < 3; j++) {
+
+			for (int i = 0; i <= j; i++) {
+
+				rl sum = (rl)0.0;
+				for (int k = 0; k < i; k++) {
+					sum += (L(i, k) * U(k, j));
+				}
+
+				U(i, j) = A(i, j) - sum;
+			}
+
+			for (int i = j + 1; i < 3; i++) {
+
+				rl sum = (rl)0.0;
+				for (int k = 0; k < j; k++) {
+					sum += (L(i, k) * U(k, j));
+				}
+				if (U(j, j) == (rl)0.0)
+					throw std::exception("Matrix is singular");
+				L(i, j) = ((rl)1.0 / U(j, j)) * (A(i, j) - sum);
+
+			}
+		}
+
+	}
+
+	void LU3::forwardSub(Vector3& x, Vector3& b)
+	{
+		x[0] = (rl)0.0;
+		x[1] = (rl)0.0;
+		x[2] = (rl)0.0;
+
+		for (int i = 0; i < 3; i++) {
+
+			rl t = b[i];
+
+			for (int j = 0; j < i; j++) {
+				t -= (L(i, j) * x[j]);
+			}
+
+			x[i] = t / L(i, i);
+		}
+	}
+
+	void LU3::backSub(Vector3& x, Vector3& b)
+	{
+		x[0] = (rl)0.0;
+		x[1] = (rl)0.0;
+		x[2] = (rl)0.0;
+
+		for (int i = 2; i >= 0; i--) {
+
+			rl t = b[i];
+
+			for (int j = i + 1; j < 3; j++) {
+				t -= (U(i, j) * x[j]);
+			}
+
+			x[i] = t / U(i, i);
+		}
+	}
+
+
+
+	void LU3::solve(Vector3& x, Vector3& b)
+	{
+		Vector3 z = P * b;
+		Vector3 q;
+		forwardSub(q, z);
+		backSub(x, q);
+	}
+
+	void LU3::solve(Matrix3& x, Matrix3& b)
+	{
+		for (int i = 0; i < 3; i++) {
+			Vector3 v = b.getCol(i);
+			Vector3 r;
+			solve(r, v);
+			x.setCol(i, r);
+
+		}
+	}
+
+	void LU3::inverse(Matrix3& inv)
+	{
+		Matrix3 I;
+		solve(inv, I);
+	}
+
+	rl LU3::determinant()
+	{
+		rl det = (rl)1.0;
+		for (int i = 0; i < 3; i++) {
+			det *= U(i, i);
+			if (P(i, i) != (rl)1.0)
+				det *= (rl)-1.0;
+		}
+
+		return det;
+	}
 }

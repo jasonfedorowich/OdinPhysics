@@ -123,7 +123,7 @@ namespace OdinMath {
 			(*this)(r, 3) = v[3];
 		}
 		void setRow(int r, OVector4<real>&& v);
-
+		void swapRows(int i, int j);
 
 
 		static OMatrix3<real> identity() { return OMatrix3<real>(); }
@@ -408,6 +408,14 @@ namespace OdinMath {
 		return this->m[0][0] * this->m[0][0] + this->m[1][1] * this->m[1][1] + this->m[2][2] * this->m[2][2];
 
 #endif	
+	}
+
+	template<typename real>
+	inline void OMatrix3<real>::swapRows(int i, int j)
+	{
+		Math<real>::odSwap(&this(i, 0), &this(j, 0));
+		Math<real>::odSwap(&this(i, 1), &this(j, 1));
+		Math<real>::odSwap(&this(i, 2), &this(j, 2));
 	}
 	
 }

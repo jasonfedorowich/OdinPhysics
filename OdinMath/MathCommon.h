@@ -43,6 +43,9 @@ namespace OdinMath {
 		static real odRound(real x);
 		static real odFloor(real x);
 
+		static void odSwap(real& x, real& y);
+		static void odSwap(real* x, real* y);
+
 		static const real REAL_MAX;
 		static const real REAL_MIN;
 		static const real PI;
@@ -200,6 +203,23 @@ namespace OdinMath {
 	inline real Math<real>::odFloor(real x)
 	{
 		return std::floor(x);
+	}
+
+	template<typename real>
+	inline void Math<real>::odSwap(real& x, real& y)
+	{
+		real temp = y;
+		y = x;
+		x = temp;
+	}
+
+	template<typename real>
+	inline void Math<real>::odSwap(real* x, real* y)
+	{
+		real temp = *y;
+		*y = *x;
+		*x = temp;
+
 	}
 
 	typedef Math<float> Mathf;

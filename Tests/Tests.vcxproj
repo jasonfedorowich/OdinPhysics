@@ -161,6 +161,7 @@
     <ClCompile Include="DistanceTests.cpp" />
     <ClCompile Include="DXMatrixVector_tests.cpp" />
     <ClCompile Include="Intersections1.cpp" />
+    <ClCompile Include="LUDecomp_tests.cpp" />
     <ClCompile Include="MathCommon_tests.cpp" />
     <ClCompile Include="MatrixAndVectorTests1.cpp" />
     <ClCompile Include="OdinCollision_AABB_tests.cpp" />

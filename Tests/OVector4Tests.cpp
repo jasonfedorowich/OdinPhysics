@@ -52,6 +52,7 @@ namespace Tests
 			uu.normalize3();
 			uu.normal();
 			Assert::AreEqual(std::round(uu[0]), std::round(0.26726f));
+		
 
 		}
 

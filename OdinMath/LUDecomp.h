@@ -18,7 +18,29 @@ namespace OdinMath {
 		void solve(Matrix4& x, Matrix4& b);
 		void solve(Matrix4& x, Matrix4&& b);
 
-		void invserse(Matrix4& inv);
+		void inverse(Matrix4& inv);
+		rl determinant();
+
+	};
+
+	struct LU3 {
+
+		Matrix3 L, U, P;
+
+		void pivot(Matrix3& A);
+
+		LU3(Matrix3& A);
+		LU3(Matrix3&& A);
+
+		void forwardSub(Vector3& x, Vector3& b);
+		void backSub(Vector3& x, Vector3& b);
+
+		void solve(Vector3& x, Vector3& b);
+		void solve(Vector3& x, Vector3&& b);
+		void solve(Matrix3& x, Matrix3& b);
+		void solve(Matrix3& x, Matrix3&& b);
+
+		void inverse(Matrix3& inv);
 		rl determinant();
 
 	};
