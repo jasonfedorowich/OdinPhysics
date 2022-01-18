@@ -21,6 +21,27 @@ namespace OdinMath {
 		void setZ(float z) { (*this)[2] = z; }
 		void move(float mx, float my, float mz) { (*this)[0] += mx; (*this)[1] += my; (*this)[2] += mz; }
 
+		
+
+
+		OVector3 operator+(const OVector3& v1);
+		OVector3 operator-(const OVector3& v1);
+		void operator+= (const OVector3& v);
+		void operator-=(const OVector3& v);
+		float operator*(const OVector3& v) { return dot(v); }
+		void operator/=(const OVector3& v);
+		OVector3 operator/(const OVector3& v);
+		bool operator== (const OVector3& v) const;
+		bool operator!=(const OVector3& v) const { return !(*this == v); }
+		OVector3& operator=(const OVector3& v);
+		OVector3 operator>(OVector3& v);
+		OVector3 operator>=(OVector3& v);
+		void operator/=(real c);
+		void operator*=(real val);
+		OVector3 operator*(real val);
+		/*friend void operator*=(float val, DXVector4& vector);
+		friend DXVector4 operator*(float val, DXVector4& vector);*/
+
 		real distance(const OVector3& v);
 		real length();
 
@@ -33,25 +54,6 @@ namespace OdinMath {
 		real getAngleBetweenVectors(OVector3& v);
 		float getAngleToTarget(OVector3& v);
 
-
-		OVector3 operator+(const OVector3& v1);
-		OVector3 operator-(const OVector3& v1);
-		void operator+= (const OVector3& v) { *this = *this + v; }
-		void operator-=(const OVector3& v) { *this = *this - v; }
-		float operator*(const OVector3& v) { return dot(v); }
-		void operator/=(const OVector3& v) { *this = *this / v; }
-		OVector3 operator/(const OVector3& v);
-		bool operator== (const OVector3& v) const;
-		bool operator!=(const OVector3& v) const { return !(*this == v); }
-		OVector3& operator=(const OVector3& v);
-
-		void operator/=(real c);
-		void operator*=(real val);
-		OVector3 operator*(real val);
-		/*friend void operator*=(float val, DXVector4& vector);
-		friend DXVector4 operator*(float val, DXVector4& vector);*/
-
-
 		//todo
 		bool empty() {
 			return this->data[0] == (real)0.0 && this->data[1] == (real)0.0 && this->data[2] == (real)0.0;
@@ -59,15 +61,49 @@ namespace OdinMath {
 
 
 
+		static OVector3<real> zeros() { return OVector3<real>((real)0.f, (real)0.f, (real)0.f); }
+		static OVector3<real> ones() { return OVector3<real>((real)1.f, (real)1.f, (real)1.f); }
 
 	};
+	template<typename real>
+	inline void operator*=(real c, OVector3<real>& v) {
+#if defined(INTRINSICS)
+		scalarMul3<real>(v.data, c);
+#else
+		v[0] *= c;
+		v[1] *= c;
+		v[2] *= c;
+#endif
+	}
+	template<typename real>
+	inline OVector3<real> operator*(real c, OVector3<real>& v) {
+		OVector3<real> copy(v);
+#if defined(INTRINSICS)
+		scalarMul3<real>(copy.data, c);
+#else
+		copy[0] *= c;
+		copy[1] *= c;
+		copy[2] *= c;
+#endif
+		return copy;
+	}
 
 
 	template<typename real>
-	inline real OVector3<real>::distance(const OVector3& v)
+	inline real OVector3<real>::distance(const OVector3<real>& v)
 	{
-		OVector3 d = v - *this;
-		return d.length();
+		OVector3<real> res;
+#if defined(INTRINSICS)
+		
+		sub3<real>(v.data, this->data, res.data);
+		
+#else
+		res[0] = v[0] - (*this)[0];
+		res[1] = v[1] - (*this)[1];
+		res[2] = v[2] - (*this)[2];
+
+#endif
+		return res.length();
 	}
 
 	template<typename real>
@@ -184,6 +220,45 @@ namespace OdinMath {
 #endif	
 	}
 
+	template<typename real>
+	inline void OVector3<real>::operator+=(const OVector3& v)
+	{
+#if defined(INTRINSICS)
+		add3<real>(this->data, v.data, this->data);
+
+#else
+		(*this)[0] = (*this)[0] + v[0];
+		(*this)[1] = (*this)[1] + v[1];
+		(*this)[2] = (*this)[2] + v[2];
+#endif
+	}
+
+	template<typename real>
+	inline void OVector3<real>::operator-=(const OVector3& v)
+	{
+#if defined(INTRINSICS)
+		sub3<real>(this->data, v.data, this->data);
+
+#else
+		(*this)[0] = (*this)[0] - v[0];
+		(*this)[1] = (*this)[1] - v[1];
+		(*this)[2] = (*this)[2] - v[2];
+#endif
+	}
+
+
+	template<typename real>
+	inline void OVector3<real>::operator/=(const OVector3& v)
+	{
+#if defined(INTRINSICS)
+		div3<real>(this->data, v.data, this->data);
+
+#else
+		(*this)[0] = (*this)[0] / v[0];
+		(*this)[1] = (*this)[1] / v[1];
+		(*this)[2] = (*this)[2] / v[2];
+#endif
+	}
 
 	template<typename real>
 	inline OVector3<real> OVector3<real>::operator/(const OVector3<real>& v)
@@ -202,8 +277,7 @@ namespace OdinMath {
 	inline bool OVector3<real>::operator==(const OVector3& v) const
 	{
 #if defined(INTRINSICS)
-		OVector3<real> re;
-		return equals3<real>(this->data, v.data, re.data);
+		return equals4<real, 3>(this->data, v.data);
 
 #else
 		return (*this)[0] == v[0] && (*this)[1] == v[1] && (*this)[2] == v[2];
@@ -225,6 +299,34 @@ namespace OdinMath {
 
 		}
 		return *this;
+	}
+
+	template<typename real>
+	inline OVector3<real> OVector3<real>::operator>(OVector3<real>& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+		cmpgt<real, 3>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) > v[0];
+		res[1] = (*this) > v[1];
+		res[2] = (*this) > v[2];
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline OVector3<real> OVector3<real>::operator>=(OVector3<real>& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+		cmpgte<real, 3>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) >= v[0];
+		res[1] = (*this) >= v[1];
+		res[2] = (*this) >= v[2];
+#endif
+		return res;
 	}
 
 	template<typename real>
@@ -263,5 +365,6 @@ namespace OdinMath {
 		copy[1] *= c;
 		copy[2] *= c;
 #endif
+		return copy;
 	}
 }

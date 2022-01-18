@@ -28,8 +28,13 @@ namespace OdinMath {
 		void operator-=(DXVector3& v);
 		void operator*=(float scale);
 		void operator/=(float scale);
+		bool operator== (const DXVector3& v) const;
+		bool operator!=(const DXVector3& v);
 
 		DXVector3 operator-(DXVector3& v);
+		DXVector3 operator>(DXVector3& v);
+		DXVector3 operator>=(DXVector3& v);
+
 		const float& operator[](int idx) const;
 		float& operator[](int idx);
 
@@ -47,6 +52,9 @@ namespace OdinMath {
 		void store(XMVECTOR&& vector) { XMStoreFloat3(this, vector); }
 
 		XMVECTOR getXMVector() { return XMLoadFloat3(this); }
+
+		static DXVector3 zeros() { return DXVector3(0.f, 0.f, 0.f); }
+		static DXVector3 ones() { return DXVector3(1.f, 1.f, 1.f); }
 
 	};
 

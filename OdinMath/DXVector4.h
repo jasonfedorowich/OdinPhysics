@@ -66,6 +66,8 @@ namespace OdinMath {
 		void operator/=(float c);
 		void operator*=(float val);
 		DXVector4 operator*(float val);
+		DXVector4 operator>(DXVector4& v);
+		DXVector4 operator>=(DXVector4& v);
 		/*friend void operator*=(float val, DXVector4& vector);
 		friend DXVector4 operator*(float val, DXVector4& vector);*/
 
@@ -76,6 +78,8 @@ namespace OdinMath {
 
 		bool empty() { return x == 0 && y == 0 && z == 0; }
 
+		static DXVector4 zeros() { return DXVector4(0.f, 0.f, 0.f, 0.f); }
+		static DXVector4 ones() { return DXVector4(1.f, 1.f, 1.f, 1.f); }
 	};
 
 

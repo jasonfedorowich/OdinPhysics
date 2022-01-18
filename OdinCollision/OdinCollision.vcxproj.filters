@@ -39,7 +39,7 @@
     <ClInclude Include="OdinCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AABB.h">
+    <ClInclude Include="AABB3.h">
       <Filter>Header Files\CollisionPrimitive</Filter>
     </ClInclude>
     <ClInclude Include="OBB.h">
@@ -78,11 +78,9 @@
     <ClInclude Include="Sphere2PointIntersection.h">
       <Filter>Header Files\IntersectionTests</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AABB.inl">
-      <Filter>Source Files</Filter>
-    </None>
+    <ClInclude Include="AABB2.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sphere.cpp">
@@ -102,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="Sphere2PointIntersection.cpp">
       <Filter>Source Files\IntersectionTests</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB3.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

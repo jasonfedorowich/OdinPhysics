@@ -475,6 +475,36 @@ namespace OdinMath {
         return true;
     }
 
+    void outerProduct4f(InVectf& v1, InVectf& v2, InMatrix4F& M)
+    {
+    
+        InVectf r1 = PERMUTE_PS(v1, _MM_SHUFFLE(0, 0, 0, 0));
+        M.row[0] = _mm_mul_ps(r1, v2);
+        InVectf r2 = PERMUTE_PS(v1, _MM_SHUFFLE(1, 1, 1, 1));
+        M.row[1] = _mm_mul_ps(r2, v2);
+        InVectf r3 = PERMUTE_PS(v1, _MM_SHUFFLE(2, 2, 2, 2));
+        M.row[2] = _mm_mul_ps(r3, v2);
+        InVectf r4 = PERMUTE_PS(v1, _MM_SHUFFLE(3, 3, 3, 3));
+        M.row[3] = _mm_mul_ps(r4, v2);
+
+
+    }
+
+    void outerProduct4d(InVectd& v1, InVectd& v2, InMatrix4D& M)
+    {
+
+        InVectd r1 = _mm256_permutex_pd(v1, _MM_PERM_ENUM::_MM_PERM_AAAA);
+        M.row[0] = _mm256_mul_pd(r1, v2);
+        InVectd r2 = _mm256_permutex_pd(v1, _MM_PERM_ENUM::_MM_PERM_BBBB);
+        M.row[1] = _mm256_mul_pd(r2, v2);
+        InVectd r3 = _mm256_permutex_pd(v1, _MM_PERM_ENUM::_MM_PERM_CCCC);
+        M.row[2] = _mm256_mul_pd(r3, v2);
+        InVectd r4 = _mm256_permutex_pd(v1, _MM_PERM_ENUM::_MM_PERM_DDDD);
+        M.row[3] = _mm256_mul_pd(r4, v2);
+
+  
+    }
+
 
    
 
@@ -648,40 +678,38 @@ namespace OdinMath {
 
 
     template<> void outerProduct4<float>(const float* v1, const float* v2, float R[][4]) {
-        InVectf tmp = _mm_load_ps(v2);
+        InMatrix4F M;
+        InVectf v11 = _mm_load_ps(v1);
+        InVectf v22 = _mm_load_ps(v2);
+        outerProduct4f(v11, v22, M);
+        storeMat4(M, R);
 
-        InVectf r1 = _mm_set1_ps(v1[0]);
-        r1 = _mm_mul_ps(r1, tmp);
-        InVectf r2 = _mm_set1_ps(v1[1]);
-        r2 = _mm_mul_ps(r2, tmp);
-        InVectf r3 = _mm_set1_ps(v1[2]);
-        r3 = _mm_mul_ps(r3, tmp);
-        InVectf r4 = _mm_set1_ps(v1[3]);
-        r4 = _mm_mul_ps(r4, tmp);
-
-        _mm_store_ps(R[0], r1);
-        _mm_store_ps(R[1], r2);
-        _mm_store_ps(R[2], r3);
-        _mm_store_ps(R[3], r4);
 
     }
 
     template<> void outerProduct4<double>(const double* v1, const double* v2, double R[][4]) {
-        InVectd tmp = _mm256_load_pd(v2);
+        InMatrix4D M;
+        InVectd v11 = _mm256_load_pd(v1);
+        InVectd v22 = _mm256_load_pd(v2);
+        outerProduct4d(v11, v22, M);
+        storeMat4(M, R);
+    }
+    template<> void outerProduct4<float>(const float* v1, const float* v2, float R[][3]) {
+        InMatrix4F M;
+        InVectf v11 = loadVector3(v1);
+        InVectf v22 = loadVector3(v2);
+        outerProduct4f(v11, v22, M);
+        storeMat3(M, R);
 
-        InVectd r1 = _mm256_set1_pd(v1[0]);
-        r1 = _mm256_mul_pd(r1, tmp);
-        InVectd r2 = _mm256_set1_pd(v1[1]);
-        r2 = _mm256_mul_pd(r2, tmp);
-        InVectd r3 = _mm256_set1_pd(v1[2]);
-        r3 = _mm256_mul_pd(r3, tmp);
-        InVectd r4 = _mm256_set1_pd(v1[3]);
-        r4 = _mm256_mul_pd(r4, tmp);
 
-        _mm256_store_pd(R[0], r1);
-        _mm256_store_pd(R[1], r2);
-        _mm256_store_pd(R[2], r3);
-        _mm256_store_pd(R[3], r4);
+    }
+
+    template<> void outerProduct4<double>(const double* v1, const double* v2, double R[][3]) {
+        InMatrix4D M;
+        InVectd v11 = loadVector3(v1);
+        InVectd v22 = loadVector3(v2);
+        outerProduct4d(v11, v22, M);
+        storeMat3(M, R);
     }
 
 

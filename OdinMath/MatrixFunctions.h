@@ -2,15 +2,21 @@
 #include "OdinMath.h"
 namespace OdinMath {
 
-	
+	template<typename Matrix, typename real>
+	void identity(Matrix& I, int n) {
+		for (int i = 0; i < n; i++) {
+
+			for (int j = 0; j < n; j++) {
+
+				I(i, j) = i == j ? (real)1.0 : (real)0.0;
+			}
+		}
+
+	}
 	template<typename Matrix, typename real>
 	void minor(int d, Matrix& A, Matrix& R, int n) {
-		for (int i = 0; i < d; i++) {
-			for (int j = 0; j < n; j++) {
-				R(i, j) = i == j ? (real)1.0 : (real)0.0;
-			}
+		identity<Matrix, real>(R, n);
 
-		}
 		for (int i = d; i < n; i++) {
 			for (int j = d; j < n; j++) {
 				R(i, j) = A(i, j);
@@ -19,6 +25,7 @@ namespace OdinMath {
 		}
 	}
 
+	
 	template<typename Matrix, typename real>
 	void pivot(Matrix& P, Matrix& A, int d) {
 		real t;

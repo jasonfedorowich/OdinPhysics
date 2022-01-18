@@ -136,7 +136,7 @@ public:
 		DXVector4 v1(2.0f, 1.0, 3.0);
 		DXVector4 v2(2.0f, 0.0, 0.0);
 
-		Vector4 v3 = v1.cross(v2);
+		DXVector4 v3 = v1.cross(v2);
 
 		Assert::AreEqual(v3.getX(), 0.0f);
 		Assert::AreEqual(v3.getY(), 6.0f);
@@ -162,7 +162,7 @@ public:
 
 	TEST_METHOD(testVectorMatrixMult) {
 		DXMatrix4 mat;
-		Vector4 v1(1.0f, 2.0, 1.0);
+		DXVector4 v1(1.0f, 2.0, 1.0);
 		v1 *= mat;
 
 

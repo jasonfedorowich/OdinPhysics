@@ -182,7 +182,9 @@ namespace Tests
 			XMVECTOR qq3 = XMQuaternionMultiply(qq2, qq1);
 
 			Assert::AreEqual(roundf(XMVectorGetW(qq3)), roundf(q3[3]));
-
+			int u = 0xFFFFFFFF;
+			
+//#include <DirectXCollision.h>
 
 
 

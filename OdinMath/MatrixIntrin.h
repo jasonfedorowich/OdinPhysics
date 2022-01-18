@@ -322,19 +322,11 @@ namespace OdinMath {
 		storeVector3(r, O);
 
 	}
-
-	template<typename T>
-	inline void vectMatMult4(T* d, T M[][4], T* out) {
-		return;
-	}
-
-	template<> inline void vectMatMult4(float* v, float A[][4], float* out) {
-		InMatrix4F M(A);
-
-		InVectf v1 = _mm_set1_ps(v[0]);
-		InVectf v2 = _mm_set1_ps(v[1]);
-		InVectf v3 = _mm_set1_ps(v[2]);
-		InVectf v4 = _mm_set1_ps(v[3]);
+	inline void vectMatMult4f(InVectf& v, InMatrix4F& M, InVectf& r) {
+		InVectf v1 = PERMUTE_PS(v, _MM_SHUFFLE(0, 0, 0, 0));
+		InVectf v2 = PERMUTE_PS(v, _MM_SHUFFLE(1, 1, 1, 1));
+		InVectf v3 = PERMUTE_PS(v, _MM_SHUFFLE(2, 2, 2, 2));
+		InVectf v4 = PERMUTE_PS(v, _MM_SHUFFLE(3, 3, 3, 3));
 
 		InVectf t1 = _mm_mul_ps(v1, M.row[0]);
 		InVectf t2 = _mm_mul_ps(v2, M.row[1]);
@@ -343,9 +335,56 @@ namespace OdinMath {
 
 		t1 = _mm_add_ps(t1, t2);
 		t3 = _mm_add_ps(t3, t4);
-		t1 = _mm_add_ps(t1, t3);
+		r = _mm_add_ps(t1, t3);
+	}
 
-		_mm_store_ps(out, t1);
+	inline void vectMatMultd(InVectd& v, InMatrix4D& M, InVectd& r) {
+		InVectd v1 = _mm256_permutex_pd(v, _MM_PERM_ENUM::_MM_PERM_AAAA);
+		InVectd v2 = _mm256_permutex_pd(v, _MM_PERM_ENUM::_MM_PERM_BBBB);
+		InVectd v3 = _mm256_permutex_pd(v, _MM_PERM_ENUM::_MM_PERM_CCCC);
+		InVectd v4 = _mm256_permutex_pd(v, _MM_PERM_ENUM::_MM_PERM_DDDD);
+
+		InVectd t1 = _mm256_mul_pd(v1, M.row[0]);
+		InVectd t2 = _mm256_mul_pd(v2, M.row[1]);
+		InVectd t3 = _mm256_mul_pd(v3, M.row[2]);
+		InVectd t4 = _mm256_mul_pd(v4, M.row[3]);
+
+		t1 = _mm256_add_pd(t1, t2);
+		t3 = _mm256_add_pd(t3, t4);
+		r = _mm256_add_pd(t1, t3);
+	}
+	template<typename T, int N>
+	inline void vectMatMult4(T* d, T M[][N], T* out) {
+		return;
+	}
+
+	template<> inline void vectMatMult4(float* v, float A[][4], float* out) {
+		InMatrix4F M(A);
+		InVectf vv = _mm_load_ps(v);
+		InVectf r;
+		vectMatMult4f(vv, M, r);
+		_mm_store_ps(out, r);
+	}
+	template<> inline void vectMatMult4(double* v, double A[][4], double* out) {
+		InMatrix4D M(A);
+		InVectd vv = _mm256_load_pd(v);
+		InVectd r;
+		vectMatMultd(vv, M, r);
+		_mm256_store_pd(out, r);
+	}
+	template<> inline void vectMatMult4(float* v, float A[][3], float* out) {
+		InMatrix4F M(A);
+		InVectf vv = loadVector3(v);
+		InVectf r;
+		vectMatMult4f(vv, M, r);
+		storeVector3(out, r);
+	}
+	template<> inline void vectMatMult4(double* v, double A[][3], double* out) {
+		InMatrix4D M(A);
+		InVectd vv = loadVector3(v);
+		InVectd r;
+		vectMatMultd(vv, M, r);
+		storeVector3(out, r);
 	}
 
 	
@@ -401,7 +440,7 @@ namespace OdinMath {
 		InMatrix4F AA(A);
 
 		transpose4f(AA, output);
-		storeMat4(AA, O);
+		storeMat4(output, O);
 
 	}
 	template <> inline void transpose4<double>(double A[][4], double O[][4]) {
@@ -409,7 +448,7 @@ namespace OdinMath {
 		InMatrix4D AA(A);
 
 		transpose4d(AA, output);
-		storeMat4(AA, O);
+		storeMat4(output, O);
 
 	}
 
@@ -418,7 +457,7 @@ namespace OdinMath {
 		InMatrix4F AA(A);
 
 		transpose4f(AA, output);
-		storeMat3(AA, O);
+		storeMat3(output, O);
 
 	}
 	template <> inline void transpose4<double>(double A[][3], double O[][3]) {
@@ -426,11 +465,10 @@ namespace OdinMath {
 		InMatrix4D AA(A);
 
 		transpose4d(AA, output);
-		storeMat3(AA, O);
+		storeMat3(output, O);
 
 	}
 
-#define PERMUTE_PS( v, c ) _mm_shuffle_ps( v, v, c )
 
 	inline float trace4f(InMatrix4F& M) {
 		InVectf tmp0 = _mm_shuffle_ps(M.row[0], M.row[1], _MM_SHUFFLE(1, 1, 0, 0));
@@ -707,8 +745,11 @@ namespace OdinMath {
 	bool invert4f(InMatrix4F& A, InMatrix4F& O, float eps, float* determinant);
 	bool invert4d(InMatrix4D& A, InMatrix4D& O, double eps, double* determinant);
 
-	template<typename T>
-	void outerProduct4(const T* v1, const T* v2, T R[][4]);
+	void outerProduct4f(InVectf& v1, InVectf& v2, InMatrix4F& M);
+	void outerProduct4d(InVectd& v1, InVectd& v2, InMatrix4D& M);
+
+	template<typename T, int N>
+	void outerProduct4(const T* v1, const T* v2, T R[][N]);
 
 	template<typename T, int N>
 	void matScale4(T A[][N], T scale, T R[][N]);

@@ -140,7 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
+    <ClInclude Include="AABB2.h" />
+    <ClInclude Include="AABB3.h" />
     <ClInclude Include="AABB2PointDistance.h" />
     <ClInclude Include="AABB2PointIntersection.h" />
     <ClInclude Include="Circle.h" />
@@ -156,11 +157,9 @@
     <ClInclude Include="Sphere2PointIntersection.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AABB.inl" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="AABB2PointDistance.cpp" />
     <ClCompile Include="AABB2PointIntersection.cpp" />
+    <ClCompile Include="AABB3.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Sphere2PointDistance.cpp" />

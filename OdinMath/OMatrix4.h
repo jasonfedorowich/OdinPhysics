@@ -144,9 +144,11 @@ namespace OdinMath {
 #include "OMatrix4.inl"
 
 	template<typename real>
-	inline OMatrix4<real> operator*(float scale, OMatrix4<real> & m) {
+	inline OMatrix4<real> operator*(float scale, OMatrix4<real>& m) {
+		OMatrix4<real> res;
 #if defined(INTRINSICS)
-		matScale4(m.data, scale, m.data);
+
+		matScale4(m.data, scale, res.data);
 #else
 		m(0, 0) *= scale;
 		m(0, 1) *= scale;
@@ -168,7 +170,7 @@ namespace OdinMath {
 		m(3, 2) *= scale;
 		m(3, 3) *= scale;
 #endif
-	
+		return res;
 	}
 	template<typename real>
 	inline void operator*=(OVector4<real>& vector, OMatrix4<real>& matrix)
@@ -562,10 +564,10 @@ namespace OdinMath {
 	template<typename real>
 	inline void OMatrix4<real>::swapRows(int i, int j)
 	{
-		Math<real>::odSwap(&this(i, 0), &this(j, 0));
-		Math<real>::odSwap(&this(i, 1), &this(j, 1));
-		Math<real>::odSwap(&this(i, 2), &this(j, 2));
-		Math<real>::odSwap(&this(i, 3), &this(j, 3));
+		Math<real>::odSwap(&(*this)(i, 0), &(*this)(j, 0));
+		Math<real>::odSwap(&(*this)(i, 1), &(*this)(j, 1));
+		Math<real>::odSwap(&(*this)(i, 2), &(*this)(j, 2));
+		Math<real>::odSwap(&(*this)(i, 3), &(*this)(j, 3));
 	}
 
 	

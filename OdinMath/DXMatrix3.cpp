@@ -189,7 +189,7 @@ namespace OdinMath {
 
 	DXMatrix3 DXMatrix3::getTranspose()
 	{
-		Matrix3 copy(*this);
+		DXMatrix3 copy(*this);
 		copy.transpose();
 		return copy;
 	}

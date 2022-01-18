@@ -102,7 +102,7 @@ namespace MathTests
 			gs<Matrix3, Vector3, float>(B, Q, R, 3);
 			Assert::AreEqual(std::roundf(inv(0, 0)), std::roundf(0.333));
 
-			Vector3 v{ 26.f, 75 ,31 };
+			Vector3 v{ 26.f, 75.f ,31.f };
 			Vector3 q{ 0.62469f, 0.62469, 0.46852 };
 			float d = v.dot(q);
 

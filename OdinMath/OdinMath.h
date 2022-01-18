@@ -50,13 +50,13 @@
 
 namespace OdinMath {
 #if 1
-	using Vector4 = DXVector4;
-	using Matrix4 = DXMatrix4;
-	using Vector3 = DXVector3;
-	using Vector2 = DXVector2;
-	using Matrix3 = DXMatrix3;
-	using Matrix2 = DXMatrix2;
-
+	using Vector4 = OVector4<float>;
+	using Matrix4 = OMatrix4<float>;
+	using Vector3 = OVector3<float>;
+	//using Vector2 = OVector2<float>;
+	using Matrix3 = OMatrix3<float>;
+	//using Matrix2 = OMa;
+	using Quat = OQuat<float>;
 #elif 0
 	using Vector4 = DXVector4;
 	using Matrix4 = DXMatrix4;
@@ -75,8 +75,11 @@ namespace OdinMath {
 
 #if 1
 typedef float rl;
-using ODVector = OdinMath::Vector4;
-
+using ODVector4 = OdinMath::Vector4;
+using ODVector3 = OdinMath::Vector3;
+using ODQuat = OdinMath::Quat;
+using ODMatrix4 = OdinMath::Matrix4;
+using ODMatrix3 = OdinMath::Matrix3;
 
 #endif
 

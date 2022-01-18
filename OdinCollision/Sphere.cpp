@@ -1,12 +1,12 @@
 #include "OdinCollision.h"
 
 namespace OdinCollision {
-	BoundingSphere::BoundingSphere(std::vector<OdinMath::Vector4>& points)
+	BoundingSphere::BoundingSphere(std::vector<ODVector3>& points)
 	{
 		int n = points.size();
 	
-		ODVector maxi = {OdinMath::Math<rl>::REAL_MIN, OdinMath::Math<rl>::REAL_MIN, OdinMath::Math<rl>::REAL_MIN};
-		ODVector mini = {OdinMath::Math<rl>::REAL_MAX, OdinMath::Math<rl>::REAL_MAX, OdinMath::Math<rl>::REAL_MAX };
+		ODVector3 maxi{OdinMath::Math<rl>::REAL_MIN, OdinMath::Math<rl>::REAL_MIN, OdinMath::Math<rl>::REAL_MIN};
+		ODVector3 mini{OdinMath::Math<rl>::REAL_MAX, OdinMath::Math<rl>::REAL_MAX, OdinMath::Math<rl>::REAL_MAX };
 
 		for (int i = 0; i < n; i++) {
 			maxi[0] = OdinMath::Math<rl>::odMax(maxi[0], points[i][0]);
@@ -19,10 +19,8 @@ namespace OdinCollision {
 			mini[2] = OdinMath::Math<rl>::odMin(mini[2], points[i][2]);
 
 		}
-
-		center[0] = (mini[0] + maxi[0]) / (rl)2.0;
-		center[1] = (mini[1] + maxi[1]) / (rl)2.0;
-		center[2] = (mini[2] + maxi[2]) / (rl)2.0;
+		center = mini + maxi;
+		center /= (rl)2.0;
 
 		radius = OdinMath::Math<rl>::REAL_MIN;
 
@@ -33,7 +31,7 @@ namespace OdinCollision {
 
 
 	}
-	BoundingSphere::BoundingSphere(std::vector<ODVector>&& points) : BoundingSphere(points)
+	BoundingSphere::BoundingSphere(std::vector<ODVector3>&& points) : BoundingSphere(points)
 	{
 
 	}
@@ -48,10 +46,27 @@ namespace OdinCollision {
 			this->radius = radius;
 		}return *this;
 	}
-	bool BoundingSphere::overlaps(BoundingSphere& sphere)
+	bool BoundingSphere::intersects(BoundingSphere& sphere)
 	{
-		return sphere.center.distance(sphere.center) <= (radius + sphere.radius);
+		ODVector3 tmp = sphere.center - center;
+		return tmp.dot(tmp) <= (radius + sphere.radius) *(radius + sphere.radius);
 	}
+
+	bool BoundingSphere::contains(BoundingSphere& sphere)
+	{
+		rl d = this->center.distance(sphere.center);
+		bool noIntersect = d > (radius + sphere.radius);
+		if (noIntersect)
+			return false;
+		return d <= radius - sphere.radius;
+
+	}
+
+	bool BoundingSphere::disjoint(BoundingSphere& other)
+	{
+		return !intersects(other);
+	}
+	
 	BoundingSphere BoundingSphere::merge(BoundingSphere& s)
 	{
 		BoundingSphere ms;
@@ -69,7 +84,7 @@ namespace OdinCollision {
 			}
 		}
 		else {
-			ODVector offset = s.center - center;
+			ODVector3 offset = s.center - center;
 			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
 			ms.radius = (dist + s.radius + radius) * (rl)0.5;
 			ms.center = center;
@@ -96,7 +111,7 @@ namespace OdinCollision {
 			
 		}
 		else {
-			ODVector offset = s.center - center;
+			ODVector3 offset = s.center - center;
 			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
 			rl rad = (dist + s.radius + radius) * (rl)0.5;
 			if (dist > 0)

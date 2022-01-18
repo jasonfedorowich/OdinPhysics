@@ -1,7 +1,7 @@
 #include "OdinMath.h"
 
 namespace OdinMath {
-	BSplineCurve4::BSplineCurve4(std::vector<ODVector>& controlPoints, int d, bool open, std::vector<rl>&& knotVector) : controlPoints(controlPoints), d(d), n(controlPoints.size())
+	BSplineCurve4::BSplineCurve4(std::vector<ODVector4>& controlPoints, int d, bool open, std::vector<rl>&& knotVector) : controlPoints(controlPoints), d(d), n(controlPoints.size())
 	{
 		basis = new BSplineBasis<rl>(d, n, open, knotVector);
 

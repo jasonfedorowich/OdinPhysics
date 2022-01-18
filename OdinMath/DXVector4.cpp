@@ -205,5 +205,10 @@ namespace OdinMath {
 		return DXVector4(x * val, y * val, z * val, w * val);
 	}
 
+	DXVector4 DXVector4::operator>(DXVector4& v)
+	{
+		return DXVector4();
+	}
+
 
 }
