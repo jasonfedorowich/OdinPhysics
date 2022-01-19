@@ -147,6 +147,9 @@
     <ClInclude Include="QuatIntrin.h">
       <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
+    <ClInclude Include="OVector2.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Eigen.cpp">

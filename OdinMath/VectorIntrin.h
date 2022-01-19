@@ -79,6 +79,20 @@ namespace OdinMath {
 	}*/
 #define PERMUTE_PS( v, c ) _mm_shuffle_ps( v, v, c )
 
+	inline InVectf loadVector2(const float* in) {
+		InVectf t1 = _mm_load_ss(&(in[0]));
+		InVectf t2 = _mm_load_ss(&(in[1]));
+		InVectf xy = _mm_unpacklo_ps(t1, t2);
+		InVectf zw = _mm_set1_ps(0.f);
+		return _mm_shuffle_ps(xy, zw, _MM_SHUFFLE(3, 3, 1, 0));
+	}
+	inline InVectd loadVector2(const double* in) {
+		__m128d x = _mm_load_sd(&(in[0]));
+		__m128d y = _mm_load_sd(&(in[1]));
+		__m128d xy = _mm_unpacklo_pd(x, y);
+		__m128d zw = _mm_set1_pd(0.0);
+		return _mm256_set_m128d(zw, xy);
+	}
 	inline InVectf loadVector3(const float* in) {
 		InVectf t1 = _mm_load_ss(&(in[0]));
 		InVectf t2 = _mm_load_ss(&(in[1]));
@@ -96,6 +110,17 @@ namespace OdinMath {
 		__m128d t3 = _mm_set_sd(0.0);
 		 t3 = _mm_unpacklo_pd(t2, t3);
 		return _mm256_set_m128d(t3, t1);
+	}
+	inline void storeVector2(float* out, InVectf& in) {
+		_mm_store_ss(&(out[0]), in);
+		InVectf t1 = _mm_shuffle_ps(in, in, _MM_SHUFFLE(1, 1, 1, 1));
+		_mm_store_ss(&(out[1]), t1);
+	}
+	inline void storeVector2(double* out, InVectd& in) {
+		__m128d lower = _mm256_extractf128_pd(in, 0x0);
+		_mm_store_sd(&(out[0]), lower);
+		lower = _mm_shuffle_pd(lower, lower, 0x3);
+		_mm_store_sd(&(out[1]), lower);
 	}
 
 	inline void storeVector3(float* out, InVectf& in) {
@@ -158,40 +183,44 @@ namespace OdinMath {
 
 	template<> inline void store3<float>(float* out, const float* b) {
 		InVectf in = loadVector3(b);
-		_mm_store_ss(&(out[0]), in);
-		InVectf t1 = _mm_shuffle_ps(in, in, _MM_SHUFFLE(1, 1, 1, 1));
-		_mm_store_ss(&(out[1]), t1);
-		InVectf t2 = _mm_shuffle_ps(in, in, _MM_SHUFFLE(2, 2, 2, 2));
-		_mm_store_ss(&(out[2]), t2);
+		storeVector3(out, in);
 	}
 
 	template<> inline void store3<double>(double* out, const double* b) {
 		InVectd in = loadVector3(b);
-		__m128d lower = _mm256_extractf128_pd(in, 0x0);
-		__m128d upper = _mm256_extractf128_pd(in, 0x1);
-		_mm_store_sd(&(out[0]), lower);
-		lower = _mm_shuffle_pd(lower, lower, 0x3);
-		_mm_store_sd(&(out[1]), lower);
-		_mm_store_sd(&(out[2]), upper);
+		storeVector3(out, in);
 	}
 
+	template<typename T>
+	inline void store2(T* out, const T* in) {
+		return;
+
+	}
+	template<> inline void store2<float>(float* out, const float* in) {
+		InVectf inn = loadVector2(in);
+		storeVector2(out, inn);
+	}
+	template<> inline void store2<double>(double* out, const double* in) {
+		InVectd inn = loadVector2(in);
+		storeVector2(out, inn);
+	}
 
 	inline void add4(InVectf& a, InVectf& b, InVectf& out) {
 		out = _mm_add_ps(a, b);
 	}
-	template<typename T>
+	template<typename T, int N>
 	inline void add4(const T* a, const T* b, T* out) {
 		return;
 	}
 
-	template<> inline void add4<float>(const float* a, const float* b, float* out) {
+	template<> inline void add4<float, 4>(const float* a, const float* b, float* out) {
 		InVectf aVec = _mm_loadu_ps(a);
 		InVectf bVec = _mm_loadu_ps(b);
 		InVectf oVec = _mm_add_ps(aVec, bVec);
 		_mm_store_ps(out, oVec);
 
 	}
-	template<> inline void add4<double>(const double* a, const double* b, double* out) {
+	template<> inline void add4<double, 4>(const double* a, const double* b, double* out) {
 		InVectd aVec = _mm256_loadu_pd(a);
 		InVectd bVec = _mm256_loadu_pd(b);
 		InVectd oVec = _mm256_add_pd(aVec, bVec);
@@ -199,79 +228,103 @@ namespace OdinMath {
 
 	}
 
-	template<typename T>
-	inline void add3(const T* a, const T* b, T* out) {
-		return;
-	}
-
-	template<> inline void add3<float>(const float* a, const float* b, float* out) {
+	template<> inline void add4<float, 3>(const float* a, const float* b, float* out) {
 		InVectf av = loadVector3(a);
 		InVectf bv = loadVector3(b);
-		storeVector3(out, _mm_add_ps(av, bv));
+		InVectf oVec = _mm_add_ps(av, bv);
+		storeVector3(out, oVec);
+
+	}
+	template<> inline void add4<double, 3>(const double* a, const double* b, double* out) {
+		InVectd aVec = loadVector3(a);
+		InVectd bVec = loadVector3(b);
+		InVectd oVec = _mm256_add_pd(aVec, bVec);
+		storeVector3(out, oVec);
 
 	}
 
-	template<> inline void add3<double>(const double* a, const double* b, double* out) {
-		InVectd av = loadVector3(a);
-		InVectd bv = loadVector3(b);
-		storeVector3(out, _mm256_add_pd(av, bv));
+	template<> inline void add4<float, 2>(const float* a, const float* b, float* out) {
+		InVectf aVec = loadVector2(a);
+		InVectf bVec = loadVector2(b);
+		InVectf oVec = _mm_add_ps(aVec, bVec);
+		storeVector2(out, oVec);
+
+	}
+	template<> inline void add4<double, 2>(const double* a, const double* b, double* out) {
+		InVectd aVec = loadVector2(a);
+		InVectd bVec = loadVector2(b);
+		InVectd oVec = _mm256_add_pd(aVec, bVec);
+		storeVector2(out, oVec);
 
 	}
 
+	
 	inline void sub4(InVectf& a, InVectf& b, InVectf& out) {
 		out = _mm_sub_ps(a, b);
 	}
 
-	template<typename T>
+	template<typename T, int N>
 	inline void sub4(const T* a, const T* b, T* out) {
 		return;
 	}
 
-	template<> inline void sub4<float>(const float* a, const float* b, float* out) {
+	template<> inline void sub4<float, 4>(const float* a, const float* b, float* out) {
 		InVectf aVec = _mm_loadu_ps(a);
 		InVectf bVec = _mm_loadu_ps(b);
 		InVectf oVec = _mm_sub_ps(aVec, bVec);
 		_mm_store_ps(out, oVec);
 
 	}
-	template<> inline void sub4<double>(const double* a, const double* b, double* out) {
+	template<> inline void sub4<double, 4>(const double* a, const double* b, double* out) {
 		InVectd aVec = _mm256_loadu_pd(a);
 		InVectd bVec = _mm256_loadu_pd(b);
 		InVectd oVec = _mm256_sub_pd(aVec, bVec);
 		_mm256_store_pd(out, oVec);
 
 	}
+	template<> inline void sub4<float, 3>(const float* a, const float* b, float* out) {
+		InVectf aVec = loadVector3(a);
+		InVectf bVec = loadVector3(b);
+		InVectf oVec = _mm_sub_ps(aVec, bVec);
+		storeVector3(out, oVec);
 
-	template<typename T>
-	inline void sub3(const T* a, const T* b, T* out) {
-		return;
+	}
+	template<> inline void sub4<double, 3>(const double* a, const double* b, double* out) {
+		InVectd aVec = loadVector3(a);
+		InVectd bVec = loadVector3(b);
+		InVectd oVec = _mm256_sub_pd(aVec, bVec);
+		storeVector3(out, oVec);
+
 	}
 
-	template<> inline void sub3<float>(const float* a, const float* b, float* out) {
-		InVectf av = loadVector3(a);
-		InVectf bv = loadVector3(b);
-		storeVector3(out, _mm_sub_ps(av, bv));
+	template<> inline void sub4<float, 2>(const float* a, const float* b, float* out) {
+		InVectf aVec = loadVector2(a);
+		InVectf bVec = loadVector2(b);
+		InVectf oVec = _mm_sub_ps(aVec, bVec);
+		storeVector2(out, oVec);
+
 	}
-	template<> inline void sub3<double>(const double* a, const double* b, double* out) {
-		InVectd av = loadVector3(a);
-		InVectd bv = loadVector3(b);
-		storeVector3(out, _mm256_sub_pd(av, bv));
+	template<> inline void sub4<double, 2>(const double* a, const double* b, double* out) {
+		InVectd aVec = loadVector2(a);
+		InVectd bVec = loadVector2(b);
+		InVectd oVec = _mm256_sub_pd(aVec, bVec);
+		storeVector2(out, oVec);
+
 	}
 
-
-	template<typename T>
+	template<typename T, int N>
 	inline void div4(const T* a, const T* b, T* out) {
 		return;
 	}
 
-	template<> inline void div4<float>(const float* a, const float* b, float* out) {
+	template<> inline void div4<float, 4>(const float* a, const float* b, float* out) {
 		InVectf aVec = _mm_loadu_ps(a);
 		InVectf bVec = _mm_loadu_ps(b);
 		InVectf oVec = _mm_div_ps(aVec, bVec);
 		_mm_store_ps(out, oVec);
 
 	}
-	template<> inline void div4<double>(const double* a, const double* b, double* out) {
+	template<> inline void div4<double, 4>(const double* a, const double* b, double* out) {
 		InVectd aVec = _mm256_loadu_pd(a);
 		InVectd bVec = _mm256_loadu_pd(b);
 		InVectd oVec = _mm256_div_pd(aVec, bVec);
@@ -279,22 +332,33 @@ namespace OdinMath {
 
 
 	}
-
-	template<typename T>
-	inline void div3(const T* a, const T* b, T* out) {
-		return;
-	}
-
-	template<> inline void div3<float>(const float* a, const float* b, float* out) {
+	template<> inline void div4<float, 3>(const float* a, const float* b, float* out) {
 		InVectf aVec = loadVector3(a);
 		InVectf bVec = loadVector3(b);
-		_mm_store_ps(out, _mm_div_ps(aVec, bVec));
+		InVectf oVec = _mm_div_ps(aVec, bVec);
+		storeVector3(out, oVec);
+
 	}
-	template<> inline void div3<double>(const double* a, const double* b, double* out) {
+	template<> inline void div4<double, 3>(const double* a, const double* b, double* out) {
 		InVectd aVec = loadVector3(a);
 		InVectd bVec = loadVector3(b);
-		_mm256_store_pd(out, _mm256_div_pd(aVec, bVec));
+		InVectd oVec = _mm256_div_pd(aVec, bVec);
+		storeVector3(out, oVec);
 	}
+	template<> inline void div4<float, 2>(const float* a, const float* b, float* out) {
+		InVectf aVec = loadVector2(a);
+		InVectf bVec = loadVector2(b);
+		InVectf oVec = _mm_div_ps(aVec, bVec);
+		storeVector2(out, oVec);
+
+	}
+	template<> inline void div4<double, 2>(const double* a, const double* b, double* out) {
+		InVectd aVec = loadVector2(a);
+		InVectd bVec = loadVector2(b);
+		InVectd oVec = _mm256_div_pd(aVec, bVec);
+		storeVector2(out, oVec);
+	}
+
 
 	inline bool equals4f(InVectf& aVec, InVectf& bVec) {
 		InVectf tempV = _mm_cmpeq_ps(aVec, bVec);
@@ -351,6 +415,23 @@ namespace OdinMath {
 	template<> inline bool equals4<float, 3>(const float* a, const float* b) {
 		InVectf aVec = loadVector3(a);
 		InVectf bVec = loadVector3(b);
+
+		return equals4f(aVec, bVec);
+
+
+	}
+	template<> inline bool equals4<double, 2>(const double* a, const double* b) {
+		InVectd aVec = loadVector2(a);
+		InVectd bVec = loadVector2(b);
+
+		return equals4d(aVec, bVec);
+
+
+	}
+
+	template<> inline bool equals4<float, 2>(const float* a, const float* b) {
+		InVectf aVec = loadVector2(a);
+		InVectf bVec = loadVector2(b);
 
 		return equals4f(aVec, bVec);
 
@@ -434,12 +515,12 @@ namespace OdinMath {
 	}
 
 
-	template<typename T>
+	template<typename T, int N>
 	inline T dot4(const T* a, const T* b) {
 		return 0;
 	}
 
-	template<> inline float dot4<float>(const float* af, const float* bf) {
+	template<> inline float dot4<float, 4>(const float* af, const float* bf) {
 		InVectf a = _mm_loadu_ps(af);
 		InVectf b = _mm_loadu_ps(bf);
 		InVectf r;
@@ -449,14 +530,53 @@ namespace OdinMath {
 
 	}
 
-	template<> inline double dot4<double>(const double* af, const double* bf) {
+	template<> inline double dot4<double, 4>(const double* af, const double* bf) {
 		InVectd aVect = _mm256_load_pd(af);
 		InVectd bVect = _mm256_load_pd(bf);
 		InVectd r;
 		dot4d(aVect, bVect, r);
 
-		return _mm256_cvtsd_f64(aVect);
+		return _mm256_cvtsd_f64(r);
 	}
+
+	template<> inline float dot4<float, 3>(const float* af, const float* bf) {
+		InVectf a = loadVector3(af);
+		InVectf b = loadVector3(bf);
+		InVectf r;
+		dot4f(a, b, r);
+
+		return _mm_cvtss_f32(r);
+
+	}
+
+	template<> inline double dot4<double, 3>(const double* af, const double* bf) {
+		InVectd aVect = loadVector3(af);
+		InVectd bVect = loadVector3(bf);
+		InVectd r;
+		dot4d(aVect, bVect, r);
+
+		return _mm256_cvtsd_f64(r);
+	}
+
+	template<> inline float dot4<float, 2>(const float* af, const float* bf) {
+		InVectf a = loadVector2(af);
+		InVectf b = loadVector2(bf);
+		InVectf r;
+		dot4f(a, b, r);
+
+		return _mm_cvtss_f32(r);
+
+	}
+
+	template<> inline double dot4<double, 2>(const double* af, const double* bf) {
+		InVectd aVect = loadVector2(af);
+		InVectd bVect = loadVector2(bf);
+		InVectd r;
+		dot4d(aVect, bVect, r);
+
+		return _mm256_cvtsd_f64(r);
+	}
+
 
 	inline void length4f(InVectf& v, InVectf& out) {
 		dot4f(v, v, out);
@@ -471,6 +591,7 @@ namespace OdinMath {
 
 
 	}
+
 	template<typename T, int N>
 	inline T _dot3(const T* a, const T* b) {
 
@@ -512,164 +633,196 @@ namespace OdinMath {
 		dotVect3(aa, bb, r);
 		return _mm256_cvtsd_f64(r);
 	}
+	inline void cross4f(InVectf& a, InVectf& b, InVectf& out) {
+		InVectf temp1 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1));
+		InVectf temp2 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2));
+		temp1 = _mm_mul_ps(temp1, temp2);
+
+		InVectf temp3 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2));
+		InVectf temp4 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1));
+		temp3 = _mm_mul_ps(temp3, temp4);
+
+
+		out = _mm_sub_ps(temp1, temp3);
+	}
+
+	inline void cross4d(InVectd& aVect, InVectd& bVect, InVectd& out) {
+
+		InVectd perm1 = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_DACB);
+		InVectd perm2 = _mm256_permutex_pd(bVect, _MM_PERM_ENUM::_MM_PERM_DBAC);
+		perm1 = _mm256_mul_pd(perm1, perm2);
+
+		perm2 = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_DBAC);
+		InVectd perm3 = _mm256_permutex_pd(bVect, _MM_PERM_ENUM::_MM_PERM_DACB);
+		perm2 = _mm256_mul_pd(perm2, perm3);
+
+		out = _mm256_sub_pd(perm1, perm2);
+	}
+
 	//cross 4 is for Vector4
-	template<typename T>
+	template<typename T, int N>
 	inline void cross4(const T* a, const T* b, T* r) {
 		return;
 	}
 	//todo do we need to blank out w?
-	template<> inline void cross4<float>(const float* af, const float* bf, float* r) {
-		InVectf a = _mm_loadu_ps(af);
-		InVectf b = _mm_loadu_ps(bf);
-
-		InVectf temp1 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1));
-		InVectf temp2 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2));
-		temp1 = _mm_mul_ps(temp1, temp2);
-
-		InVectf temp3 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2));
-		InVectf temp4 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1));
-		temp3 = _mm_mul_ps(temp3, temp4);
-
-
-		temp3 = _mm_sub_ps(temp1, temp3);
-		_mm_store_ps(r, temp3);
-	}
-
-	template<> inline void cross4<double>(const double* af, const double* bf, double* r) {
-		InVectd aVect = _mm256_load_pd(af);
-		InVectd bVect = _mm256_load_pd(bf);
-
-		InVectd perm1 = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_DACB);
-		InVectd perm2 = _mm256_permutex_pd(bVect, _MM_PERM_ENUM::_MM_PERM_DBAC);
-		perm1 = _mm256_mul_pd(perm1, perm2);
-
-		perm2 = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_DBAC);
-		InVectd perm3 = _mm256_permutex_pd(bVect, _MM_PERM_ENUM::_MM_PERM_DACB);
-		perm2 = _mm256_mul_pd(perm2, perm3);
-
-		perm1 = _mm256_sub_pd(perm1, perm2);
-		_mm256_store_pd(r, perm1);
-	}
-
-	template<typename T>
-	inline void cross3(const T* a, const T* b, T* r) {
-		return;
-	}
-
-	template<> inline void cross3<float>(const float* af, const float* bf, float* r) {
+	template<> inline void cross4<float, 4>(const float* af, const float* bf, float* r) {
 		InVectf a = loadVector3(af);
 		InVectf b = loadVector3(bf);
-
-		InVectf temp1 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1));
-		InVectf temp2 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2));
-		temp1 = _mm_mul_ps(temp1, temp2);
-
-		InVectf temp3 = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2));
-		InVectf temp4 = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1));
-		temp3 = _mm_mul_ps(temp3, temp4);
-
-
-		temp3 = _mm_sub_ps(temp1, temp3);
-		storeVector3(r, temp3);
+		InVectf out;
+		cross4f(a, b, out);
+		_mm_store_ps(r, out);
 	}
 
-	template<> inline void cross3<double>(const double* af, const double* bf, double* r) {
+	template<> inline void cross4<double, 4>(const double* af, const double* bf, double* r) {
 		InVectd aVect = loadVector3(af);
 		InVectd bVect = loadVector3(bf);
+		InVectd out;
+		cross4d(aVect, bVect, out);
+		_mm256_store_pd(r, out);
+	}
+	template<> inline void cross4<float, 3>(const float* af, const float* bf, float* r) {
+		InVectf a = loadVector3(af);
+		InVectf b = loadVector3(bf);
+		InVectf out;
+		cross4f(a, b, out);
+		storeVector3(r, out);
+	}
 
-		InVectd perm1 = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_DACB);
-		InVectd perm2 = _mm256_permutex_pd(bVect, _MM_PERM_ENUM::_MM_PERM_DBAC);
-		perm1 = _mm256_mul_pd(perm1, perm2);
+	template<> inline void cross4<double, 3>(const double* af, const double* bf, double* r) {
+		InVectd aVect = loadVector3(af);
+		InVectd bVect = loadVector3(bf);
+		InVectd out;
+		cross4d(aVect, bVect, out);
+		storeVector3(r, out);
+	}
+	template<> inline void cross4<float, 2>(const float* af, const float* bf, float* r) {
+		InVectf a = loadVector2(af);
+		InVectf b = loadVector2(bf);
+		InVectf out;
+		cross4f(a, b, out);
+		storeVector3(r, out);
+	}
 
-		perm2 = _mm256_permutex_pd(aVect, _MM_PERM_ENUM::_MM_PERM_DBAC);
-		InVectd perm3 = _mm256_permutex_pd(bVect, _MM_PERM_ENUM::_MM_PERM_DACB);
-		perm2 = _mm256_mul_pd(perm2, perm3);
-
-		perm1 = _mm256_sub_pd(perm1, perm2);
-		_mm256_store_pd(r, perm1);
+	template<> inline void cross4<double, 2>(const double* af, const double* bf, double* r) {
+		InVectd aVect = loadVector2(af);
+		InVectd bVect = loadVector2(bf);
+		InVectd out;
+		cross4d(aVect, bVect, out);
+		storeVector3(r, out);
 	}
 
 	
-	template<typename T>
-	inline void scalarDiv4(T* d, T scalar) {
+
+	inline void scalarDiv4f(InVectf& a, InVectf& c, InVectf& out) {
+		c = _mm_rcp_ps(c);
+		out = _mm_mul_ps(a, c);
+	}
+	inline void scalarDiv4d(InVectd& a, InVectd& c, InVectd& out) {
+		c = _mm256_rcp14_pd(c);
+		out = _mm256_mul_pd(a, c);
+	}
+
+	template<typename T, int N>
+	inline void scalarDiv4(T* d, T scalar, T* out) {
 		return;
 	}
 
-	template <> inline void scalarDiv4<float>(float* d, float s) {
+	template <> inline void scalarDiv4<float, 4>(float* d, float s, float* out) {
 		InVectf b = _mm_set1_ps(s);
-		b = _mm_rcp_ps(b);
+		InVectf a = _mm_loadu_ps(d);
+		InVectf outt;
+		scalarDiv4f(a, b, outt);
+		_mm_store_ps(out, outt);
+
+	}
+
+	template <> inline void scalarDiv4<double, 4>(double* d, double s, double* out) {
+		InVectd b = _mm256_set1_pd(s);
+		InVectd a = _mm256_loadu_pd(d);
+		InVectd outt;
+		scalarDiv4d(a, b, outt);
+		_mm256_store_pd(out, outt);
+	}
+
+	template <> inline void scalarDiv4<float, 3>(float* d, float s, float* out) {
+		InVectf b = _mm_set1_ps(s);
+		InVectf a = loadVector3(d);
+		InVectf c;
+		scalarDiv4f(a, b, c);
+		storeVector3(out, c);
+
+	}
+
+	template <> inline void scalarDiv4<double, 3>(double* d, double s, double* out) {
+		InVectd b = _mm256_set1_pd(s);
+		InVectd a = loadVector3(d);
+		InVectd c;
+		scalarDiv4d(a, b, c);
+		storeVector3(out, c);
+	}
+	template <> inline void scalarDiv4<float, 2>(float* d, float s, float* out) {
+		InVectf b = _mm_set1_ps(s);
+		InVectf a = loadVector2(d);
+		InVectf c;
+		scalarDiv4f(a, b, c);
+		storeVector2(out, c);
+
+	}
+
+	template <> inline void scalarDiv4<double, 2>(double* d, double s, double* out) {
+		InVectd b = _mm256_set1_pd(s);
+		InVectd a = loadVector2(d);
+		InVectd c;
+		scalarDiv4d(a, b, c);
+		storeVector2(out, c);
+	}
+
+
+
+	template<typename T, int N>
+	inline void scalarMul4(T* d, T scalar, T* out) {
+		return;
+	}
+
+	template <> inline void scalarMul4<float, 4>(float* d, float s, float* out) {
+		InVectf b = _mm_set1_ps(s);
 		InVectf a = _mm_loadu_ps(d);
 		a = _mm_mul_ps(a, b);
 		_mm_store_ps(d, a);
 
 	}
 
-	template <> inline void scalarDiv4<double>(double* d, double s) {
+	template <> inline void scalarMul4<double, 4>(double* d, double s, double* out) {
 		InVectd b = _mm256_set1_pd(s);
-		b = _mm256_rcp14_pd(b);
 		InVectd a = _mm256_loadu_pd(d);
 		a = _mm256_mul_pd(a, b);
 		_mm256_store_pd(d, a);
 	}
-
-	template<typename T>
-	inline void scalarDiv3(T* d, T scalar) {
-		return;
-	}
-
-	template<> inline void scalarDiv3<float>(float* d, float s) {
-		InVectf dv = loadVector3(d);
+	template <> inline void scalarMul4<float, 3>(float* d, float s, float* out) {
 		InVectf b = _mm_set1_ps(s);
-		b = _mm_rcp_ps(b);
-		storeVector3(d, _mm_mul_ps(b, dv));
+		InVectf a = loadVector3(d);
+		a = _mm_mul_ps(a, b);
+		storeVector3(d, a);
 	}
-
-	template<> inline void scalarDiv3<double>(double* d, double s) {
+	template <> inline void scalarMul4<double, 3>(double* d, double s, double* out) {
 		InVectd b = _mm256_set1_pd(s);
-		b = _mm256_rcp14_pd(b);
 		InVectd a = loadVector3(d);
 		a = _mm256_mul_pd(a, b);
 		storeVector3(d, a);
-
 	}
-	template<typename T>
-	inline void scalarMul4(T* d, T scalar) {
-		return;
-	}
-
-	template <> inline void scalarMul4<float>(float* d, float s) {
+	template <> inline void scalarMul4<float, 2>(float* d, float s, float* out) {
 		InVectf b = _mm_set1_ps(s);
-		InVectf a = _mm_loadu_ps(d);
+		InVectf a = loadVector2(d);
 		a = _mm_mul_ps(a, b);
-		_mm_store_ps(d, a);
-
+		storeVector2(d, a);
 	}
-
-	template <> inline void scalarMul4<double>(double* d, double s) {
+	template <> inline void scalarMul4<double, 2>(double* d, double s, double* out) {
 		InVectd b = _mm256_set1_pd(s);
-		InVectd a = _mm256_loadu_pd(d);
+		InVectd a = loadVector2(d);
 		a = _mm256_mul_pd(a, b);
-		_mm256_store_pd(d, a);
+		storeVector2(d, a);
 	}
 
-	template<typename T>
-	inline void scalarMul3(T* d, T s) {
-		return;
-	}
-
-	template<> inline void scalarMul3<float>(float* d, float s) {
-		InVectf av = loadVector3(d);
-		InVectf b = _mm_set1_ps(s);
-		av = _mm_mul_ps(av, b);
-		storeVector3(d, av);
-	}
-	template<> inline void scalarMul3<double>(double* d, double s) {
-		InVectd av = loadVector3(d);
-		InVectd b = _mm256_set1_pd(s);
-		av = _mm256_mul_pd(av, b);
-		storeVector3(d, av);
-
-	}
 	
 	inline void normalize4d(InVectd& in, InVectd& out) {
 		InVectd d;
@@ -690,67 +843,55 @@ namespace OdinMath {
 
 	}
 
-	template<typename T>
-	inline void normalize43(T* d) {
+	template<typename T, int N>
+	inline void normalize4(T* in, T* out) {
 		return;
 	}
 
-	template<> inline void normalize43<float>(float* data) {
-		InVectf out;
-		InVectf in = loadVector3(data);
-		normalize4f(in, out);
-		storeVector3(data, out);
-
-
-	}
-
-	template<> inline void normalize43<double>(double* data) {
-		InVectd out;
-		InVectd in = loadVector3(data);
-		normalize4d(in, out);
-		storeVector3(data, out);
+	template<> inline void normalize4<float, 4>(float* in, float* out) {
+		InVectf inn = _mm_load_ps(in);
+		InVectf outt;
+		normalize4f(inn, outt);
+		_mm_store_ps(out, outt);
 
 	}
 
-	template<typename T>
-	inline void normalize4(T* d) {
-		return;
-	}
-	
-
-	template <> inline void normalize4<float>(float* data) {
-		InVectf a = _mm_loadu_ps(data);
-		InVectf out;
-		normalize4f(a, out);
-		_mm_store_ps(data, out);
+	template<> inline void normalize4<double, 4>(double* in, double* out) {
+		InVectd inn = _mm256_load_pd(in);
+		InVectd outt;
+		normalize4d(inn, outt);
+		_mm256_store_pd(out, outt);
 	}
 
-	template <> inline void normalize4<double>(double* data) {
-		InVectd a = _mm256_load_pd(data);
-		InVectd out;
-		normalize4d(a, out);
-		_mm256_store_pd(data, out);
+	template<> inline void normalize4<float, 3>(float* in, float* out) {
+		InVectf inn = loadVector3(in);
+		InVectf outt;
+		normalize4f(inn, outt);
+		storeVector3(out, outt);
+
 	}
 
-	template<typename T>
-	inline void normalize33(T* data) {
+	template<> inline void normalize4<double, 3>(double* in, double* out) {
+		InVectd inn = loadVector3(in);
+		InVectd outt;
+		normalize4d(inn, outt);
+		storeVector3(out, outt);
+	}
+	template<> inline void normalize4<float, 2>(float* in, float* out) {
+		InVectf inn = loadVector2(in);
+		InVectf outt;
+		normalize4f(inn, outt);
+		storeVector2(out, outt);
 
-		return;
 	}
 
-	template<> inline void normalize33<float>(float* data) {
-		InVectf in = loadVector3(data);
-		InVectf out;
-		normalize4f(in, out);
-		storeVector3(data, out);
+	template<> inline void normalize4<double, 2>(double* in, double* out) {
+		InVectd inn = loadVector2(in);
+		InVectd outt;
+		normalize4d(inn, outt);
+		storeVector2(out, outt);
 	}
 
-	template<> inline void normalize33<double>(double* data) {
-		InVectd in = loadVector3(data);
-		InVectd out;
-		normalize4d(in, out);
-		storeVector3(data, out);
-	}
 
 	template<typename T>
 	inline T scalarMul(T s1, T s2) {
@@ -855,6 +996,22 @@ namespace OdinMath {
 		storeVector3(r, rr);
 	}
 
+
+	template<> inline void cmpgt<float, 2>(const float* a, const float* b, float* r) {
+		InVectf aa = loadVector2(a);
+		InVectf bb = loadVector2(b);
+		InVectf rr;
+		cmpgtf(aa, bb, rr);
+		storeVector2(r, rr);
+	}
+	template<> inline void cmpgt<double, 2>(const double* a, const double* b, double* r) {
+		InVectd aa = loadVector2(a);
+		InVectd bb = loadVector2(b);
+		InVectd rr;
+		cmpgtd(aa, bb, rr);
+		storeVector2(r, rr);
+	}
+
 	inline void cmpgtef(InVectf& a, InVectf& b, InVectf& r) {
 		r = _mm_cmpge_ps(a, b);
 		r = _mm_and_ps(r, _mm_set1_ps(1.f));
@@ -898,6 +1055,21 @@ namespace OdinMath {
 		InVectd rr;
 		cmpgted(aa, bb, rr);
 		storeVector3(r, rr);
+	}
+
+	template<> inline void cmpgte<float, 2>(const float* a, const float* b, float* r) {
+		InVectf aa = loadVector2(a);
+		InVectf bb = loadVector2(b);
+		InVectf rr;
+		cmpgtef(aa, bb, rr);
+		storeVector2(r, rr);
+	}
+	template<> inline void cmpgte<double, 2>(const double* a, const double* b, double* r) {
+		InVectd aa = loadVector2(a);
+		InVectd bb = loadVector2(b);
+		InVectd rr;
+		cmpgted(aa, bb, rr);
+		storeVector2(r, rr);
 	}
 
 

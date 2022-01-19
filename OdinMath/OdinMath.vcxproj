@@ -160,6 +160,7 @@
     <ClInclude Include="MatrixIntrin.h" />
     <ClInclude Include="OMatrix3.h" />
     <ClInclude Include="OQuat.h" />
+    <ClInclude Include="OVector2.h" />
     <ClInclude Include="OVector3.h" />
     <ClInclude Include="QRDecomp.h" />
     <ClInclude Include="DXQuat.h" />

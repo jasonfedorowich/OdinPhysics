@@ -61,7 +61,7 @@ namespace MathTests
 
 			auto t1 = high_resolution_clock::now();
 			for (int i = 0; i < 1000; i++) {
-				dot4<float>(a.data, b.data);
+				dot4<float, 4>(a.data, b.data);
 
 			}
 

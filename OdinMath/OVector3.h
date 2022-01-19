@@ -14,12 +14,12 @@ namespace OdinMath {
 		void set(real x, real y, real z) { this->data[0] = x; this->data[1] = y; this->data[2] = z; }
 		void set(const OVector3& v) { *this = v; }
 		real getX() { (*this)[0]; }
-		void setX(float x) { (*this)[0] = x; }
+		void setX(real x) { (*this)[0] = x; }
 		real getY() { (*this)[1]; }
-		void setY(float y) { (*this)[1] = y; }
+		void setY(real y) { (*this)[1] = y; }
 		real getZ() { (*this)[2]; }
-		void setZ(float z) { (*this)[2] = z; }
-		void move(float mx, float my, float mz) { (*this)[0] += mx; (*this)[1] += my; (*this)[2] += mz; }
+		void setZ(real z) { (*this)[2] = z; }
+		void move(real mx, real my, real mz) { (*this) += OVector3(mx, my, mz); }
 
 		
 
@@ -27,8 +27,9 @@ namespace OdinMath {
 		OVector3 operator+(const OVector3& v1);
 		OVector3 operator-(const OVector3& v1);
 		void operator+= (const OVector3& v);
+		void operator+= (OVector3&& v);
 		void operator-=(const OVector3& v);
-		float operator*(const OVector3& v) { return dot(v); }
+		real operator*(const OVector3& v) { return dot(v); }
 		void operator/=(const OVector3& v);
 		OVector3 operator/(const OVector3& v);
 		bool operator== (const OVector3& v) const;
@@ -52,23 +53,24 @@ namespace OdinMath {
 		void normalize();
 
 		real getAngleBetweenVectors(OVector3& v);
-		float getAngleToTarget(OVector3& v);
+		real getAngleToTarget(OVector3& v);
 
+		static OVector3<real> zeros() { return OVector3<real>((real)0.f, (real)0.f, (real)0.f); }
+		static OVector3<real> ones() { return OVector3<real>((real)1.f, (real)1.f, (real)1.f); }
 		//todo
 		bool empty() {
-			return this->data[0] == (real)0.0 && this->data[1] == (real)0.0 && this->data[2] == (real)0.0;
+			return (*this) == OVector3<real>::zeros();
 		}
 
 
 
-		static OVector3<real> zeros() { return OVector3<real>((real)0.f, (real)0.f, (real)0.f); }
-		static OVector3<real> ones() { return OVector3<real>((real)1.f, (real)1.f, (real)1.f); }
+		
 
 	};
 	template<typename real>
 	inline void operator*=(real c, OVector3<real>& v) {
 #if defined(INTRINSICS)
-		scalarMul3<real>(v.data, c);
+		scalarMul4<real, 3>(v.data, c, v.data);
 #else
 		v[0] *= c;
 		v[1] *= c;
@@ -77,15 +79,15 @@ namespace OdinMath {
 	}
 	template<typename real>
 	inline OVector3<real> operator*(real c, OVector3<real>& v) {
-		OVector3<real> copy(v);
+		OVector3<real> res;
 #if defined(INTRINSICS)
-		scalarMul3<real>(copy.data, c);
+		scalarMul4<real, 3>(v.data, c, res.data);
 #else
-		copy[0] *= c;
-		copy[1] *= c;
-		copy[2] *= c;
+		res[0] = c * v[0];
+		res[1] = c * v[1];
+		res[2] = c * v[2];
 #endif
-		return copy;
+		return res;
 	}
 
 
@@ -95,7 +97,7 @@ namespace OdinMath {
 		OVector3<real> res;
 #if defined(INTRINSICS)
 		
-		sub3<real>(v.data, this->data, res.data);
+		sub4<real, 3>(v.data, this->data, res.data);
 		
 #else
 		res[0] = v[0] - (*this)[0];
@@ -128,7 +130,7 @@ namespace OdinMath {
 	{
 #if defined(INTRINSICS)
 		OVector3<real> r;
-		cross3<real>(this->data, v.data, r.data);
+		cross4<real, 3>(this->data, v.data, r.data);
 		return r;
 #else
 		return OVector3<real>{(*this)[1] * v[2] - (*this)[2] * v[1], (*this)[3] * v[0] - (*this)[0] * v[3], (*this)[0] * v[1] - (*this)[1] * v[0] };
@@ -138,9 +140,9 @@ namespace OdinMath {
 	inline OVector3<real> OVector3<real>::normal()
 	{
 #if defined(INTRINSICS)
-		OVector3 copy(*this);
-		normalize33<real>(copy.data);
-		return copy;
+		OVector3 res;
+		normalize4<real, 3>(this->data, res.data);
+		return res;
 #else
 		real l = length();
 		if (l > (real)0.0) {
@@ -154,7 +156,7 @@ namespace OdinMath {
 	inline void OVector3<real>::normalize()
 	{
 #if defined(INTRINSICS)
-		normalize33<real>(this->data);
+		normalize4<real, 3>(this->data, this->data);
 #else
 		real l = length();
 		if (l > (real)0.0) {
@@ -190,7 +192,7 @@ namespace OdinMath {
 #endif
 	}
 	template<typename real>
-	inline float OVector3<real>::getAngleToTarget(OVector3<real>& v)
+	inline real OVector3<real>::getAngleToTarget(OVector3<real>& v)
 	{
 		OVector3<real> vv = (*this) - v;
 		return Math<real>::odATan(vv.getY(), vv.getX());
@@ -200,7 +202,7 @@ namespace OdinMath {
 	{
 #if defined(INTRINSICS)
 		OVector3<real> re;
-		add3<real>(this->data, v.data, re.data);
+		add4<real, 3>(this->data, v.data, re.data);
 		return re;
 
 #else
@@ -212,7 +214,7 @@ namespace OdinMath {
 	{
 #if defined(INTRINSICS)
 		OVector3<real> re;
-		sub3<real>(this->data, v.data, re.data);
+		sub4<real, 3>(this->data, v.data, re.data);
 		return re;
 
 #else
@@ -224,7 +226,20 @@ namespace OdinMath {
 	inline void OVector3<real>::operator+=(const OVector3& v)
 	{
 #if defined(INTRINSICS)
-		add3<real>(this->data, v.data, this->data);
+		add4<real, 3>(this->data, v.data, this->data);
+
+#else
+		(*this)[0] = (*this)[0] + v[0];
+		(*this)[1] = (*this)[1] + v[1];
+		(*this)[2] = (*this)[2] + v[2];
+#endif
+	}
+
+	template<typename real>
+	inline void OVector3<real>::operator+=(OVector3&& v)
+	{
+#if defined(INTRINSICS)
+		add4<real, 3>(this->data, v.data, this->data);
 
 #else
 		(*this)[0] = (*this)[0] + v[0];
@@ -237,7 +252,7 @@ namespace OdinMath {
 	inline void OVector3<real>::operator-=(const OVector3& v)
 	{
 #if defined(INTRINSICS)
-		sub3<real>(this->data, v.data, this->data);
+		sub4<real, 3>(this->data, v.data, this->data);
 
 #else
 		(*this)[0] = (*this)[0] - v[0];
@@ -251,7 +266,7 @@ namespace OdinMath {
 	inline void OVector3<real>::operator/=(const OVector3& v)
 	{
 #if defined(INTRINSICS)
-		div3<real>(this->data, v.data, this->data);
+		div4<real, 3>(this->data, v.data, this->data);
 
 #else
 		(*this)[0] = (*this)[0] / v[0];
@@ -265,7 +280,7 @@ namespace OdinMath {
 	{
 #if defined(INTRINSICS)
 		OVector3<real> re;
-		div3<real>(this->data, v.data, re.data);
+		div4<real, 3>(this->data, v.data, re.data);
 		return re;
 
 #else
@@ -333,7 +348,7 @@ namespace OdinMath {
 	inline void OVector3<real>::operator/=(real c)
 	{
 #if defined(INTRINSICS)
-		scalarDiv3<real>(this->data, c);
+		scalarDiv4<real, 3>(this->data, c, this->data);
 #else
 		(*this)[0] /= c;
 		(*this)[1] /= c;
@@ -345,7 +360,7 @@ namespace OdinMath {
 	inline void OVector3<real>::operator*=(real c)
 	{
 #if defined(INTRINSICS)
-		scalarMul3<real>(this->data, c);
+		scalarMul4<real, 3>(this->data, c, this->data);
 #else
 		(*this)[0] *= c;
 		(*this)[1] *= c;
@@ -356,15 +371,14 @@ namespace OdinMath {
 	template<typename real>
 	inline OVector3<real> OVector3<real>::operator*(real c)
 	{
+		OVector3<real> res;
 #if defined(INTRINSICS)
-		OVector3<real> copy(*this);
-		scalarMul3<real>(copy.data, c);
+		scalarMul4<real, 3>(this->data, c, res.data);
 #else
-		OVector3<real> copy(*this);
-		copy[0] *= c;
-		copy[1] *= c;
-		copy[2] *= c;
+		res[0] = this->data[0] * c;
+		res[1] = this->data[1] * c;
+		res[2] = this->data[2] * c;
 #endif
-		return copy;
+		return res;
 	}
 }
