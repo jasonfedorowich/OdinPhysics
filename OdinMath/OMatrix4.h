@@ -143,6 +143,7 @@ namespace OdinMath {
 
 #include "OMatrix4.inl"
 
+	//inline functions
 	template<typename real>
 	inline OMatrix4<real> operator*(float scale, OMatrix4<real>& m) {
 		OMatrix4<real> res;

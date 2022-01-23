@@ -97,12 +97,12 @@ namespace OdinMath {
 		////DXVector4 determinant();
 
 		OVector3<real> getCol(int c) {
-			if (c >= 4 || c < 0)
+			if (c >= 3 || c < 0)
 				throw std::invalid_argument("Invalid argument");
 			return OVector3<real>(this->m[0][c], this->m[1][c], this->m[2][c]);
 		}
 		OVector3<real> getRow(int r) {
-			if (r >= 4 || r < 0)
+			if (r >= 3 || r < 0)
 				throw std::invalid_argument("Invalid argument");
 			return OVector3<real>(this->m[r][0], this->m[r][1], this->m[r][2]);
 		}
@@ -119,7 +119,6 @@ namespace OdinMath {
 			(*this)(r, 0) = v[0];
 			(*this)(r, 1) = v[1];
 			(*this)(r, 2) = v[2];
-			(*this)(r, 3) = v[3];
 		}
 		void setRow(int r, OVector3<real>&& v);
 		void swapRows(int i, int j);
@@ -128,7 +127,7 @@ namespace OdinMath {
 		static OMatrix3<real> identity() { return OMatrix3<real>(); }
 		static OMatrix3<real> zeros() {
 			return OMatrix3<real>((real)0.f, (real)0.f, (real)0.f,
-				(real)0.f, (real)01.f, (real)0.f,
+				(real)0.f, (real)0.f, (real)0.f,
 				(real)0.f, (real)0.f, (real)0.f);
 		}
 
@@ -137,6 +136,7 @@ namespace OdinMath {
 
 #include "OMatrix3.inl"
 
+	//inline functions
 	template<typename real>
 	inline OMatrix3<real> operator*(float scale, OMatrix3<real>& m) {
 		OMatrix3<real> res;
@@ -175,7 +175,7 @@ namespace OdinMath {
 
 	}
 	template<typename real>
-	inline OVector3<real> operator*(OVector4<real> vector, OVector3<real>& matrix)
+	inline OVector3<real> operator*(OVector3<real> vector, OVector3<real>& matrix)
 	{
 		OVector3<real> result;
 #if defined(INTRINSICS)
@@ -186,12 +186,10 @@ namespace OdinMath {
 		real t1 = vector[0];
 		real t2 = vector[1];
 		real t3 = vector[2];
-		real t4 = vector[3];
 
-		result[0] = t1 * matrix(0, 0) + t2 * matrix(1, 0) + t3 * matrix(2, 0) + t4 * matrix(3, 0);
-		result[1] = t1 * matrix(0, 1) + t2 * matrix(1, 1) + t3 * matrix(2, 1) + t4 * matrix(3, 1);
-		result[2] = t1 * matrix(0, 2) + t2 * matrix(1, 2) + t3 * matrix(2, 2) + t4 * matrix(3, 2);
-		result[3] = t1 * matrix(0, 3) + t2 * matrix(1, 3) + t3 * matrix(2, 3) + t4 * matrix(3, 3);
+		result[0] = t1 * matrix(0, 0) + t2 * matrix(1, 0) + t3 * matrix(2, 0);
+		result[1] = t1 * matrix(0, 1) + t2 * matrix(1, 1) + t3 * matrix(2, 1);
+		result[2] = t1 * matrix(0, 2) + t2 * matrix(1, 2) + t3 * matrix(2, 2);
 #endif
 		return result;
 	}
@@ -252,7 +250,7 @@ namespace OdinMath {
 	{
 #if defined(INTRINSICS)
 		OMatrix3<real> result;
-		matMult4<real>(this->m, matrix.m, result.m);
+		matMult4<real, 3>(this->m, matrix.m, result.m);
 		return result;
 #else
 		OMatrix3 R;
@@ -311,24 +309,22 @@ namespace OdinMath {
 	template<typename real>
 	inline OMatrix3<real> OMatrix3<real>::operator*(real scale)
 	{
-#if defined(INTRINSICS)
 		OMatrix3<real> R;
+#if defined(INTRINSICS)
 		matScale4<real>(this->m, scale, R.m);
-		return R;
 #else
-		OVector3<real> R;
 		matrixScale3<real>(R, *this, scale);
-		return R;
 #endif
+		return R;
 	}
 	template<typename real>
 	inline void OMatrix3<real>::operator*=(real scale)
 	{
 #if defined(INTRINSICS)
-		OMatrix3<real> R;
+		
 		matScale4<real>(this->m, scale, this->m);
 #else
-		OVector3<real> R;
+		OMatrix3<real> R;
 		matrixScale3<real>(R, *this, scale);
 		*this = R;
 
@@ -337,30 +333,24 @@ namespace OdinMath {
 	template<typename real>
 	inline OMatrix3<real> OMatrix3<real>::operator+(OMatrix3& matrix)
 	{
-#if defined(INTRINSICS)
 		OMatrix3<real> R;
+#if defined(INTRINSICS)
 		addMat4<real>(this->m, matrix.m, R.m);
-		return R;
 #else
-		OVector3<real> R;
 		addMatrix3(R, *this, matrix);
-		return R;
-
 #endif
+		return R;
 	}
 	template<typename real>
 	inline OMatrix3<real> OMatrix3<real>::operator-(OMatrix3<real>& matrix)
 	{
-#if defined(INTRINSICS)
 		OMatrix3<real> R;
+#if defined(INTRINSICS)
 		subMat4<real>(this->m, matrix.m, R.m);
-		return R;
 #else
-		OVector3<real> R;
 		subMatrix3(R, *this, matrix);
-		return R;
-
 #endif
+		return R;
 	}
 	template<typename real>
 	inline void OMatrix3<real>::operator-=(OMatrix3& matrix)
@@ -455,13 +445,10 @@ namespace OdinMath {
 	inline real OMatrix3<real>::determinant()
 	{
 #if defined(INTRINSICS)
-		OMatrix3<real> O;
-		transpose4<real>(this->m, O.m);
-		return O;
+		return determinant4<real>(this->m);
+		
 #else
-		OMatrix3<real> O;
-		matTranspose3<real>(this->m, O.m);
-		return O;
+		return matDeterminant3<real>(this->m);
 
 #endif		
 	}
@@ -495,6 +482,8 @@ namespace OdinMath {
 	template<typename real>
 	inline void OMatrix3<real>::swapRows(int i, int j)
 	{
+		if (i >= 3 || i < 0 || j >= 3 || j < 0)
+			throw std::invalid_argument("Cannot swap invalid rows");
 		Math<real>::odSwap(&(*this)(i, 0), &(*this)(j, 0));
 		Math<real>::odSwap(&(*this)(i, 1), &(*this)(j, 1));
 		Math<real>::odSwap(&(*this)(i, 2), &(*this)(j, 2));

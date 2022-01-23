@@ -17,13 +17,13 @@ namespace OdinMath {
 		~OQuat() {};
 
 		OQuat<real>& operator=(const OQuat<real>& q);
-		OQuat operator+(OQuat& q);
-		OQuat operator*(OQuat& q);
-		OQuat operator*(real s);
-		OQuat operator-(OQuat& q);
+		OQuat<real> operator+(OQuat<real>& q);
+		OQuat<real> operator*(OQuat<real>& q);
+		OQuat<real> operator*(real s);
+		OQuat<real> operator-(OQuat<real>& q);
 
-		void operator*=(OQuat& q);
-		void operator+=(OQuat& q);
+		void operator*=(OQuat<real>& q);
+		void operator+=(OQuat<real>& q);
 		void operator*=(real s);
 
 		void toRotation(OMatrix4<real>& m);

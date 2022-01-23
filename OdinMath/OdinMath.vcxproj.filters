@@ -150,6 +150,9 @@
     <ClInclude Include="OVector2.h">
       <Filter>Header Files\LinearAlgebra\OD</Filter>
     </ClInclude>
+    <ClInclude Include="OMatrix2.h">
+      <Filter>Header Files\LinearAlgebra\OD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Eigen.cpp">
@@ -206,6 +209,9 @@
       <Filter>Source Files\LinearAlgebra\OD</Filter>
     </None>
     <None Include="OQuat.inl">
+      <Filter>Source Files\LinearAlgebra\OD</Filter>
+    </None>
+    <None Include="OMatrix2.inl">
       <Filter>Source Files\LinearAlgebra\OD</Filter>
     </None>
   </ItemGroup>

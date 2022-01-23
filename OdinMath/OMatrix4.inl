@@ -276,25 +276,25 @@ inline real matDeterminant4(real mm[][4]) {
 
 template<typename real>
 inline void matrixScale4(OMatrix4<real>& R, OMatrix4<real>& A, real scale) {
-    R(0, 0) *= scale;
-    R(0, 1) *= scale;
-    R(0, 2) *= scale;
-    R(0, 3) *= scale;
+    R(0, 0) = A(0, 0) * scale;
+    R(0, 1) = A(0, 1) * scale;
+    R(0, 2) = A(0, 2) * scale;
+    R(0, 3) = A(0, 3) * scale;
 
-    R(1, 0) *= scale;
-    R(1, 1) *= scale;
-    R(1, 2) *= scale;
-    R(1, 3) *= scale;
+    R(1, 0) = A(1, 0) * scale;
+    R(1, 1) = A(1, 1) * scale;
+    R(1, 2) = A(1, 2) * scale;
+    R(1, 3) = A(1, 3) * scale;
 
-    R(2, 0) *= scale;
-    R(2, 1) *= scale;
-    R(2, 2) *= scale;
-    R(2, 3) *= scale;
+    R(2, 0) = A(2, 0) * scale;
+    R(2, 1) = A(2, 1) * scale;
+    R(2, 2) = A(2, 2) * scale;
+    R(2, 3) = A(2, 3) * scale;
 
-    R(3, 0) *= scale;
-    R(3, 1) *= scale;
-    R(3, 2) *= scale;
-    R(3, 3) *= scale;
+    R(3, 0) = A(3, 0) * scale;
+    R(3, 1) = A(3, 1) * scale;
+    R(3, 2) = A(3, 2) * scale;
+    R(3, 3) = A(3, 3) * scale;
 }
 
 template<typename real>

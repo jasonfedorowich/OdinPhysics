@@ -43,17 +43,17 @@ inline void matrixVector3(OVector3<real>& result, OMatrix3<real>& mat, OVector3<
 }
 template<typename real>
 inline void matrixScale3(OMatrix3<real>& R, OMatrix3<real>& A, real scale) {
-	R(0, 0) *= scale;
-	R(0, 1) *= scale;
-	R(0, 2) *= scale;
+	R(0, 0) = A(0, 0) * scale;
+	R(0, 1) = A(0, 1) * scale;
+	R(0, 2) = A(0, 2) * scale;
 
-	R(1, 0) *= scale;
-	R(1, 1) *= scale;
-	R(1, 2) *= scale;
+	R(1, 0) = A(1, 0) * scale;
+	R(1, 1) = A(1, 1) * scale;
+	R(1, 2) = A(1, 2) * scale;
 
-	R(2, 0) *= scale;
-	R(2, 1) *= scale;
-	R(2, 2) *= scale;
+	R(2, 0) = A(2, 0) * scale;
+	R(2, 1) = A(2, 1) * scale;
+	R(2, 2) = A(2, 2) * scale;
 
 }
 
@@ -177,4 +177,13 @@ inline void matTranspose3(real in[][3], real out[][3]) {
 	out[2][1] = tmp[1][2];
 	out[2][2] = tmp[2][2];
 
+}
+
+template<typename real>
+inline real matDeterminant3(real A[][3]) {
+	real t1 = A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1]);
+	real t2 = A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0]);
+	real t3 = A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]);
+
+	return t1 - t2 + t3;
 }

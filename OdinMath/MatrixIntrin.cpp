@@ -536,6 +536,20 @@ namespace OdinMath {
         matScale4d(Af, scale, O);
         storeMat3(O, R);
     }
+
+    template<> void matScale4<float>(float A[][2], float scale, float R[][2]) {
+        InMatrix4F Af(A);
+        InMatrix4F O;
+        matScale4f(Af, scale, O);
+        storeMat2(O, R);
+    }
+    template<> void matScale4<double>(double A[][2], double scale, double R[][2]) {
+        InMatrix4D Af(A);
+        InMatrix4D O;
+        matScale4d(Af, scale, O);
+        storeMat2(O, R);
+    }
+
 	
 	template <> void addMat4<float>(float A[][4], float B[][4], float R[][4])
 	{
@@ -576,7 +590,25 @@ namespace OdinMath {
         storeMat3(O, R);
 
     }
+    template <> void addMat4<float>(float A[][2], float B[][2], float R[][2])
+    {
+        InMatrix4F Af(A);
+        InMatrix4F Bf(B);
+        InMatrix4F O;
+        addMat4f(Af, Bf, O);
+        storeMat2(O, R);
 
+    }
+
+    template <> void addMat4<double>(double A[][2], double B[][2], double R[][2])
+    {
+        InMatrix4D Af(A);
+        InMatrix4D Bf(B);
+        InMatrix4D O;
+        addMat4d(Af, Bf, O);
+        storeMat2(O, R);
+
+    }
 	template <> void subMat4<float>(float A[][4], float B[][4], float R[][4]) {
 		InMatrix4F Af(A);
 		InMatrix4F Bf(B);
@@ -612,7 +644,23 @@ namespace OdinMath {
         storeMat3(O, R);
 
     }
+    template <> void subMat4<float>(float A[][2], float B[][2], float R[][2]) {
+        InMatrix4F Af(A);
+        InMatrix4F Bf(B);
+        InMatrix4F O;
+        subMat4f(Af, Bf, O);
+        storeMat2(O, R);
 
+    }
+
+    template <> void subMat4<double>(double A[][2], double B[][2], double R[][2]) {
+        InMatrix4D Af(A);
+        InMatrix4D Bf(B);
+        InMatrix4D O;
+        subMat4d(Af, Bf, O);
+        storeMat2(O, R);
+
+    }
 	template <> bool matEquals4<float>(float A[][4], float B[][4]) {
         InMatrix4F AA(A);
         InMatrix4F BB(B);
@@ -636,7 +684,17 @@ namespace OdinMath {
         InMatrix4D BB(B);
         return matEquals4d(AA, BB);
     }
+    template <> bool matEquals4<float>(float A[][2], float B[][2]) {
+        InMatrix4F AA(A);
+        InMatrix4F BB(B);
+        return matEquals4f(AA, BB);
+    }
 
+    template <> bool matEquals4<double>(double A[][2], double B[][2]) {
+        InMatrix4D AA(A);
+        InMatrix4D BB(B);
+        return matEquals4d(AA, BB);
+    }
 	
     template<> bool invert4<float>(float A[][4], float O[][4], float eps, float* deter) {
         InMatrix4F AA(A);
@@ -675,6 +733,24 @@ namespace OdinMath {
 
     }
 
+    template<> bool invert4<float>(float A[][2], float O[][2], float eps, float* deter) {
+        InMatrix4F AA(A);
+        InMatrix4F out;
+        bool result = invert4f(AA, out, eps, deter);
+        storeMat2(out, O);
+        return result;
+
+
+    }
+
+    template<> bool invert4<double>(double A[][2], double O[][2], double eps, double* deter) {
+        InMatrix4D AA(A);
+        InMatrix4D out;
+        bool result = invert4d(AA, out, eps, deter);
+        storeMat2(out, O);
+        return result;
+
+    }
 
 
     template<> void outerProduct4<float>(const float* v1, const float* v2, float R[][4]) {
@@ -710,6 +786,24 @@ namespace OdinMath {
         InVectd v22 = loadVector3(v2);
         outerProduct4d(v11, v22, M);
         storeMat3(M, R);
+    }
+
+    template<> void outerProduct4<float>(const float* v1, const float* v2, float R[][2]) {
+        InMatrix4F M;
+        InVectf v11 = loadVector2(v1);
+        InVectf v22 = loadVector2(v2);
+        outerProduct4f(v11, v22, M);
+        storeMat2(M, R);
+
+
+    }
+
+    template<> void outerProduct4<double>(const double* v1, const double* v2, double R[][2]) {
+        InMatrix4D M;
+        InVectd v11 = loadVector2(v1);
+        InVectd v22 = loadVector2(v2);
+        outerProduct4d(v11, v22, M);
+        storeMat2(M, R);
     }
 
 

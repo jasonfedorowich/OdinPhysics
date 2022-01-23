@@ -168,6 +168,7 @@
     <ClCompile Include="OdinCollision_BoundingSphere_tests.cpp" />
     <ClCompile Include="OdinMathTests1.cpp" />
     <ClCompile Include="OdinMathTestsMassProperties.cpp" />
+    <ClCompile Include="OMatrix2_tests.cpp" />
     <ClCompile Include="OMatrix3_tests.cpp" />
     <ClCompile Include="OMatrix4_tests.cpp" />
     <ClCompile Include="OQuataternion_tests.cpp" />
