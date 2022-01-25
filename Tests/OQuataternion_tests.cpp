@@ -165,7 +165,6 @@ namespace Tests
 			float rpy[3];
 			q.rollPitchYaw(rpy);
 			Assert::AreEqual(round(rpy[0]), 3.f);
-			
 		}
 
 		TEST_METHOD(testMult) {

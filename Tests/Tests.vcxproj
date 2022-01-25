@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AABB2_tests.cpp" />
     <ClCompile Include="DistanceTests.cpp" />
     <ClCompile Include="DXMatrixVector_tests.cpp" />
     <ClCompile Include="Intersections1.cpp" />

@@ -146,6 +146,8 @@
     <ClInclude Include="AABB2PointIntersection.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionQuery.h" />
+    <ClInclude Include="CollisionResult.h" />
     <ClInclude Include="IntervalTree.h" />
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OdinCollision.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="Sphere2PointIntersection.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AABB2.cpp" />
     <ClCompile Include="AABB2PointDistance.cpp" />
     <ClCompile Include="AABB2PointIntersection.cpp" />
     <ClCompile Include="AABB3.cpp" />

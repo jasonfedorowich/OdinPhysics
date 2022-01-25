@@ -49,16 +49,17 @@
 
 /*ODMatrix must have ::identity*/
 /*ODMatrix must have void outerProduct(M&, V&, V&)*/
+typedef float rl;
 
 namespace OdinMath {
 #if 1
-	using Vector4 = OVector4<float>;
-	using Matrix4 = OMatrix4<float>;
-	using Vector3 = OVector3<float>;
-	//using Vector2 = OVector2<float>;
-	using Matrix3 = OMatrix3<float>;
-	//using Matrix2 = OMa;
-	using Quat = OQuat<float>;
+	using Vector4 = OVector4<rl>;
+	using Matrix4 = OMatrix4<rl>;
+	using Vector3 = OVector3<rl>;
+	using Vector2 = OVector2<rl>;
+	using Matrix3 = OMatrix3<rl>;
+	using Matrix2 = OMatrix2<rl>;
+	using Quat = OQuat<rl>;
 #elif 0
 	using Vector4 = DXVector4;
 	using Matrix4 = DXMatrix4;
@@ -76,12 +77,13 @@ namespace OdinMath {
 
 
 #if 1
-typedef float rl;
 using ODVector4 = OdinMath::Vector4;
 using ODVector3 = OdinMath::Vector3;
 using ODQuat = OdinMath::Quat;
 using ODMatrix4 = OdinMath::Matrix4;
 using ODMatrix3 = OdinMath::Matrix3;
+using ODVector2 = OdinMath::Vector2;
+using ODMatrix2 = OdinMath::Matrix2;
 
 #endif
 

@@ -34,6 +34,27 @@
     <Filter Include="Source Files\IntersectionTests">
       <UniqueIdentifier>{8a5afa4a-02d0-456d-990d-fcb1bc2b6dce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CollisionPrimitive">
+      <UniqueIdentifier>{673be68f-47db-4154-94e0-24996f2ccd95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Query">
+      <UniqueIdentifier>{44785205-b66d-40b3-ba91-4321e371e42e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Contact">
+      <UniqueIdentifier>{fcf1cf21-e54e-4e8b-b83c-28424d268139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Intersection">
+      <UniqueIdentifier>{a352afb7-9b98-433c-b02f-7a56e8ab01cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Containerment">
+      <UniqueIdentifier>{32cb3521-c438-4bfd-915b-ba2deaf0cda8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Seperation">
+      <UniqueIdentifier>{2d25306d-e00f-4886-8dd3-39cc95b0c980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Overlap">
+      <UniqueIdentifier>{65403c8d-0537-405b-9d43-0f6786f4fa97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdinCollision.h">
@@ -81,14 +102,14 @@
     <ClInclude Include="AABB2.h">
       <Filter>Header Files\CollisionPrimitive</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionQuery.h">
+      <Filter>Header Files\Query</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResult.h">
+      <Filter>Header Files\Query</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Circle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AABB2PointDistance.cpp">
       <Filter>Source Files\Distances</Filter>
     </ClCompile>
@@ -101,8 +122,17 @@
     <ClCompile Include="Sphere2PointIntersection.cpp">
       <Filter>Source Files\IntersectionTests</Filter>
     </ClCompile>
+    <ClCompile Include="AABB2.cpp">
+      <Filter>Source Files\CollisionPrimitive</Filter>
+    </ClCompile>
     <ClCompile Include="AABB3.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\CollisionPrimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Source Files\CollisionPrimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\CollisionPrimitive</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ namespace OdinCollision{
 	{
 		AABB3 aabb;
 		aabb.center = maxi + mini;
-		aabb.center /= (rl)2.0;
+		aabb.center *= (rl)0.5;
 		aabb.extents = maxi - aabb.center;
 		return aabb;
 	}
@@ -85,7 +85,7 @@ namespace OdinCollision{
 		}
 
 		center = maxi + mini;
-		center /= (rl)2.0;
+		center *= (rl)0.5;
 		extents = maxi - center;
 	}
 
@@ -152,7 +152,7 @@ namespace OdinCollision{
 		mini[2] = Math<rl>::odMin(mini[2], omini[2]);
 
 		center = maxi + mini;
-		center /= (rl)2.0;
+		center *= (rl)0.5;
 		extents = maxi - center;
 
 
