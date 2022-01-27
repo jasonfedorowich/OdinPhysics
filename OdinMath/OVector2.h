@@ -233,6 +233,7 @@ namespace OdinMath {
 		res[0] = this->data[0] * val;
 		res[1] = this->data[1] * val;
 #endif
+		return res;
 	}
 
 	template<typename real>

@@ -48,17 +48,15 @@ namespace OdinCollision {
 	}
 	bool BoundingSphere::intersects(BoundingSphere& sphere)
 	{
+		rl r = radius + sphere.radius;
 		ODVector3 tmp = sphere.center - center;
-		return tmp.dot(tmp) <= (radius + sphere.radius) *(radius + sphere.radius);
+		return tmp.dot(tmp) <= (r * r);
 	}
 
 	bool BoundingSphere::contains(BoundingSphere& sphere)
 	{
 		rl d = this->center.distance(sphere.center);
-		bool noIntersect = d > (radius + sphere.radius);
-		if (noIntersect)
-			return false;
-		return d <= radius - sphere.radius;
+		return d > (radius + sphere.radius) ? false : d <= (radius - sphere.radius);
 
 	}
 

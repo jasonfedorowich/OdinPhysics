@@ -4,28 +4,37 @@
 namespace OdinCollision {
 
 
-	//struct BoundingCircle {
-	//	ODVector2 center;
-	//	rl radius;
+	struct BoundingCircle {
+		ODVector2 center;
+		rl radius;
 
-	//	BoundingCircle(rl radius, ODVector& center) { this->radius = radius;  this->center = center; }
-	//	BoundingCircle(rl radius, ODVector&& center) { this->radius = radius;  this->center = center; }
-	//	BoundingCircle() { radius = (rl)0.0; }
-	//	BoundingCircle(std::vector<ODVector>& points);
-	//	BoundingCircle(std::vector<ODVector>&& points);
-	//	BoundingCircle(const BoundingCircle& c);
+		BoundingCircle(rl radius, ODVector2& center) { this->radius = radius;  this->center = center; }
+		BoundingCircle(rl radius, ODVector2&& center) { this->radius = radius;  this->center = center; }
+		BoundingCircle() { radius = (rl)0.0; }
+		BoundingCircle(std::vector<ODVector2>& points);
+		BoundingCircle(std::vector<ODVector2>&& points);
+		BoundingCircle(const BoundingCircle& c) { *this = c; }
 
-	//	bool overlaps(BoundingCircle& other);
+		
 
-	//	BoundingCircle merge(BoundingCircle& other);
-	//	void makeUnion(BoundingCircle& other);
+		BoundingCircle& operator=(const BoundingCircle& circle);
 
-	//	BoundingCircle& operator=(const BoundingCircle& aabb);
-
-	//	rl seperation(BoundingCircle& c);
-
+		bool intersects(BoundingCircle& other);
+		bool contains(BoundingCircle& other);
+		bool disjoint(BoundingCircle& other);
 
 
+		BoundingCircle merge(BoundingCircle& other);
+		void makeUnion(BoundingCircle& other);
 
-	//};
+		BoundingCircle merge(ODVector2& p);
+		void makeUnion(ODVector2& p);
+
+		BoundingCircle merge(ODVector2&& p);
+		void makeUnion(ODVector2&& p);
+
+
+
+
+	};
 }
