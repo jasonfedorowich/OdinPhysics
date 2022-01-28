@@ -14,7 +14,7 @@ namespace OdinCollision {
 
 		BoundingSphere() { radius = (rl)0.0; };
 		BoundingSphere(ODVector3& center, rl radius) { this->center = center; this->radius = radius; }
-
+		BoundingSphere(ODVector3&& center, rl radius) { this->center = center; this->radius = radius; }
 		BoundingSphere& operator=(const BoundingSphere& s);
 
 		bool intersects(BoundingSphere& other);
@@ -22,10 +22,15 @@ namespace OdinCollision {
 		bool disjoint(BoundingSphere& other);
 
 
-		BoundingSphere merge(BoundingSphere& sphere);
-		void makeUnion(BoundingSphere& sphere);
+		BoundingSphere merge(BoundingSphere& other);
+		void makeUnion(BoundingSphere& other);
 
-		rl seperation(BoundingSphere& s);
+		BoundingSphere merge(ODVector3& p);
+		void makeUnion(ODVector3& p);
+
+		BoundingSphere merge(ODVector3&& p);
+		void makeUnion(ODVector3&& p);
+
 
 	};
 }

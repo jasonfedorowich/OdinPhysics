@@ -20,16 +20,14 @@ namespace OdinCollision {
 
 		}
 		center = mini + maxi;
-		center /= (rl)2.0;
+		center *= (rl)0.5;
+		mini = maxi - center;
+		OdinMath::vAbs<rl>(mini);
 
-		radius = OdinMath::Math<rl>::REAL_MIN;
+		using namespace OdinMath;
+		radius = Math<rl>::odMax(mini[0], Math<rl>::odMax(mini[1], mini[2]));
 
-		for (int i = 0; i < n; i++) {
-
-			radius = OdinMath::Math<rl>::odMax(center.distance(points[i]), radius);
-		}
-
-
+	
 	}
 	BoundingSphere::BoundingSphere(std::vector<ODVector3>&& points) : BoundingSphere(points)
 	{
@@ -68,7 +66,8 @@ namespace OdinCollision {
 	BoundingSphere BoundingSphere::merge(BoundingSphere& s)
 	{
 		BoundingSphere ms;
-		rl distSq = s.center.dot(s.center);
+		ODVector3 offset = s.center - center;
+		rl distSq = offset.dot(offset);
 		rl radiusDiff = radius - s.radius;
 
 		if (radiusDiff * radiusDiff >= distSq) {
@@ -82,7 +81,7 @@ namespace OdinCollision {
 			}
 		}
 		else {
-			ODVector3 offset = s.center - center;
+			
 			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
 			ms.radius = (dist + s.radius + radius) * (rl)0.5;
 			ms.center = center;
@@ -97,8 +96,8 @@ namespace OdinCollision {
 	}
 	void BoundingSphere::makeUnion(BoundingSphere& s)
 	{
-
-		rl distSq = s.center.dot(s.center);
+		ODVector3 offset = s.center - center;
+		rl distSq = offset.dot(offset);
 		rl radiusDiff = radius - s.radius;
 
 		if (radiusDiff * radiusDiff >= distSq) {
@@ -109,7 +108,7 @@ namespace OdinCollision {
 			
 		}
 		else {
-			ODVector3 offset = s.center - center;
+			
 			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
 			rl rad = (dist + s.radius + radius) * (rl)0.5;
 			if (dist > 0)
@@ -121,9 +120,105 @@ namespace OdinCollision {
 		}
 
 	}
-	rl BoundingSphere::seperation(BoundingSphere& s)
+
+	BoundingSphere BoundingSphere::merge(ODVector3& p)
 	{
-		return s.center.distance(center) - (s.radius + radius);
+		BoundingSphere ms;
+		ODVector3 offset = p - center;
+		rl distSq = offset.dot(offset);
+		
+
+		if (radius * radius >= distSq) {
+			ms.center = center;
+			ms.radius = radius;
+			
+		}
+		else {
+
+			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
+			ms.radius = (dist + radius) * (rl)0.5;
+			ms.center = center;
+			if (dist > 0)
+				ms.center += offset * ((ms.radius - radius) / dist);
+
+
+
+		}
+
+		return ms;
 	}
+
+	void BoundingSphere::makeUnion(ODVector3& p)
+	{
+		ODVector3 offset = p - center;
+		rl distSq = offset.dot(offset);
+
+
+		if (radius * radius >= distSq) {
+			return;
+
+		}
+		else {
+
+			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
+			rl rad = (dist + radius) * (rl)0.5;
+			if (dist > 0)
+				center += offset * ((rad - radius) / dist);
+
+
+
+		}
+
+	}
+
+	BoundingSphere BoundingSphere::merge(ODVector3&& p)
+	{
+		BoundingSphere ms;
+		ODVector3 offset = p - center;
+		rl distSq = offset.dot(offset);
+
+
+		if (radius * radius >= distSq) {
+			ms.center = center;
+			ms.radius = radius;
+
+		}
+		else {
+
+			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
+			ms.radius = (dist + radius) * (rl)0.5;
+			ms.center = center;
+			if (dist > 0)
+				ms.center += offset * ((ms.radius - radius) / dist);
+
+
+
+		}
+
+		return ms;
+	}
+
+	void BoundingSphere::makeUnion(ODVector3&& p)
+	{
+		ODVector3 offset = p - center;
+		rl distSq = offset.dot(offset);
+
+
+		if (radius * radius >= distSq) {
+			return;
+
+		}
+		else {
+
+			rl dist = OdinMath::Math<rl>::odSqrt(distSq);
+			rl rad = (dist + radius) * (rl)0.5;
+			if (dist > 0)
+				center += offset * ((rad - radius) / dist);
+
+
+
+		}
+	}
+	
 }
 

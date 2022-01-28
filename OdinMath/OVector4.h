@@ -36,6 +36,8 @@ namespace OdinMath {
 		OVector4 normal();
 		void normalize3();
 		void normalize();
+		
+
 		real norm();
 
 		real getAngleBetweenVectors(OVector4<real>& v);
@@ -58,6 +60,14 @@ namespace OdinMath {
 		void operator/=(real c);
 		void operator*=(real val);
 		OVector4 operator*(real val);
+
+		OVector4<real> operator^(real val);
+		void operator^=(real val);
+
+		OVector4<real> operator%(OVector4<real>& v);
+		void operator%=(OVector4<real>& v);
+		
+
 		/*friend void operator*=(float val, DXVector4& vector);
 		friend DXVector4 operator*(float val, DXVector4& vector);*/
 
@@ -71,6 +81,21 @@ namespace OdinMath {
 
 		
 	};
+
+	template<typename real>
+	inline void vAbs(OVector4<real>& v) {
+#if defined(INTRINSICS)
+		scalarMul4<real, 4>(v.data, v.data);
+#else
+		v.data[0] = Math<real>::odAbs(v.data[0]);
+		v.data[1] = Math<real>::odAbs(v.data[1]);
+		v.data[2] = Math<real>::odAbs(v.data[2]);
+		v.data[3] = Math<real>::odAbs(v.data[3]);
+
+#endif // defined(INTRINSICS)
+
+	}
+	
 	template<typename real>
 	inline void operator*=(real c, OVector4<real>& v) {
 #if defined(INTRINSICS)
@@ -456,6 +481,63 @@ namespace OdinMath {
 #endif
 		return res;
 	}
+
+	template<typename real>
+	inline OVector4<real> OVector4<real>::operator^(real val)
+	{
+		OVector4<real> res;
+#if defined(INTRINSICS)
+
+		pow4<real, 4>(this->data, val, res.data);
+
+#else
+
+		res[0] = Math<real>::odPow(this->data[0], val);
+		res[1] = Math<real>::odPow(this->data[1], val);
+		res[2] = Math<real>::odPow(this->data[2], val);
+		res[3] = Math<real>::odPow(this->data[3], val);
+
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline void OVector4<real>::operator^=(real val)
+	{
+#if defined(INTRINSICS)
+
+		pow4<real, 4>(this->data, val, this->data);
+
+#else
+
+		this->data[0] = Math<real>::odPow(this->data[0], val);
+		this->data[1] = Math<real>::odPow(this->data[1], val);
+		this->data[2] = Math<real>::odPow(this->data[2], val);
+		this->data[3] = Math<real>::odPow(this->data[3], val);
+
+#endif
+	}
+
+	template<typename real>
+	inline OVector4<real> OVector4<real>::operator%(OVector4<real>& v)
+	{
+		OVector4<real> res;
+#if defined(INTRINSICS)
+
+		mul4<real, 4>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] * v[0];
+		res[1] = this->data[1] * v[1];
+		res[2] = this->data[2] * v[2];
+		res[3] = this->data[3] * v[3];
+
+#endif
+		return res;
+	}
+
+
 
 
 }

@@ -3,7 +3,7 @@
 
 namespace OdinCollision {
 	enum Type {
-		AABB, Sphere, OBB, Circle,
+		AABB2, AABB3, OBB2, OBB3, Circle, Sphere,
 		None
 	};
 	struct Collider {
