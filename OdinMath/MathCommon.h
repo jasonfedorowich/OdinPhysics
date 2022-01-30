@@ -16,7 +16,7 @@ namespace OdinMath {
 
 		static real odMax(real x, real y);
 		static real odMin(real x, real y);
-
+		static real odClamp(real x, real min, real max);
 		
 
 		static real odCos(real x);
@@ -97,6 +97,16 @@ namespace OdinMath {
 	inline real Math<real>::odMin( real x,  real y)
 	{
 		return x < y ? x : y;
+	}
+
+	template<typename real>
+	inline real Math<real>::odClamp(real x, real min, real max)
+	{
+		if (x < min)
+			return min;
+		if (x > max)
+			return max;
+		return x;
 	}
 
 	template<typename real>
@@ -222,6 +232,7 @@ namespace OdinMath {
 
 	}
 
+	
 	typedef Math<float> Mathf;
 	typedef Math<double> Mathd;
 }

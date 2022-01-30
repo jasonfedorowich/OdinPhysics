@@ -56,6 +56,14 @@ namespace Tests
 
 		}
 
+		TEST_METHOD(testScalarMult) {
+			OVector4<float> uuuu = { 1.f, 2.0, 3.0, 4.0 };
+			uuuu = uuuu * 10.f;
+			Assert::AreEqual(uuuu[0], 10.f);
+
+
+		}
+
 
 
 

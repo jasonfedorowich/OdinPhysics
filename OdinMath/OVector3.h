@@ -47,6 +47,8 @@ namespace OdinMath {
 		OVector3<real> operator%(OVector3<real>& v);
 		void operator%=(OVector3<real>& v);
 
+		OVector3<real> operator&(OVector3<real>& v);
+		void operator&=(OVector3<real>& v);
 
 		/*friend void operator*=(float val, DXVector4& vector);
 		friend DXVector4 operator*(float val, DXVector4& vector);*/
@@ -462,6 +464,37 @@ namespace OdinMath {
 		this->data[0] = this->data[0] * v[0];
 		this->data[1] = this->data[1] * v[1];
 		this->data[2] = this->data[2] * v[2];
+
+#endif
+	}
+	template<typename real>
+	inline OVector3<real> OVector3<real>::operator&(OVector3<real>& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+
+		and4<real, 3>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] & v[0];
+		res[1] = this->data[1] & v[1];
+		res[2] = this->data[2] & v[2];
+
+#endif
+	}
+	template<typename real>
+	inline void OVector3<real>::operator&=(OVector3<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		and4<real, 3>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] & v[0];
+		this->data[1] = this->data[1] & v[1];
+		this->data[2] = this->data[2] & v[2];
 
 #endif
 	}

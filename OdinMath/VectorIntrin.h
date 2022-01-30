@@ -800,7 +800,7 @@ namespace OdinMath {
 		InVectf b = _mm_set1_ps(s);
 		InVectf a = _mm_loadu_ps(d);
 		a = _mm_mul_ps(a, b);
-		_mm_store_ps(d, a);
+		_mm_store_ps(out, a);
 
 	}
 
@@ -808,31 +808,31 @@ namespace OdinMath {
 		InVectd b = _mm256_set1_pd(s);
 		InVectd a = _mm256_loadu_pd(d);
 		a = _mm256_mul_pd(a, b);
-		_mm256_store_pd(d, a);
+		_mm256_store_pd(out, a);
 	}
 	template <> inline void scalarMul4<float, 3>(float* d, float s, float* out) {
 		InVectf b = _mm_set1_ps(s);
 		InVectf a = loadVector3(d);
 		a = _mm_mul_ps(a, b);
-		storeVector3(d, a);
+		storeVector3(out, a);
 	}
 	template <> inline void scalarMul4<double, 3>(double* d, double s, double* out) {
 		InVectd b = _mm256_set1_pd(s);
 		InVectd a = loadVector3(d);
 		a = _mm256_mul_pd(a, b);
-		storeVector3(d, a);
+		storeVector3(out, a);
 	}
 	template <> inline void scalarMul4<float, 2>(float* d, float s, float* out) {
 		InVectf b = _mm_set1_ps(s);
 		InVectf a = loadVector2(d);
 		a = _mm_mul_ps(a, b);
-		storeVector2(d, a);
+		storeVector2(out, a);
 	}
 	template <> inline void scalarMul4<double, 2>(double* d, double s, double* out) {
 		InVectd b = _mm256_set1_pd(s);
 		InVectd a = loadVector2(d);
 		a = _mm256_mul_pd(a, b);
-		storeVector2(d, a);
+		storeVector2(out, a);
 	}
 
 	
@@ -1234,6 +1234,129 @@ namespace OdinMath {
 		InVectd bb = loadVector2(b);
 
 		storeVector2(out, _mm256_mul_pd(aa, bb));
+	}
+
+	inline void and4f(InVectf& a, InVectf& b, InVectf& c) {
+
+		c = _mm_and_ps(a, b);
+	}
+
+	inline void and4d(InVectd& a, InVectd& b, InVectd& c) {
+
+		c = _mm256_and_pd(a, b);
+	}
+
+	template<typename T, int N>
+	inline void and4(T* a, T* b, T* out) {
+		return;
+	}
+
+	template<> inline void and4<float, 4>(float* a, float* b, float* out) {
+		InVectf aa = _mm_load_ps(a);
+		InVectf bb = _mm_load_ps(b);
+		InVectf cc;
+		and4f(aa, bb, cc);
+		_mm_store_ps(out, cc);
+
+	}
+
+	template<> inline void and4<double, 4>(double* a, double* b, double* out) {
+		InVectd aa = _mm256_load_pd(a);
+		InVectd bb = _mm256_load_pd(b);
+		InVectd cc;
+		and4d(aa, bb, cc);
+		_mm256_store_pd(out, cc);
+
+	}
+	template<> inline void and4<float, 3>(float* a, float* b, float* out) {
+		InVectf aa = loadVector3(a);
+		InVectf bb = loadVector3(b);
+		InVectf cc;
+		and4f(aa, bb, cc);
+		storeVector3(out, cc);
+
+	}
+
+	template<> inline void and4<double, 3>(double* a, double* b, double* out) {
+		InVectd aa = loadVector3(a);
+		InVectd bb = loadVector3(b);
+		InVectd cc;
+		and4d(aa, bb, cc);
+		storeVector3(out, cc);
+
+	}
+
+	template<> inline void and4<float, 2>(float* a, float* b, float* out) {
+		InVectf aa = loadVector2(a);
+		InVectf bb = loadVector2(b);
+		InVectf cc;
+		and4f(aa, bb, cc);
+		storeVector2(out, cc);
+
+	}
+
+	template<> inline void and4<double, 2>(double* a, double* b, double* out) {
+		InVectd aa = loadVector2(a);
+		InVectd bb = loadVector2(b);
+		InVectd cc;
+		and4d(aa, bb, cc);
+		storeVector2(out, cc);
+
+	}
+	inline void or4f(InVectf& a, InVectf& b, InVectf& c) {
+		c = _mm_or_ps(a, b);
+
+	}
+	inline void or4d(InVectd& a, InVectd& b, InVectd& c) {
+		c = _mm256_or_pd(a, b);
+
+	}
+	template<typename T, int N>
+	inline void or4(T* a, T* b, T* out) {
+		return;
+	}
+	template<> inline void or4<float, 4>(float* a, float* b, float* out) {
+		InVectf aa = _mm_load_ps(a);
+		InVectf bb = _mm_load_ps(b);
+		InVectf c;
+		or4f(aa, bb, c);
+		_mm_store_ps(out, c);
+	}
+	template<> inline void or4<double, 4>(double* a, double* b, double* out) {
+		InVectd aa = _mm256_load_pd(a);
+		InVectd bb = _mm256_load_pd(b);
+		InVectd c;
+		or4d(aa, bb, c);
+		_mm256_store_pd(out, c);
+	}
+	template<> inline void or4<float, 3>(float* a, float* b, float* out) {
+		InVectf aa = loadVector3(a);
+		InVectf bb = loadVector3(b);
+		InVectf c;
+		or4f(aa, bb, c);
+		storeVector3(out, c);
+	}
+	template<> inline void or4<double, 3>(double* a, double* b, double* out) {
+		InVectd aa = loadVector3(a);
+		InVectd bb = loadVector3(b);
+		InVectd c;
+		or4d(aa, bb, c);
+		storeVector3(out, c);
+	}
+
+	template<> inline void or4<float, 2>(float* a, float* b, float* out) {
+		InVectf aa = loadVector2(a);
+		InVectf bb = loadVector2(b);
+		InVectf c;
+		or4f(aa, bb, c);
+		storeVector2(out, c);
+	}
+	template<> inline void or4<double, 2>(double* a, double* b, double* out) {
+		InVectd aa = loadVector2(a);
+		InVectd bb = loadVector2(b);
+		InVectd c;
+		or4d(aa, bb, c);
+		storeVector2(out, c);
 	}
 	/*template<typename T>
 	inline void swizzle4(T* in, const int direction, T* out) {

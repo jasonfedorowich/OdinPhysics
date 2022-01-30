@@ -8,7 +8,7 @@ using namespace OdinCollision;
 
 namespace CollisionTests
 {
-	TEST_CLASS(AABBTest)
+	TEST_CLASS(AABB3Test)
 	{
 	public:
 

@@ -64,6 +64,12 @@ namespace OdinMath {
 		OVector4<real> operator^(real val);
 		void operator^=(real val);
 
+		OVector4<real> operator&(OVector4<real>& v);
+		void operator&=(OVector4<real>& v);
+
+		OVector4<real> operator|(OVector4<real>& v);
+		void operator|=(OVector4<real>& v);
+
 		OVector4<real> operator%(OVector4<real>& v);
 		void operator%=(OVector4<real>& v);
 		
@@ -519,6 +525,78 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OVector4<real> OVector4<real>::operator&(OVector4<real>& v)
+	{
+		OVector4<real> res;
+#if defined(INTRINSICS)
+
+		and4<real, 4>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] & v[0];
+		res[1] = this->data[1] & v[1];
+		res[2] = this->data[2] & v[2];
+		res[3] = this->data[3] & v[3];
+
+#endif
+	}
+
+	template<typename real>
+	inline void OVector4<real>::operator&=(OVector4<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		and4<real, 4>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] & v[0];
+		this->data[1] = this->data[1] & v[1];
+		this->data[2] = this->data[2] & v[2];
+		this->data[3] = this->data[3] & v[3];
+
+#endif
+	}
+
+	template<typename real>
+	inline OVector4<real> OVector4<real>::operator|(OVector4<real>& v)
+	{
+		OVector4<real> res;
+
+#if defined(INTRINSICS)
+
+		or4<real, 4>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] | v[0];
+		res[1] = this->data[1] | v[1];
+		res[2] = this->data[2] | v[2];
+		res[3] = this->data[3] | v[3];
+
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline void OVector4<real>::operator|=(OVector4<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		or4<real, 4>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] | v[0];
+		this->data[1] = this->data[1] | v[1];
+		this->data[2] = this->data[2] | v[2];
+		this->data[3] = this->data[3] | v[3];
+
+#endif
+	}
+
+	template<typename real>
 	inline OVector4<real> OVector4<real>::operator%(OVector4<real>& v)
 	{
 		OVector4<real> res;
@@ -535,6 +613,23 @@ namespace OdinMath {
 
 #endif
 		return res;
+	}
+
+	template<typename real>
+	inline void OVector4<real>::operator%=(OVector4<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		mul4<real, 4>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] * v[0];
+		this->data[1] = this->data[1] * v[1];
+		this->data[2] = this->data[2] * v[2];
+		this->data[3] = this->data[3] * v[3];
+
+#endif
 	}
 
 
