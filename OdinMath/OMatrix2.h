@@ -166,7 +166,7 @@ namespace OdinMath {
 
 	}
 	template<typename real>
-	inline OVector2<real> operator*(OVector2<real> vector, OVector2<real>& matrix)
+	inline OVector2<real> operator*(OVector2<real>& vector, OMatrix2<real>& matrix)
 	{
 		OVector3<real> result;
 #if defined(INTRINSICS)

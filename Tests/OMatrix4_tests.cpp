@@ -185,6 +185,19 @@ namespace Tests
 
 
 		}
+		TEST_METHOD(testVectMatMult4) {
+			OVector4<float> q(5.f, 4.f, 3.f, 1.f);
+			OMatrix4<float> A(
+				11.f, 9, 24, 2,
+				1, 5, 2, 6,
+				3, 17, 18, 1,
+				2, 5, 7, 1);
+
+			OVector4<float> v = q * A;
+			Assert::AreEqual(v[0], 70.f);
+
+
+		}
 
 
 

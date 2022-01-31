@@ -111,6 +111,9 @@
     <ClInclude Include="Seg3.h">
       <Filter>Header Files\CollisionPrimitive</Filter>
     </ClInclude>
+    <ClInclude Include="Seg2.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB2PointDistance.cpp">
@@ -138,6 +141,9 @@
       <Filter>Source Files\CollisionPrimitive</Filter>
     </ClCompile>
     <ClCompile Include="Seg3.cpp">
+      <Filter>Source Files\CollisionPrimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Seg2.cpp">
       <Filter>Source Files\CollisionPrimitive</Filter>
     </ClCompile>
   </ItemGroup>

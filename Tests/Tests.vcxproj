@@ -185,6 +185,7 @@
     </ClCompile>
     <ClCompile Include="QuatTests.cpp" />
     <ClCompile Include="RungeKutta2.cpp" />
+    <ClCompile Include="Seg2_tests.cpp" />
     <ClCompile Include="Seg3_tests.cpp" />
     <ClCompile Include="SIMD_tests.cpp" />
     <ClCompile Include="TestEigen.cpp" />
