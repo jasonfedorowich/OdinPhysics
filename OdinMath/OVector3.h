@@ -482,6 +482,7 @@ namespace OdinMath {
 		res[2] = this->data[2] & v[2];
 
 #endif
+		return res;
 	}
 	template<typename real>
 	inline void OVector3<real>::operator&=(OVector3<real>& v)

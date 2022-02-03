@@ -151,6 +151,7 @@
     <ClInclude Include="IntervalTree.h" />
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OdinCollision.h" />
+    <ClInclude Include="Plane3.h" />
     <ClInclude Include="Poly2.h" />
     <ClInclude Include="Poly3.h" />
     <ClInclude Include="Seg2.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="AABB2PointIntersection.cpp" />
     <ClCompile Include="AABB3.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Plane3.cpp" />
     <ClCompile Include="Seg2.cpp" />
     <ClCompile Include="Seg3.cpp" />
     <ClCompile Include="Sphere.cpp" />
