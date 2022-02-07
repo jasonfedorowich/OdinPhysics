@@ -60,6 +60,8 @@ namespace OdinMath {
 		void operator/=(real c);
 		void operator*=(real val);
 		OVector4 operator*(real val);
+		
+
 
 		OVector4<real> operator^(real val);
 		void operator^=(real val);
@@ -88,6 +90,30 @@ namespace OdinMath {
 		
 	};
 
+
+	template<typename real>
+	inline void max(OVector4<real>& m1, OVector4<real>& m2, OVector4<real>& res) {
+#if defined(INTRINSICS)
+		vMax<real, 4>(m1.data, m2.data, res.data);
+#else
+		res[0] = Math<rl>::odMax(m1[0], m2[0]);
+		res[1] = Math<rl>::odMax(m1[1], m2[1]);
+		res[2] = Math<rl>::odMax(m1[2], m2[2]);
+		res[3] = Math<rl>::odMax(m1[3], m2[3]);
+#endif
+	}
+
+	template<typename real>
+	inline void min(OVector4<real>& m1, OVector4<real>& m2, OVector4<real>& res) {
+#if defined(INTRINSICS)
+		vMin<real, 4>(m1.data, m2.data, res.data);
+#else
+		res[0] = Math<rl>::odMin(m1[0], m2[0]);
+		res[1] = Math<rl>::odMin(m1[1], m2[1]);
+		res[2] = Math<rl>::odMin(m1[2], m2[2]);
+		res[3] = Math<rl>::odMin(m1[3], m2[3]);
+#endif
+	}
 	template<typename real>
 	inline void vAbs(OVector4<real>& v) {
 #if defined(INTRINSICS)

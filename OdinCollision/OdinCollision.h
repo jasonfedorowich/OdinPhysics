@@ -8,6 +8,7 @@
 #include "Seg2.h"
 #include "Plane3.h"
 #include "Plane2.h"
+#include "Ray3.h"
 
 #include "AABB2PointDistance.h"
 #include "AABB2PointIntersection.h"

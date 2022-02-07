@@ -81,6 +81,26 @@ namespace OdinMath {
 	};
 
 	template<typename real>
+	inline void max(OVector2<real>& m1, OVector2<real>& m2, OVector2<real>& res) {
+#if defined(INTRINSICS)
+		vMax<real, 3>(m1.data, m2.data, res.data);
+#else
+		res[0] = Math<rl>::odMax(m1[0], m2[0]);
+		res[1] = Math<rl>::odMax(m1[1], m2[1]);
+#endif
+	}
+
+	template<typename real>
+	inline void min(OVector2<real>& m1, OVector2<real>& m2, OVector2<real>& res) {
+#if defined(INTRINSICS)
+		vMin<real, 3>(m1.data, m2.data, res.data);
+#else
+		res[0] = Math<rl>::odMin(m1[0], m2[0]);
+		res[1] = Math<rl>::odMin(m1[1], m2[1]);
+#endif
+	}
+
+	template<typename real>
 	inline void vAbs(OVector2<real>& v) {
 #if defined(INTRINSICS)
 		abs4<real, 4>(v.data, v.data);

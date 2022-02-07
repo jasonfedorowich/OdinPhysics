@@ -120,6 +120,9 @@
     <ClInclude Include="Plane2.h">
       <Filter>Header Files\CollisionPrimitive</Filter>
     </ClInclude>
+    <ClInclude Include="Ray3.h">
+      <Filter>Header Files\CollisionPrimitive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB2PointDistance.cpp">
@@ -156,6 +159,9 @@
       <Filter>Source Files\CollisionPrimitive</Filter>
     </ClCompile>
     <ClCompile Include="Plane2.cpp">
+      <Filter>Source Files\CollisionPrimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Ray3.cpp">
       <Filter>Source Files\CollisionPrimitive</Filter>
     </ClCompile>
   </ItemGroup>

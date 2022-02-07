@@ -1358,6 +1358,126 @@ namespace OdinMath {
 		or4d(aa, bb, c);
 		storeVector2(out, c);
 	}
+
+	template<typename T, int N>
+	inline void vMax(T* m1, T* m2, T* res) {
+		return;
+
+	}
+
+	template<> inline void vMax<float, 4>(float* m1, float* m2, float* res) {
+		InVectf l = _mm_load_ps(m1);
+		InVectf r = _mm_load_ps(m2);
+
+		InVectf ma = _mm_max_ps(l, r);
+		_mm_store_ps(res, ma);
+
+	}
+
+	template<> inline void vMax<double, 4>(double* m1, double* m2, double* res) {
+		InVectd l = _mm256_load_pd(m1);
+		InVectd r = _mm256_load_pd(m2);
+
+		InVectd ma = _mm256_max_pd(l, r);
+		_mm256_store_pd(res, ma);
+
+	}
+	template<> inline void vMax<float, 3>(float* m1, float* m2, float* res) {
+		InVectf l = loadVector3(m1);
+		InVectf r = loadVector3(m2);
+
+		InVectf ma = _mm_max_ps(l, r);
+		storeVector3(res, ma);
+
+	}
+
+	template<> inline void vMax<double, 3>(double* m1, double* m2, double* res) {
+		InVectd l = loadVector3(m1);
+		InVectd r = loadVector3(m2);
+
+		InVectd ma = _mm256_max_pd(l, r);
+		storeVector3(res, ma);
+
+	}
+
+	template<> inline void vMax<float, 2>(float* m1, float* m2, float* res) {
+		InVectf l = loadVector3(m1);
+		InVectf r = loadVector3(m2);
+
+		InVectf ma = _mm_max_ps(l, r);
+		storeVector3(res, ma);
+
+	}
+
+	template<> inline void vMax<double, 2>(double* m1, double* m2, double* res) {
+		InVectd l = loadVector2(m1);
+		InVectd r = loadVector2(m2);
+
+		InVectd ma = _mm256_max_pd(l, r);
+		storeVector2(res, ma);
+
+	}
+
+	template<typename T, int N>
+	inline void vMin(T* m1, T* m2, T* res) {
+		return;
+
+	}
+
+	template<> inline void vMin<float, 4>(float* m1, float* m2, float* res) {
+		InVectf l = _mm_load_ps(m1);
+		InVectf r = _mm_load_ps(m2);
+
+		InVectf ma = _mm_min_ps(l, r);
+		_mm_store_ps(res, ma);
+
+	}
+
+	template<> inline void vMin<double, 4>(double* m1, double* m2, double* res) {
+		InVectd l = _mm256_load_pd(m1);
+		InVectd r = _mm256_load_pd(m2);
+
+		InVectd ma = _mm256_min_pd(l, r);
+		_mm256_store_pd(res, ma);
+
+	}
+	template<> inline void vMin<float, 3>(float* m1, float* m2, float* res) {
+		InVectf l = loadVector3(m1);
+		InVectf r = loadVector3(m2);
+
+		InVectf ma = _mm_min_ps(l, r);
+		storeVector3(res, ma);
+
+	}
+
+	template<> inline void vMin<double, 3>(double* m1, double* m2, double* res) {
+		InVectd l = loadVector3(m1);
+		InVectd r = loadVector3(m2);
+
+		InVectd ma = _mm256_min_pd(l, r);
+		storeVector3(res, ma);
+
+	}
+
+	template<> inline void vMin<float, 2>(float* m1, float* m2, float* res) {
+		InVectf l = loadVector3(m1);
+		InVectf r = loadVector3(m2);
+
+		InVectf ma = _mm_min_ps(l, r);
+		storeVector3(res, ma);
+
+	}
+
+	template<> inline void vMin<double, 2>(double* m1, double* m2, double* res) {
+		InVectd l = loadVector2(m1);
+		InVectd r = loadVector2(m2);
+
+		InVectd ma = _mm256_min_pd(l, r);
+		storeVector2(res, ma);
+
+	}
+
+
 	/*template<typename T>
 	inline void swizzle4(T* in, const int direction, T* out) {
 		return;
