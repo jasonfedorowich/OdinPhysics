@@ -57,6 +57,7 @@ namespace OdinCollision {
 		if (dist == 0.f || dist < OdinMath::Math<rl>::eps) {
 			return true;
 		}
+		return false;
 	}
 	bool Ray3::contains(Ray3& other)
 	{

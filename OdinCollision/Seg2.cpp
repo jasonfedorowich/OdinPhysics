@@ -239,7 +239,7 @@ namespace OdinCollision {
 		rl numb = prod[0] - prod[1];
 		mub = numb / denom;
 
-		pt = start + (end * mua);
+		pt = start + (d1 * mua);
 		return true;
 	}
 
