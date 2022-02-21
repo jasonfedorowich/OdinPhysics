@@ -33,6 +33,8 @@ namespace OdinMath {
 		OVector2<real>& operator=(const OVector2<real>& v);
 		OVector2<real> operator>(OVector2<real>& v);
 		OVector2<real> operator>=(OVector2<real>& v);
+		OVector2<real> operator>(OVector2<real>&& v);
+		OVector2<real> operator>=(OVector2<real>&& v);
 		void operator/=(real c);
 		void operator*=(real val);
 		OVector2<real> operator*(real val);
@@ -43,13 +45,21 @@ namespace OdinMath {
 
 		//elementwise mult
 		OVector2<real> operator%(OVector2<real>& v);
+		OVector2<real> operator%(OVector2<real>&& v);
+
 		void operator%=(OVector2<real>& v);
+		void operator%=(OVector2<real>&& v);
 
 		OVector2<real> operator&(OVector2<real>& v);
 		void operator&=(OVector2<real>& v);
 
+		OVector2<real> operator|(OVector2<real>& v);
+		void operator|=(OVector2<real>& v);
+
 		/*friend void operator*=(float val, DXVector4& vector);
 		friend DXVector4 operator*(float val, DXVector4& vector);*/
+		template<int X, int Y>
+		OVector2<real> swizzle();
 
 		real distance(const OVector2<real>& v);
 		real length();
@@ -246,6 +256,32 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OVector2<real> OVector2<real>::operator>(OVector2<real>&& v)
+	{
+		OVector2<real> res;
+#if defined(INTRINSICS)
+		cmpgt<real, 2>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) > v[0];
+		res[1] = (*this) > v[1];
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline OVector2<real> OVector2<real>::operator>=(OVector2<real>&& v)
+	{
+		OVector2<real> res;
+#if defined(INTRINSICS)
+		cmpgte<real, 2>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) >= v[0];
+		res[1] = (*this) >= v[1];
+#endif
+		return res;
+	}
+
+	template<typename real>
 	inline void OVector2<real>::operator/=(real c)
 	{
 #if defined(INTRINSICS)
@@ -331,7 +367,35 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OVector2<real> OVector2<real>::operator%(OVector2<real>&& v)
+	{
+		OVector2<real> res;
+#if defined(INTRINSICS)
+
+		mul4<real, 2>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] * v[0];
+		res[1] = this->data[1] * v[1];
+
+#endif
+		return res;
+	}
+
+	template<typename real>
 	inline void OVector2<real>::operator%=(OVector2<real>& v)
+	{
+#if defined(INTRINSICS)
+		mul4<real, 2>(this->data, v.data, this->data);
+#else
+		this->data[0] = this->data[0] * v[0];
+		this->data[1] = this->data[1] * v[1];
+#endif
+	}
+
+	template<typename real>
+	inline void OVector2<real>::operator%=(OVector2<real>&& v)
 	{
 #if defined(INTRINSICS)
 		mul4<real, 2>(this->data, v.data, this->data);
@@ -371,6 +435,40 @@ namespace OdinMath {
 
 #endif
 	}
+
+	template<typename real>
+	inline OVector2<real> OVector2<real>::operator|(OVector2<real>& v)
+	{
+		OVector2<real> res;
+#if defined(INTRINSICS)
+
+		or4<real, 2>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] | v[0];
+		res[1] = this->data[1] | v[1];
+
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline void OVector2<real>::operator|=(OVector2<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		or4<real, 2>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] | v[0];
+		this->data[1] = this->data[1] | v[1];
+
+#endif
+	}
+
+
 
 	template<typename real>
 	inline real OVector2<real>::distance(const OVector2<real>& v)
@@ -475,5 +573,47 @@ namespace OdinMath {
 		OVector2<real> vv = (*this) - v;
 		return Math<real>::odATan(vv.getY(), vv.getX());
 	}
+
+	template<typename real>
+	template<int X, int Y>
+	inline OVector2<real> OVector2<real>::swizzle() {
+		return;
+	}
+
+	template<>
+	template<int X, int Y>
+	inline OVector2<float> OVector2<float>::swizzle() {
+		assert((X < 4) && (Y < 4));
+		assert((X >= 0) && (Y >= 0));
+#if defined(INTRINSICS)
+		OVector2<float> res;
+		InVectf v = loadVector2(this->data);
+		v = PERMUTE_PS(v, _MM_SHUFFLE(Y, Y, Y, X));
+		storeVector2(res.data, v);
+		return res;
+#else
+		return OVector2<real>(this->data[X], this->data[Y]);
+#endif
+
+	}
+	template<>
+	template<int X, int Y>
+	inline OVector2<double> OVector2<double>::swizzle() {
+		assert((X < 4) && (Y < 4));
+		assert((X >= 0) && (Y >= 0));
+#if defined(INTRINSICS)
+		OVector2<double> res;
+		InVectd v = loadVector2(this->data);
+		v = _mm256_permutex_pd(v, _MM_SHUFFLE(Y, Y, Y, X));
+		storeVector2(res.data, v);
+		return res;
+#else
+		return OVector2<real>(this->data[X], this->data[Y]);
+#endif
+	}
+
+
+
+
 
 }

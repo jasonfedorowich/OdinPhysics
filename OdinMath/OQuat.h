@@ -12,6 +12,8 @@ namespace OdinMath {
 		OQuat(OQuat& q) { *this = q; }
 		OQuat(OMatrix4<real>& m);
 		OQuat(OMatrix3<real>& m);
+		OQuat(OMatrix4<real>&& m);
+		OQuat(OMatrix3<real>&& m);
 
 		OQuat() : OQuat((real)0.0, (real)0.0, (real)0.0, (real)1.0) {};
 		~OQuat() {};
@@ -86,6 +88,24 @@ namespace OdinMath {
 	}
 	template<typename real>
 	inline OQuat<real>::OQuat(OMatrix3<real>& m)
+	{
+#if defined(INTRINSICS)
+		tquatfRotMat<real, 3>(m.m, this->data);
+#else
+		quatRotMatrix<real, 3>(m, *this);
+#endif
+	}
+	template<typename real>
+	inline OQuat<real>::OQuat(OMatrix4<real>&& m)
+	{
+#if defined(INTRINSICS)
+		tquatfRotMat<real, 4>(m.m, this->data);
+#else
+		quatRotMatrix<real, 4>(m, *this);
+#endif
+	}
+	template<typename real>
+	inline OQuat<real>::OQuat(OMatrix3<real>&& m)
 	{
 #if defined(INTRINSICS)
 		tquatfRotMat<real, 3>(m.m, this->data);

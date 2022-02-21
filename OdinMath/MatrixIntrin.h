@@ -171,8 +171,8 @@ namespace OdinMath {
 		_mm256_store_pd(R[3], mat.row[3]);
 
 	}
-
 	inline void matMult4f(InMatrix4F& Af, InMatrix4F& Bf, InMatrix4F& O) {
+		
 		O.row[0] = _mm_mul_ps(_mm_shuffle_ps(Af.row[0], Af.row[0], 0x00), Bf.row[0]);
 		O.row[0] = _mm_add_ps(O.row[0], _mm_mul_ps(_mm_shuffle_ps(Af.row[0], Af.row[0], 0x55), Bf.row[1]));
 		O.row[0] = _mm_add_ps(O.row[0], _mm_mul_ps(_mm_shuffle_ps(Af.row[0], Af.row[0], 0xaa), Bf.row[2]));
@@ -826,6 +826,24 @@ namespace OdinMath {
 
 
 	}
+
+
+	inline void absMf(InMatrix4F& A, InMatrix4F& B) {
+		abs4f(A.row[0], B.row[0]);
+		abs4f(A.row[1], B.row[1]);
+		abs4f(A.row[2], B.row[2]);
+		abs4f(A.row[3], B.row[3]);
+
+	}
+
+
+	inline void absMd(InMatrix4D& A, InMatrix4D& B) {
+		abs4d(A.row[0], B.row[0]);
+		abs4d(A.row[1], B.row[1]);
+		abs4d(A.row[2], B.row[2]);
+		abs4d(A.row[3], B.row[3]);
+
+	}
 	template<typename T, int N>
 	inline T determinant4(T A[][N]) {
 		return 0.0;
@@ -859,6 +877,56 @@ namespace OdinMath {
 		return deter4d(M);
 	}
 
+	template<typename T, int N>
+	inline void absM4(T A[][N], T B[][N]) {
+		return;
+	}
+
+	
+	template <> inline void absM4<float>(float A[][4], float B[][4]) {
+		InMatrix4F AA(A);
+		InMatrix4F BB;
+		absMf(AA, BB);
+		storeMat4(BB, B);
+	}
+
+
+	template <> inline void absM4<double>(double A[][4], double B[][4]) {
+		InMatrix4D AA(A);
+		InMatrix4D BB;
+		absMd(AA, BB);
+		storeMat4(BB, B);
+	}
+
+	template <> inline void absM4<float>(float A[][3], float B[][3]) {
+		InMatrix4F AA(A);
+		InMatrix4F BB;
+		absMf(AA, BB);
+		storeMat3(BB, B);
+	}
+
+
+	template <> inline void absM4<double>(double A[][3], double B[][3]) {
+		InMatrix4D AA(A);
+		InMatrix4D BB;
+		absMd(AA, BB);
+		storeMat3(BB, B);
+	}
+
+	template <> inline void absM4<float>(float A[][2], float B[][2]) {
+		InMatrix4F AA(A);
+		InMatrix4F BB;
+		absMf(AA, BB);
+		storeMat2(BB, B);
+	}
+
+
+	template <> inline void absM4<double>(double A[][2], double B[][2]) {
+		InMatrix4D AA(A);
+		InMatrix4D BB;
+		absMd(AA, BB);
+		storeMat2(BB, B);
+	}
 	void matScale4f(InMatrix4F& M, float scale, InMatrix4F& O);
 	void matScale4d(InMatrix4D& M, double scale, InMatrix4D& O);
 	void addMat4f(InMatrix4F& A, InMatrix4F& B, InMatrix4F& O);
@@ -891,6 +959,8 @@ namespace OdinMath {
 	template<typename T, int N>
 	bool invert4(T A[][N], T O[][N], T episilon=Math<T>::eps, T* deteminant=nullptr);
 
+	template<typename T, int N>
+	void matMultTrans4(T A[][N], T B[][N], T C[][N]);
 	
 
 }

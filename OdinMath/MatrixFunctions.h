@@ -2,8 +2,97 @@
 #include "OdinMath.h"
 namespace OdinMath {
 
+	template<typename real>
+	inline void covariance3(std::vector<OVector3<real>>& points, OMatrix3<real>& matrix, OVector3<real>& mean) {
+		mean = points[0];
+		real n = points.size();
+		
+		OVector3<real> sym = points[0];
+		sym %= points[0];
+		OVector3<real> cross = points[0];
+
+		cross %= points[0].swizzle<1, 2, 0>();
+		
+		for (int i = 1; i < n; i++) {
+			mean += points[i];
+
+			sym += (points[i] % points[i]);
+			cross += (points[i] % points[i].swizzle<1, 2, 0>());
+
+
+		}
+
+		real invN = (real)1.0 / n;
+		
+		sym *= invN;
+		cross *= invN;
+		mean *= invN;
+
+		OVector3<real> mean2 = mean % mean;
+		OVector3<real> mean2c = mean % mean.swizzle<1, 2, 0>();
+
+		cross -= mean2c;
+		sym -= mean2;
+
+		
+
+		matrix(0, 0) = sym[0];
+		matrix(0, 1) = cross[0];
+		matrix(0, 2) = cross[2];
+
+		matrix(1, 0) = cross[0];
+		matrix(1, 1) = sym[1];
+		matrix(1, 2) = cross[1];
+		
+		matrix(2, 0) = cross[2];
+		matrix(2, 1) = cross[1];
+		matrix(2, 2) = sym[2];
+
+	}
+
+	template<typename real>
+	inline void covariance2(std::vector<OVector2<real>>& points, OMatrix2<real>& matrix, OVector2<real>& mean) {
+		mean = points[0];
+		real n = points.size();
+
+		OVector2<real> sym = points[0];
+		sym %= points[0];
+		OVector2<real> cross = points[0];
+
+		cross %= points[0].swizzle(1, 0);
+
+		for (int i = 1; i < n; i++) {
+			mean += points[i];
+
+			sym += (points[i] % points[i]);
+			cross += (points[i] % points[i].swizzle(1, 0));
+
+
+		}
+		real invN = (real)1.0 / n;
+
+		sym *= invN;
+		cross *= invN;
+		mean *= invN;
+
+		OVector2<real> mean2 = mean % mean;
+		OVector2<real> mean2c = mean % mean.swizzle(1, 0);
+
+		cross -= mean2c;
+		sym -= mean2;
+		
+		matrix(0, 0) = sym[0];
+		matrix(0, 1) = cross[0];
+
+		matrix(1, 0) = cross[0];
+		matrix(1, 1) = sym[1];
+
+
+	}
+
+
 	template<typename Matrix, typename real>
-	void identity(Matrix& I, int n) {
+	inline void identity(Matrix& I, int n) {
 		for (int i = 0; i < n; i++) {
 
 			for (int j = 0; j < n; j++) {
@@ -14,7 +103,7 @@ namespace OdinMath {
 
 	}
 	template<typename Matrix, typename real>
-	void minor(int d, Matrix& A, Matrix& R, int n) {
+	inline void minor(int d, Matrix& A, Matrix& R, int n) {
 		identity<Matrix, real>(R, n);
 
 		for (int i = d; i < n; i++) {
@@ -27,7 +116,7 @@ namespace OdinMath {
 
 	
 	template<typename Matrix, typename real>
-	void pivot(Matrix& P, Matrix& A, int d) {
+	inline void pivot(Matrix& P, Matrix& A, int d) {
 		real t;
 		for (int i = 0; i < d; i++) {
 			int maxR = i;
@@ -47,7 +136,7 @@ namespace OdinMath {
 	}
 
 	template<typename Matrix, typename Vect, typename real>
-	void backSub(Matrix& U, Vect& x, Vect& b, int d) {
+	inline void backSub(Matrix& U, Vect& x, Vect& b, int d) {
 		for (int i = 0; i < d; i++) {
 			x[i] = (real)0.0;
 		}
@@ -65,7 +154,7 @@ namespace OdinMath {
 	}
 
 	template<typename Matrix, typename Vect, typename real>
-	void tridiag(Matrix& H, std::vector<Matrix>& reflectors, int n) {
+	inline void tridiag(Matrix& H, std::vector<Matrix>& reflectors, int n) {
 		int j;
 		real alpha;
 		real sumSq;

@@ -1,5 +1,6 @@
 #pragma once
 #include "OdinMath.h"
+
 namespace OdinMath {
 
 
@@ -57,10 +58,16 @@ namespace OdinMath {
 		OVector4& operator=(const OVector4& v);
 		OVector4 operator>(OVector4& v);
 		OVector4 operator>=(OVector4& v);
+		OVector4 operator>(OVector4&& v);
+		OVector4 operator>=(OVector4&& v);
 		void operator/=(real c);
 		void operator*=(real val);
 		OVector4 operator*(real val);
 		
+		//components range from 0-3 with each parameter selecting a 0 or 3 for the representing the 
+		//index of the vector to read from
+		template<int X, int Y, int Z, int W>
+		OVector4<real> swizzle();
 
 
 		OVector4<real> operator^(real val);
@@ -73,7 +80,11 @@ namespace OdinMath {
 		void operator|=(OVector4<real>& v);
 
 		OVector4<real> operator%(OVector4<real>& v);
+		OVector4<real> operator%(OVector4<real>&& v);
+
 		void operator%=(OVector4<real>& v);
+		void operator%=(OVector4<real>&& v);
+
 		
 
 		/*friend void operator*=(float val, DXVector4& vector);
@@ -468,6 +479,36 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OVector4<real> OVector4<real>::operator>(OVector4<real>&& v)
+	{
+		OVector4<real> res;
+#if defined(INTRINSICS)
+		cmpgt<real, 4>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) > v[0];
+		res[1] = (*this) > v[1];
+		res[2] = (*this) > v[2];
+		res[3] = (*this) > v[3];
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline OVector4<real> OVector4<real>::operator>=(OVector4<real>&& v)
+	{
+		OVector4<real> res;
+#if defined(INTRINSICS)
+		cmpgte<real, 4>(this->data, v.data, res.data);
+		return res;
+#else
+		res[0] = (*this) >= v[0];
+		res[1] = (*this) >= v[1];
+		res[2] = (*this) >= v[2];
+		res[3] = (*this) >= v[3];
+#endif
+	}
+
+	template<typename real>
 	inline void OVector4<real>::operator/=(real c)
 	{
 #if defined(INTRINSICS)
@@ -513,6 +554,9 @@ namespace OdinMath {
 #endif
 		return res;
 	}
+
+
+	
 
 	template<typename real>
 	inline OVector4<real> OVector4<real>::operator^(real val)
@@ -642,6 +686,25 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OVector4<real> OVector4<real>::operator%(OVector4<real>&& v)
+	{
+		OVector4<real> res;
+#if defined(INTRINSICS)
+
+		mul4<real, 4>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] * v[0];
+		res[1] = this->data[1] * v[1];
+		res[2] = this->data[2] * v[2];
+		res[3] = this->data[3] * v[3];
+
+#endif
+		return res;
+	}
+
+	template<typename real>
 	inline void OVector4<real>::operator%=(OVector4<real>& v)
 	{
 #if defined(INTRINSICS)
@@ -658,6 +721,64 @@ namespace OdinMath {
 #endif
 	}
 
+	template<typename real>
+	inline void OVector4<real>::operator%=(OVector4<real>&& v)
+	{
+#if defined(INTRINSICS)
+
+		mul4<real, 4>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] * v[0];
+		this->data[1] = this->data[1] * v[1];
+		this->data[2] = this->data[2] * v[2];
+		this->data[3] = this->data[3] * v[3];
+
+#endif
+	}
+
+
+
+
+
+	template<typename real>
+	template<int X, int Y, int Z, int W>
+	inline OVector4<real> OVector4<real>::swizzle() {
+		return;
+	}
+
+	template<>
+	template<int X, int Y, int Z, int W>
+	inline OVector4<float> OVector4<float>::swizzle() {
+		assert((X < 4) && (Y < 4) && (Z < 4) && (W < 4));
+		assert((X >= 0) && (Y >= 0) && (Z >= 0) && (W < 4));
+#if defined(INTRINSICS)
+		OVector4<float> res;
+		InVectf v = _mm_load_ps(this->data);
+		v = PERMUTE_PS(v, _MM_SHUFFLE(W, Z, Y, X));
+		_mm_store_ps(res.data, v);
+		return res;
+#else
+		return OVector4<real>(this->data[X], this->data[Y], this->data[Z], this->data[W]);
+#endif
+
+	}
+	template<>
+	template<int X, int Y, int Z, int W>
+	inline OVector4<double> OVector4 <double>::swizzle() {
+		assert((X < 4) && (Y < 4) && (Z < 4) && (W < 4));
+		assert((X >= 0) && (Y >= 0) && (Z >= 0) && (W < 4));
+#if defined(INTRINSICS)
+		OVector4<double> res;
+		InVectd v = _mm256_load_pd(this->data);
+		v = _mm256_permutex_pd(v, _MM_SHUFFLE(W, Z, Y, X));
+		_mm256_store_pd(res.data, v);
+		return res;
+#else
+		return OVector4<real>(this->data[X], this->data[Y], this->data[Z], this->data[W]);
+#endif
+	}
 
 
 

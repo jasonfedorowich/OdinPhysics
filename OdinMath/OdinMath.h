@@ -4,6 +4,8 @@
 #include <vector>
 #include <deque>
 #include <map>
+#include <type_traits>
+#include <typeinfo>
 
 #include "MathCommon.h"
 
@@ -36,7 +38,6 @@
 #include "OMatrix3.h"
 #include "OVector2.h"
 #include "OMatrix2.h"
-#include "VectorIntrin.h"
 #include "OQuat.h"
 
 #include "MatrixFunctions.h"

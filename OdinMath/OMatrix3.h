@@ -12,7 +12,12 @@ namespace OdinMath {
 			real _10, real _11, real _12,
 			real _20, real _21, real _22);
 
-
+		OMatrix3(real v) : OMatrix3(v, v, v,
+			v, v, v,
+			v, v, v) {}
+		OMatrix3(OVector3<real> rows[3]);
+		OMatrix3(OVector3<real>& rows);
+		OMatrix3(OVector3<real>&& rows);
 
 		OMatrix3(const OMatrix3& other) { *this = other; }
 		~OMatrix3() {}
@@ -77,7 +82,7 @@ namespace OdinMath {
 
 		////DXMatrix4& operator+=(int increment);
 
-
+		OMatrix3<real> multTrans(OMatrix3<real>& mat);
 
 		bool invert(real epsilon = Math<real>::eps, real* determinant = nullptr);
 		void transpose();
@@ -93,6 +98,8 @@ namespace OdinMath {
 
 		real trace();
 		real traceSq();
+
+		void absM();
 
 		////DXVector4 determinant();
 
@@ -234,6 +241,52 @@ namespace OdinMath {
 		this->m[2][1] = _21;
 		this->m[2][2] = _22;
 
+	}
+	template<typename real>
+	inline OMatrix3<real>::OMatrix3(OVector3<real> rows[3])
+	{
+		this->m[0][0] = rows[0][0];
+		this->m[0][1] = rows[0][1];
+		this->m[0][2] = rows[0][2];
+
+		this->m[1][0] = rows[1][0];
+		this->m[1][1] = rows[1][1];
+		this->m[1][2] = rows[1][2];
+
+		this->m[2][0] = rows[2][0];
+		this->m[2][1] = rows[2][1];
+		this->m[2][2] = rows[2][2];
+
+	}
+	template<typename real>
+	inline OMatrix3<real>::OMatrix3(OVector3<real>& rows)
+	{
+		this->m[0][0] = rows[0];
+		this->m[0][1] = rows[1];
+		this->m[0][2] = rows[2];
+
+		this->m[1][0] = rows[0];
+		this->m[1][1] = rows[1];
+		this->m[1][2] = rows[2];
+
+		this->m[2][0] = rows[0];
+		this->m[2][1] = rows[1];
+		this->m[2][2] = rows[2];
+	}
+	template<typename real>
+	inline OMatrix3<real>::OMatrix3(OVector3<real>&& rows)
+	{
+		this->m[0][0] = rows[0];
+		this->m[0][1] = rows[1];
+		this->m[0][2] = rows[2];
+
+		this->m[1][0] = rows[0];
+		this->m[1][1] = rows[1];
+		this->m[1][2] = rows[2];
+
+		this->m[2][0] = rows[0];
+		this->m[2][1] = rows[1];
+		this->m[2][2] = rows[2];
 	}
 	template<typename real>
 	inline OMatrix3<real>& OMatrix3<real>::operator=(const OMatrix3& matrix)
@@ -391,6 +444,18 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OMatrix3<real> OMatrix3<real>::multTrans(OMatrix3<real>& mat)
+	{
+		OMatrix3<real> res;
+#if defined(INTRINSICS)
+		matMultTrans4<real, 3>(this->m, mat.m, res.m);
+#else
+		matrixMultTrans3<real>(*this, mat, res);
+#endif
+		return res;
+	}
+
+	template<typename real>
 	inline bool OMatrix3<real>::invert(real epsilon, real* determinant)
 	{
 #if defined(INTRINSICS)
@@ -477,6 +542,28 @@ namespace OdinMath {
 		return this->m[0][0] * this->m[0][0] + this->m[1][1] * this->m[1][1] + this->m[2][2] * this->m[2][2];
 
 #endif	
+	}
+
+	template<typename real>
+	inline void OMatrix3<real>::absM()
+	{
+#if defined(INTRINSICS)
+		absM4<real>(this->m, this->m);
+#else
+
+		this->m[0][0] = Math<rl>::odAbs(this->m[0][0]);
+		this->m[0][1] = Math<rl>::odAbs(this->m[0][1]);
+		this->m[0][2] = Math<rl>::odAbs(this->m[0][2]);
+
+		this->m[1][0] = Math<rl>::odAbs(this->m[1][0]);
+		this->m[1][1] = Math<rl>::odAbs(this->m[1][1]);
+		this->m[1][2] = Math<rl>::odAbs(this->m[1][2]);
+
+		this->m[2][0] = Math<rl>::odAbs(this->m[2][0]);
+		this->m[2][1] = Math<rl>::odAbs(this->m[2][1]);
+		this->m[2][2] = Math<rl>::odAbs(this->m[2][2]);
+
+#endif
 	}
 
 	template<typename real>

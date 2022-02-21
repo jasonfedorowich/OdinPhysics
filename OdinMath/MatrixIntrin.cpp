@@ -505,6 +505,123 @@ namespace OdinMath {
   
     }
 
+    void matMultTrans4f(InMatrix4F& A, InMatrix4F& B, InMatrix4F& C) {
+        InVectf v0 = PERMUTE_PS(A.row[0], _MM_SHUFFLE(0, 0, 0, 0));
+        InVectf v1 = PERMUTE_PS(A.row[0], _MM_SHUFFLE(1, 1, 1, 1));
+        InVectf v2 = PERMUTE_PS(A.row[0], _MM_SHUFFLE(2, 2, 2, 2));
+        InVectf v3 = PERMUTE_PS(A.row[0], _MM_SHUFFLE(3, 3, 3, 3));
+
+        InVectf v00 = _mm_mul_ps(v0, B.row[0]);
+        InVectf v11 = _mm_mul_ps(v1, B.row[1]);
+        InVectf v22 = _mm_mul_ps(v2, B.row[2]);
+        InVectf v33 = _mm_mul_ps(v3, B.row[3]);
+      
+        v00 = _mm_add_ps(v00, v11);
+        v11 = _mm_add_ps(v22, v33);
+        C.row[0] = _mm_add_ps(v00, v11);
+
+        v0 = PERMUTE_PS(A.row[1], _MM_SHUFFLE(0, 0, 0, 0));
+        v1 = PERMUTE_PS(A.row[1], _MM_SHUFFLE(1, 1, 1, 1));
+        v2 = PERMUTE_PS(A.row[1], _MM_SHUFFLE(2, 2, 2, 2));
+        v3 = PERMUTE_PS(A.row[1], _MM_SHUFFLE(3, 3, 3, 3));
+
+        v00 = _mm_mul_ps(v0, B.row[0]);
+        v11 = _mm_mul_ps(v1, B.row[1]);
+        v22 = _mm_mul_ps(v2, B.row[2]);
+        v33 = _mm_mul_ps(v3, B.row[3]);
+
+        v00 = _mm_add_ps(v00, v11);
+        v11 = _mm_add_ps(v22, v33);
+        C.row[1] = _mm_add_ps(v00, v11);
+
+
+        v0 = PERMUTE_PS(A.row[2], _MM_SHUFFLE(0, 0, 0, 0));
+        v1 = PERMUTE_PS(A.row[2], _MM_SHUFFLE(1, 1, 1, 1));
+        v2 = PERMUTE_PS(A.row[2], _MM_SHUFFLE(2, 2, 2, 2));
+        v3 = PERMUTE_PS(A.row[2], _MM_SHUFFLE(3, 3, 3, 3));
+
+        v00 = _mm_mul_ps(v0, B.row[0]);
+        v11 = _mm_mul_ps(v1, B.row[1]);
+        v22 = _mm_mul_ps(v2, B.row[2]);
+        v33 = _mm_mul_ps(v3, B.row[3]);
+
+        v00 = _mm_add_ps(v00, v11);
+        v11 = _mm_add_ps(v22, v33);
+        C.row[2] = _mm_add_ps(v00, v11);
+
+        v0 = PERMUTE_PS(A.row[3], _MM_SHUFFLE(0, 0, 0, 0));
+        v1 = PERMUTE_PS(A.row[3], _MM_SHUFFLE(1, 1, 1, 1));
+        v2 = PERMUTE_PS(A.row[3], _MM_SHUFFLE(2, 2, 2, 2));
+        v3 = PERMUTE_PS(A.row[3], _MM_SHUFFLE(3, 3, 3, 3));
+
+        v00 = _mm_mul_ps(v0, B.row[0]);
+        v11 = _mm_mul_ps(v1, B.row[1]);
+        v22 = _mm_mul_ps(v2, B.row[2]);
+        v33 = _mm_mul_ps(v3, B.row[3]);
+
+        v00 = _mm_add_ps(v00, v11);
+        v11 = _mm_add_ps(v22, v33);
+        C.row[3] = _mm_add_ps(v00, v11);
+    }
+    void matMultTrans4d(InMatrix4D& A, InMatrix4D& B, InMatrix4D& C) {
+
+        InVectd v0 = _mm256_permutex_pd(A.row[0], _MM_SHUFFLE(0, 0, 0, 0));
+        InVectd v1 = _mm256_permutex_pd(A.row[0], _MM_SHUFFLE(1, 1, 1, 1));
+        InVectd v2 = _mm256_permutex_pd(A.row[0], _MM_SHUFFLE(2, 2, 2, 2));
+        InVectd v3 = _mm256_permutex_pd(A.row[0], _MM_SHUFFLE(3, 3, 3, 3));
+
+        InVectd v00 = _mm256_mul_pd(v0, B.row[0]);
+        InVectd v11 = _mm256_mul_pd(v1, B.row[1]);
+        InVectd v22 = _mm256_mul_pd(v2, B.row[2]);
+        InVectd v33 = _mm256_mul_pd(v3, B.row[3]);
+
+        v00 = _mm256_add_pd(v00, v11);
+        v11 = _mm256_add_pd(v22, v33);
+        C.row[0] = _mm256_add_pd(v00, v11);
+
+        v0 = _mm256_permutex_pd(A.row[1], _MM_SHUFFLE(0, 0, 0, 0));
+        v1 = _mm256_permutex_pd(A.row[1], _MM_SHUFFLE(1, 1, 1, 1));
+        v2 = _mm256_permutex_pd(A.row[1], _MM_SHUFFLE(2, 2, 2, 2));
+        v3 = _mm256_permutex_pd(A.row[1], _MM_SHUFFLE(3, 3, 3, 3));
+
+        v00 = _mm256_mul_pd(v0, B.row[0]);
+        v11 = _mm256_mul_pd(v1, B.row[1]);
+        v22 = _mm256_mul_pd(v2, B.row[2]);
+        v33 = _mm256_mul_pd(v3, B.row[3]);
+
+        v00 = _mm256_add_pd(v00, v11);
+        v11 = _mm256_add_pd(v22, v33);
+        C.row[1] = _mm256_add_pd(v00, v11);
+
+
+        v0 = _mm256_permutex_pd(A.row[2], _MM_SHUFFLE(0, 0, 0, 0));
+        v1 = _mm256_permutex_pd(A.row[2], _MM_SHUFFLE(1, 1, 1, 1));
+        v2 = _mm256_permutex_pd(A.row[2], _MM_SHUFFLE(2, 2, 2, 2));
+        v3 = _mm256_permutex_pd(A.row[2], _MM_SHUFFLE(3, 3, 3, 3));
+
+        v00 = _mm256_mul_pd(v0, B.row[0]);
+        v11 = _mm256_mul_pd(v1, B.row[1]);
+        v22 = _mm256_mul_pd(v2, B.row[2]);
+        v33 = _mm256_mul_pd(v3, B.row[3]);
+
+        v00 = _mm256_add_pd(v00, v11);
+        v11 = _mm256_add_pd(v22, v33);
+        C.row[2] = _mm256_add_pd(v00, v11);
+
+        v0 = _mm256_permutex_pd(A.row[3], _MM_SHUFFLE(0, 0, 0, 0));
+        v1 = _mm256_permutex_pd(A.row[3], _MM_SHUFFLE(1, 1, 1, 1));
+        v2 = _mm256_permutex_pd(A.row[3], _MM_SHUFFLE(2, 2, 2, 2));
+        v3 = _mm256_permutex_pd(A.row[3], _MM_SHUFFLE(3, 3, 3, 3));
+
+        v00 = _mm256_mul_pd(v0, B.row[0]);
+        v11 = _mm256_mul_pd(v1, B.row[1]);
+        v22 = _mm256_mul_pd(v2, B.row[2]);
+        v33 = _mm256_mul_pd(v3, B.row[3]);
+
+        v00 = _mm256_add_pd(v00, v11);
+        v11 = _mm256_add_pd(v22, v33);
+        C.row[3] = _mm256_add_pd(v00, v11);
+    }
 
    
 
@@ -807,8 +924,61 @@ namespace OdinMath {
     }
 
 
+    template<> void matMultTrans4<float, 4>(float A[][4], float B[][4], float C[][4]) {
+        InMatrix4F AA(A);
+        InMatrix4F BB(B);
+        
+        InMatrix4F CC;
+        matMultTrans4f(AA, BB, CC);
+        storeMat4(CC, C);
+    }
 
 
-    
+    template<> void matMultTrans4<double, 4>(double A[][4], double B[][4], double C[][4]) {
+        InMatrix4D AA(A);
+        InMatrix4D BB(B);
+
+        InMatrix4D CC;
+        matMultTrans4d(AA, BB, CC);
+        storeMat4(CC, C);
+    }
+
+    template<> void matMultTrans4<float, 3>(float A[][3], float B[][3], float C[][3]) {
+        InMatrix4F AA(A);
+        InMatrix4F BB(B);
+
+        InMatrix4F CC;
+        matMultTrans4f(AA, BB, CC);
+        storeMat3(CC, C);
+    }
+
+
+    template<> void matMultTrans4<double, 3>(double A[][3], double B[][3], double C[][3]) {
+        InMatrix4D AA(A);
+        InMatrix4D BB(B);
+
+        InMatrix4D CC;
+        matMultTrans4d(AA, BB, CC);
+        storeMat3(CC, C);
+    }
+
+    template<> void matMultTrans4<float, 2>(float A[][2], float B[][2], float C[][2]) {
+        InMatrix4F AA(A);
+        InMatrix4F BB(B);
+
+        InMatrix4F CC;
+        matMultTrans4f(AA, BB, CC);
+        storeMat2(CC, C);
+    }
+
+
+    template<> void matMultTrans4<double, 2>(double A[][2], double B[][2], double C[][2]) {
+        InMatrix4D AA(A);
+        InMatrix4D BB(B);
+
+        InMatrix4D CC;
+        matMultTrans4d(AA, BB, CC);
+        storeMat2(CC, C);
+    }
 
 }

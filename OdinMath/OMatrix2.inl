@@ -116,3 +116,16 @@ template<typename real>
 inline real matDeterminant2(real A[][2]) {
 	return A[0][0] * A[1][1] - A[0][1] * A[1][0];
 }
+
+template<typename real>
+inline void matrixMultTrans2(OMatrix2<real>& A, OMatrix2<real>& B, OMatrix2<real>& C) {
+
+	C(0, 0) = A(0, 0) * B(0, 0) + A(1, 0) * B(1, 0);
+	C(0, 1) = A(0, 0) * B(0, 1) + A(1, 0) * B(1, 1);
+
+	C(1, 0) = A(0, 1) * B(0, 0) + A(1, 1) * B(1, 0);
+	C(1, 1) = A(0, 1) * B(0, 1) + A(1, 1) * B(1, 1);
+
+
+
+}

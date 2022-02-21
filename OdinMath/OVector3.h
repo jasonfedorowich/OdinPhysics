@@ -37,6 +37,8 @@ namespace OdinMath {
 		OVector3& operator=(const OVector3& v);
 		OVector3 operator>(OVector3& v);
 		OVector3 operator>=(OVector3& v);
+		OVector3 operator>(OVector3&& v);
+		OVector3 operator>=(OVector3&& v);
 		void operator/=(real c);
 		void operator*=(real val);
 		OVector3 operator*(real val);
@@ -45,10 +47,20 @@ namespace OdinMath {
 		void operator^=(real val);
 
 		OVector3<real> operator%(OVector3<real>& v);
+		OVector3<real> operator%(OVector3<real>&& v);
+
 		void operator%=(OVector3<real>& v);
+		void operator%=(OVector3<real>&& v);
 
 		OVector3<real> operator&(OVector3<real>& v);
 		void operator&=(OVector3<real>& v);
+
+		OVector3<real> operator|(OVector3<real>& v);
+		void operator|=(OVector3<real>& v);
+
+		template<int X, int Y, int Z>
+		OVector3<real> swizzle();
+
 
 		/*friend void operator*=(float val, DXVector4& vector);
 		friend DXVector4 operator*(float val, DXVector4& vector);*/
@@ -77,6 +89,11 @@ namespace OdinMath {
 		
 
 	};
+
+
+	template<typename real>
+	const OVector3<real> factors[8] = { {(real)-1.f, (real)-1.f, (real)-1.f}, {(real)-1.f, (real)-1.f, (real)1.f}, {(real)-1.f, (real)1.f, (real)1.f}, {(real)1.f, (real)1.f, (real)1.f}, {(real)1.f, (real)-1.f, (real)-1.f}, {(real)1.f, (real)-1.f, (real)1.f}, {(real)1.f, (real)1.f, (real)-1.f},  {(real)-1.f, (real)1.f, (real)-1.f}};
+
 	template<typename real>
 	inline void max(OVector3<real>& m1, OVector3<real>& m2, OVector3<real>& res) {
 #if defined(INTRINSICS)
@@ -387,6 +404,34 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OVector3<real> OVector3<real>::operator>(OVector3<real>&& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+		cmpgt<real, 3>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) > v[0];
+		res[1] = (*this) > v[1];
+		res[2] = (*this) > v[2];
+#endif
+		return res;
+	}
+
+	template<typename real>
+	inline OVector3<real> OVector3<real>::operator>=(OVector3<real>&& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+		cmpgte<real, 3>(this->data, v.data, res.data);
+#else
+		res[0] = (*this) >= v[0];
+		res[1] = (*this) >= v[1];
+		res[2] = (*this) >= v[2];
+#endif
+		return res;
+	}
+
+	template<typename real>
 	inline void OVector3<real>::operator/=(real c)
 	{
 #if defined(INTRINSICS)
@@ -473,7 +518,39 @@ namespace OdinMath {
 		return res;
 	}
 	template<typename real>
+	inline OVector3<real> OVector3<real>::operator%(OVector3<real>&& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+
+		mul4<real, 3>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] * v[0];
+		res[1] = this->data[1] * v[1];
+		res[2] = this->data[2] * v[2];
+
+#endif
+		return res;
+	}
+	template<typename real>
 	inline void OVector3<real>::operator%=(OVector3<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		mul4<real, 3>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] * v[0];
+		this->data[1] = this->data[1] * v[1];
+		this->data[2] = this->data[2] * v[2];
+
+#endif
+	}
+	template<typename real>
+	inline void OVector3<real>::operator%=(OVector3<real>&& v)
 	{
 #if defined(INTRINSICS)
 
@@ -519,4 +596,81 @@ namespace OdinMath {
 
 #endif
 	}
+	template<typename real>
+	inline OVector3<real> OVector3<real>::operator|(OVector3<real>& v)
+	{
+		OVector3<real> res;
+#if defined(INTRINSICS)
+
+		or4<real, 3>(this->data, v.data, res.data);
+
+#else
+
+		res[0] = this->data[0] | v[0];
+		res[1] = this->data[1] | v[1];
+		res[2] = this->data[2] | v[2];
+
+#endif
+		return res;
+	}
+	template<typename real>
+	inline void OVector3<real>::operator|=(OVector3<real>& v)
+	{
+#if defined(INTRINSICS)
+
+		or4<real, 3>(this->data, v.data, this->data);
+
+#else
+
+		this->data[0] = this->data[0] | v[0];
+		this->data[1] = this->data[1] | v[1];
+		this->data[2] = this->data[2] | v[2];
+
+#endif
+	}
+
+	template<typename real>
+	template<int X, int Y, int Z>
+	inline OVector3<real> OVector3<real>::swizzle() {
+		return;
+	}
+
+	template<>
+	template<int X, int Y, int Z>
+	inline OVector3<float> OVector3<float>::swizzle() {
+		assert((X < 4) && (Y < 4) && (Z < 4));
+		assert((X >= 0) && (Y >= 0) && (Z >= 0));
+#if defined(INTRINSICS)
+		OVector3<float> res;
+		InVectf v = loadVector3(this->data);
+		v = PERMUTE_PS(v, _MM_SHUFFLE(Z, Z, Y, X));
+		storeVector3(res.data, v);
+		return res;
+#else
+		return OVector3<real>(this->data[X], this->data[Y], this->data[Z]);
+#endif
+
+	}
+	template<>
+	template<int X, int Y, int Z>
+	inline OVector3<double> OVector3 <double>::swizzle() {
+		assert((X < 4) && (Y < 4) && (Z < 4));
+		assert((X >= 0) && (Y >= 0) && (Z >= 0));
+#if defined(INTRINSICS)
+		OVector3<double> res;
+		InVectd v = loadVector3(this->data);
+		v = _mm256_permutex_pd(v, _MM_SHUFFLE(Z, Z, Y, X));
+		storeVector3(res.data, v);
+		return res;
+#else
+		return OVector3<real>(this->data[X], this->data[Y], this->data[Z]);
+#endif
+	}
+
+
+	
+
+
+
+
 }

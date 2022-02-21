@@ -10,6 +10,7 @@
 #include "Plane2.h"
 #include "Ray3.h"
 #include "Ray2.h"
+#include "OBB3.h"
 
 #include "AABB2PointDistance.h"
 #include "AABB2PointIntersection.h"

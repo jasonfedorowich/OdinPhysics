@@ -1478,6 +1478,7 @@ namespace OdinMath {
 	}
 
 
+	
 	/*template<typename T>
 	inline void swizzle4(T* in, const int direction, T* out) {
 		return;

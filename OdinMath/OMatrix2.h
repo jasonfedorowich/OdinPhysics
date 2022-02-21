@@ -11,10 +11,14 @@ namespace OdinMath {
 		OMatrix2(real _00, real _01,
 			real _10, real _11);
 
-
+		OMatrix2(real v) : OMatrix2(v, v, v, v) {}
+		OMatrix2(OVector2<real> rows[2]);
+		OMatrix2(OVector2<real>& rows);
+		OMatrix2(OVector2<real>&& rows);
 
 		OMatrix2(const OMatrix2& other) { *this = other; }
 		~OMatrix2() {}
+
 
 		void set(int r, int c, real v) { (*this)(r, c) = v; }
 
@@ -76,7 +80,7 @@ namespace OdinMath {
 
 		////DXMatrix4& operator+=(int increment);
 
-
+		OMatrix2<real> multTrans(OMatrix3<real>& B);
 
 		bool invert(real epsilon = Math<real>::eps, real* determinant = nullptr);
 		void transpose();
@@ -92,6 +96,8 @@ namespace OdinMath {
 
 		real trace();
 		real traceSq();
+
+		void absM();
 
 		////DXVector4 determinant();
 
@@ -210,6 +216,34 @@ namespace OdinMath {
 		this->m[0][1] = _01;
 		this->m[1][0] = _10;
 		this->m[1][1] = _11;
+	}
+	template<typename real>
+	inline OMatrix2<real>::OMatrix2(OVector2<real> rows[2])
+	{
+		this->m[0][0] = rows[0][0];
+		this->m[0][1] = rows[0][1];
+
+		this->m[1][0] = rows[1][0];
+		this->m[1][1] = rows[1][1];
+
+	}
+	template<typename real>
+	inline OMatrix2<real>::OMatrix2(OVector2<real>&& rows)
+	{
+		this->m[0][0] = rows[0];
+		this->m[0][1] = rows[1];
+
+		this->m[1][0] = rows[0];
+		this->m[1][1] = rows[1];
+	}
+	template<typename real>
+	inline OMatrix2<real>::OMatrix2(OVector2<real>& rows)
+	{
+		this->m[0][0] = rows[0];
+		this->m[0][1] = rows[1];
+
+		this->m[1][0] = rows[0];
+		this->m[1][1] = rows[1];
 	}
 	template<typename real>
 	inline OMatrix2<real>& OMatrix2<real>::operator=(const OMatrix2<real>& matrix)
@@ -393,6 +427,18 @@ namespace OdinMath {
 	}
 
 	template<typename real>
+	inline OMatrix2<real> OMatrix2<real>::multTrans(OMatrix3<real>& mat)
+	{
+		OMatrix2<real> res;
+#if defined(INTRINSICS)
+		matMultTrans4<real, 2>(this->m, mat.m, res.m);
+#else
+		matrixMultTrans2<real>(*this, mat, res);
+#endif
+		return res;
+	}
+
+	template<typename real>
 	inline bool OdinMath::OMatrix2<real>::invert(real epsilon, real* determinant)
 	{
 #if defined(INTRINSICS)
@@ -477,6 +523,23 @@ namespace OdinMath {
 		return this->m[0][0] * this->m[0][0] + this->m[1][1] * this->m[1][1];
 
 #endif	
+	}
+
+	template<typename real>
+	inline void OMatrix2<real>::absM()
+	{
+#if defined(INTRINSICS)
+		absM4<real>(this->m, this->m);
+#else
+
+		this->m[0][0] = Math<rl>::odAbs(this->m[0][0]);
+		this->m[0][1] = Math<rl>::odAbs(this->m[0][1]);
+
+		this->m[1][0] = Math<rl>::odAbs(this->m[1][0]);
+		this->m[1][1] = Math<rl>::odAbs(this->m[1][1]);
+
+
+#endif
 	}
 
 	template<typename real>

@@ -149,7 +149,7 @@
     <ClInclude Include="CollisionQuery.h" />
     <ClInclude Include="CollisionResult.h" />
     <ClInclude Include="IntervalTree.h" />
-    <ClInclude Include="OBB.h" />
+    <ClInclude Include="OBB3.h" />
     <ClInclude Include="OdinCollision.h" />
     <ClInclude Include="Plane2.h" />
     <ClInclude Include="Plane3.h" />
@@ -170,6 +170,7 @@
     <ClCompile Include="AABB2PointIntersection.cpp" />
     <ClCompile Include="AABB3.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="OBB3.cpp" />
     <ClCompile Include="Plane2.cpp" />
     <ClCompile Include="Plane3.cpp" />
     <ClCompile Include="Ray2.cpp" />
